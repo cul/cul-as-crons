@@ -1,4 +1,5 @@
 ArchivesSnake~=0.9
+freezegun~=1.2
 git+https://github.com/cul/cul-archives-utils.git
 google-api-python-client~=2.54
 oauth2client~=4.1

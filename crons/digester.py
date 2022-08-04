@@ -1,6 +1,6 @@
 import logging
 from configparser import ConfigParser
-from datetime import datetime
+from datetime import datetime, timedelta
 from itertools import groupby
 from os.path import basename
 
@@ -65,7 +65,9 @@ class Digester(object):
         """
         sheet_data = self.data_sheet.get_sheet_data()
         month_diff = datetime.today().month - month_offset
-        new_data = [row for row in sheet_data if row[date_column].month > month_diff]
+        new_data = [
+            row for row in sheet_data if parse(row[date_column]).month > month_diff
+        ]
         if len(new_data) > 0:
             self.data_sheet.clear_sheet()
             self.data_sheet.append_sheet(new_data)
@@ -84,7 +86,7 @@ class Digester(object):
         the_msg_data = []
         for row in data:
             date = parse(row[1])
-            if date > (datetime.now() - datetime.timedelta(days=1)):
+            if date > (datetime.now() - timedelta(days=1)):
                 the_msg_data.append((row[0], date, row[2]))
         the_result = []
         for key, group in groupby(sorted(the_msg_data), lambda x: x[0]):
