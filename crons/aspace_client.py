@@ -64,3 +64,22 @@ class ArchivesSpaceClient:
         for note in [n for n in resource_json["notes"] if n["type"] == note_type]:
             notes.append("".join(get_note_text(note, self.aspace.client)))
         return " ".join(notes)
+
+    def get_new_marc_records(self, repo_id, timestamp):
+        """Get MARC21 XML for resources that have been updated since a provided timestamp.
+
+        Args:
+            repo_id (int): ASpace repository ID (e.g., 2)
+            timestamp (int): A UTC timestamp coerced to an integer
+
+        Yields:
+            string: MARC21 XML for ASpace resource
+        """
+        resource_ids = self.aspace.client.get(
+            f"/repositories/{repo_id}/resources?all_ids=True&modified_since={timestamp}"
+        ).json()
+        for resource_id in resource_ids:
+            marc_xml = self.aspace.client.get(
+                f"/repositories/{repo_id}/resources/marc21/{resource_id}.xml"
+            ).content.decode("utf-8")
+            yield marc_xml
