@@ -7,7 +7,7 @@ from .google_sheets_client import DataSheet
 
 
 class BaseAsCron(object):
-    """Base class which all crons inherit.
+    """Base class which all ArchivesSpace crons inherit.
 
     Subclasses should implement a `get_as_data` method.
     """
@@ -20,8 +20,9 @@ class BaseAsCron(object):
             log_name: path to log file
             sheet_name: key from config that corresponds to a Google Sheet
         """
+        self.config_file = config_file
         self.config = ConfigParser()
-        self.config.read(config_file)
+        self.config.read(self.config_file)
         self.as_client = ArchivesSpaceClient(
             self.config["ArchivesSpace"]["baseurl"],
             self.config["ArchivesSpace"]["username"],
