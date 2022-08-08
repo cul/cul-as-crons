@@ -12,7 +12,7 @@ class BaseAsCron(object):
     Subclasses should implement a `get_as_data` method.
     """
 
-    def __init__(self, config_file, log_name, sheet_name):
+    def __init__(self, config_file, sheet_name):
         """Set up configs and logging.
 
         Args:

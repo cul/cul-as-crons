@@ -12,9 +12,7 @@ class TestBaseAsCron(unittest.TestCase):
     def test_init(self, mock_aspace, mock_sheets):
         mock_aspace.return_value = None
         mock_sheets.return_value = None
-        base_as_cron = BaseAsCron(
-            "local_settings.cfg.example", "test_log.log", "report_subjects_sheet"
-        )
+        base_as_cron = BaseAsCron("local_settings.cfg.example", "report_subjects_sheet")
         self.assertTrue(base_as_cron)
 
     @freeze_time("2022-09-01 00:00:00")
@@ -29,7 +27,7 @@ class TestBaseAsCron(unittest.TestCase):
         mock_append_sheet.return_value = "return value"
         mock_as_data.return_value = msg
         run_cron = BaseAsCron(
-            "local_settings.cfg.example", "test_log.log", "report_subjects_sheet"
+            "local_settings.cfg.example", "report_subjects_sheet"
         ).run()
         self.assertEqual(
             run_cron,
