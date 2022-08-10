@@ -76,7 +76,8 @@ class ArchivesSpaceClient:
             string: MARC21 XML for ASpace resource
         """
         resource_ids = self.aspace.client.get(
-            f"/repositories/{repo_id}/resources?all_ids=True&modified_since={timestamp}"
+            f"/repositories/{repo_id}/resources",
+            params={"all_ids": True, "modified_since": timestamp},
         ).json()
         for resource_id in resource_ids:
             marc_xml = self.aspace.client.get(
