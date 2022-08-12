@@ -3,23 +3,32 @@
 import csv
 import uuid
 
-import googleapiclient
-import oauth2client
-from httplib2 import Http
+import google.oauth2.credentials
+from googleapiclient.discovery import build
 
 
 class GoogleSheetsClient(object):
-    def __init__(self, token, spreadsheet_id):
+    def __init__(
+        self, access_token, refresh_token, client_id, client_secret, spreadsheet_id
+    ):
         """Sets up client to work with a spreadsheet using the Google Sheets API.
 
         Args:
-            token (str): path to token JSON file
+            access_token (str): OAuth 2.0 access token
+            refresh_token (str): OAuth 2.0 refresh token
+            client_id (str): OAuth 2.0 client ID
+            client_secret (str): OAuth 2.0 client secret
             spreadsheet_id (str): the spreadsheet to request
         """
-        credentials = oauth2client.file.Storage(token).get()
-        self.service = googleapiclient.discovery.build(
-            "sheets", "v4", http=credentials.authorize(Http())
+        credentials = google.oauth2.credentials.Credentials(
+            access_token,
+            refresh_token=refresh_token,
+            token_uri="https://oauth2.googleapis.com/token",
+            client_id=client_id,
+            client_secret=client_secret,
+            scopes=["https://www.googleapis.com/auth/spreadsheets"],
         )
+        self.service = build("sheets", "v4", credentials=credentials)
         self.spreadsheet_id = spreadsheet_id
 
     def get_sheet_info(self):
