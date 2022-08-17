@@ -1,5 +1,3 @@
-# TODO: replace oauth2client (deprecated) with google-auth
-
 import csv
 import uuid
 
