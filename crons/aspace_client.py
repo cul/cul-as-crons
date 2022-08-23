@@ -65,6 +65,15 @@ class ArchivesSpaceClient:
             notes.append("".join(get_note_text(note, self.aspace.client)))
         return " ".join(notes)
 
+    def get_extents(self, resource_json):
+        """Get information from all extent statements."""
+        extents = resource_json.get("extents")
+        if extents:
+            extent_list = [f"{ext['number']} {ext['extent_type']}" for ext in extents]
+            return ", ".join(extent_list)
+        else:
+            return ""
+
     def get_new_marc_records(self, repo_id, timestamp):
         """Get MARC21 XML for resources that have been updated since a provided timestamp.
 
