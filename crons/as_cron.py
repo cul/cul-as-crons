@@ -2,8 +2,6 @@ from configparser import ConfigParser
 from datetime import datetime
 
 from .aspace_client import ArchivesSpaceClient
-from .digester import Digester
-from .google_sheets_client import DataSheet
 
 
 class BaseAsCron(object):
@@ -28,7 +26,10 @@ class BaseAsCron(object):
             self.config["ArchivesSpace"]["username"],
             self.config["ArchivesSpace"]["password"],
         )
-        self.google_token = self.config["Google Sheets"]["token"]
+        self.google_access_token = self.config["Google Sheets"]["access_token"]
+        self.google_refresh_token = self.config["Google Sheets"]["refresh_token"]
+        self.google_client_id = self.config["Google Sheets"]["client_id"]
+        self.client_secret = self.config["Google Sheets"]["client_secret"]
         self.google_sheet = self.config["Google Sheets"][sheet_name]
 
     def run(self):
@@ -37,21 +38,7 @@ class BaseAsCron(object):
         end_time = datetime.now()
         msg_duration = f"Start: {start_time}. Finished: {end_time} (duration: {end_time - start_time})"
         msg = f"{get_as_data} {msg_duration}"
-        self.log(msg)
         return msg
-
-    def log(self, msg):
-        """
-        Post log message to log sheet in script's google sheet; to digester google sheet; and to log.
-
-        Args:
-            msg (str): message to post to log sheet
-        """
-        log_sheet = DataSheet(self.google_token, self.google_sheet, "log!A:A")
-        exit_msg = f"Script done. Updated data is available at https://docs.google.com/spreadsheets/d/{self.google_sheet}/edit?usp=sharing"
-        Digester(self.config_file).post_digest(__file__, exit_msg)
-        log_sheet.append_sheet([msg])
-        return True
 
     def get_as_data(self):
         raise NotImplementedError("You must implement a `get_as_data` method")
