@@ -42,7 +42,7 @@ class TestDigester(unittest.TestCase):
         Digester("local_settings.cfg.example").run()
         return True
 
-    @freeze_time("2012-11-02 00:00:00")
+    @freeze_time("2021-11-02 00:00:00")
     @patch("crons.google_sheets_client.DataSheet.get_sheet_data")
     @patch("crons.google_sheets_client.DataSheet.clear_sheet")
     @patch("crons.google_sheets_client.DataSheet.append_sheet")

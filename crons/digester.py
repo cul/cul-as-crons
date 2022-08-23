@@ -27,13 +27,21 @@ class Digester(object):
             handlers=[logging.FileHandler("digester.log"), logging.StreamHandler()],
         )
         self.garbage_day = 15  # Day of month to prune old entries from sheet
-        google_token = self.config["Google Sheets"]["token"]
+        self.google_access_token = self.config["Google Sheets"]["access_token"]
+        self.google_refresh_token = self.config["Google Sheets"]["refresh_token"]
+        self.google_client_id = self.config["Google Sheets"]["client_id"]
+        self.client_secret = self.config["Google Sheets"]["client_secret"]
         if test:
             google_sheet = self.config["Google Sheets"]["digester_test_sheet"]
         else:
             google_sheet = self.config["Google Sheets"]["digester_sheet"]
         self.data_sheet = DataSheet(
-            google_token, google_sheet, self.config["Google Sheets"]["digester_range"]
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            google_sheet,
+            self.config["Google Sheets"]["digester_range"],
         )
 
     def run(self):
