@@ -45,15 +45,32 @@ class GoogleSheetsClient(object):
 
 
 class DataSheet(GoogleSheetsClient):
-    def __init__(self, token, spreadsheet_id, data_range):
+    def __init__(
+        self,
+        access_token,
+        refresh_token,
+        client_id,
+        client_secret,
+        spreadsheet_id,
+        data_range,
+    ):
         """Work with a range in a spreadsheet using Google Sheets API.
 
         Args:
-            token (str): path to token JSON file
+            access_token (str): OAuth 2.0 access token
+            refresh_token (str): OAuth 2.0 refresh token
+            client_id (str): OAuth 2.0 client ID
+            client_secret (str): OAuth 2.0 client secret
             spreadsheet_id (str): the spreadsheet to request
             data_range (str): the A1 notation of a range to search for a logical table of data
         """
-        super(DataSheet, self).__init__(token, spreadsheet_id)
+        super(DataSheet, self).__init__(
+            access_token,
+            refresh_token,
+            client_id,
+            client_secret,
+            spreadsheet_id,
+        )
         self.data_range = data_range
 
     def get_sheet_data(self):
