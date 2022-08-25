@@ -36,7 +36,7 @@ class TestSubjectReporter(unittest.TestCase):
         subject_reporter = SubjectReporter("local_settings.cfg.example")
         subject_reporter.fields = FIELDS
         # mock_subjects = mock_subjects_generator()
-        as_data = subject_reporter.get_as_data()
+        as_data = subject_reporter.get_sheet_data()
         self.assertTrue(as_data)
 
     @patch("crons.report_subjects.SubjectReporter.__init__")

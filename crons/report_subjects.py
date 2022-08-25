@@ -27,7 +27,7 @@ class SubjectReporter(BaseAsCron):
             ("last_modified", "system_mtime"),
         ]
 
-    def get_as_data(self):
+    def get_sheet_data(self):
         spreadsheet_data = []
         spreadsheet_data.append([x[0] for x in self.fields])
         subject_records = self.as_client.all_subjects()

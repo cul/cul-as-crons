@@ -7,7 +7,7 @@ from .aspace_client import ArchivesSpaceClient
 class BaseAsCron(object):
     """Base class which all ArchivesSpace crons inherit.
 
-    Subclasses should implement a `get_as_data` method.
+    Subclasses should implement a `get_sheet_data` method.
     """
 
     def __init__(self, config_file, sheet_name):
@@ -34,11 +34,11 @@ class BaseAsCron(object):
 
     def run(self):
         start_time = datetime.now()
-        get_as_data = self.get_as_data()
+        get_sheet_data = self.get_sheet_data()
         end_time = datetime.now()
         msg_duration = f"Start: {start_time}. Finished: {end_time} (duration: {end_time - start_time})"
-        msg = f"{get_as_data} {msg_duration}"
+        msg = f"{get_sheet_data} {msg_duration}"
         return msg
 
-    def get_as_data(self):
-        raise NotImplementedError("You must implement a `get_as_data` method")
+    def get_sheet_data(self):
+        raise NotImplementedError("You must implement a `get_sheet_data` method")
