@@ -16,11 +16,6 @@ class SubjectReporter(BaseAsCron):
                 logging.StreamHandler(),
             ],
         )
-        self.data_sheet = DataSheet(
-            self.google_token,
-            self.google_sheet,
-            self.config["Google Sheets"]["report_subjects_range"],
-        )
         self.fields = [
             ("uri", "uri"),
             ("title", "title"),
@@ -33,7 +28,6 @@ class SubjectReporter(BaseAsCron):
         ]
 
     def get_as_data(self):
-        self.data_sheet.clear_sheet
         spreadsheet_data = []
         spreadsheet_data.append([x[0] for x in self.fields])
         subject_records = self.as_client.all_subjects()
@@ -42,12 +36,22 @@ class SubjectReporter(BaseAsCron):
             spreadsheet_data.append(row)
         subject_count = len(spreadsheet_data) - 1
         logging.info(f"Total subject records: {subject_count}")
-        self.data_sheet.append_sheet(spreadsheet_data)
-        logging.info(
-            f"{len(spreadsheet_data)} rows written to {self.data_sheet.spreadsheet_id}"
-        )
+        self.write_data_to_sheet(spreadsheet_data)
         msg = f"{subject_count} records imported by {__file__}."
         return msg
+
+    def write_data_to_sheet(self, sheet_data):
+        data_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            self.config["Google Sheets"]["report_subjects_sheet"],
+            self.config["Google Sheets"]["report_subjects_range"],
+        )
+        data_sheet.clear_sheet()
+        data_sheet.append_sheet(sheet_data)
+        return f"Posted {len(sheet_data)} rows to sheet."
 
     def get_row(self, subject_record):
         row = []
