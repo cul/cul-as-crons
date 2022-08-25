@@ -1,0 +1,59 @@
+{
+	"lock_version": 8,
+	"title": "Haddam (Conn.) -- Religious life and customs",
+	"created_by": "admin",
+	"last_modified_by": "admin",
+	"create_time": "2018-06-01T15:40:31Z",
+	"system_mtime": "2021-11-10T18:40:13Z",
+	"user_mtime": "2018-06-01T15:40:31Z",
+	"is_slug_auto": false,
+	"source": "lcsh",
+	"jsonmodel_type": "subject",
+	"external_ids": [
+
+	],
+	"publish": true,
+	"used_within_repositories": [
+		"/repositories/5"
+	],
+	"used_within_published_repositories": [
+		"/repositories/5"
+	],
+	"terms": [
+		{
+			"lock_version": 0,
+			"term": "Haddam (Conn.)",
+			"created_by": "admin",
+			"last_modified_by": "admin",
+			"create_time": "2018-06-01T15:40:31Z",
+			"system_mtime": "2018-06-01T15:40:31Z",
+			"user_mtime": "2018-06-01T15:40:31Z",
+			"term_type": "geographic",
+			"jsonmodel_type": "term",
+			"uri": "/terms/104",
+			"vocabulary": "/vocabularies/1"
+		},
+		{
+			"lock_version": 0,
+			"term": "Religious life and customs",
+			"created_by": "admin",
+			"last_modified_by": "admin",
+			"create_time": "2018-06-01T15:38:57Z",
+			"system_mtime": "2018-06-01T15:38:57Z",
+			"user_mtime": "2018-06-01T15:38:57Z",
+			"term_type": "topical",
+			"jsonmodel_type": "term",
+			"uri": "/terms/51",
+			"vocabulary": "/vocabularies/1"
+		}
+	],
+	"external_documents": [
+
+	],
+	"metadata_rights_declarations": [
+
+	],
+	"uri": "/subjects/80",
+	"vocabulary": "/vocabularies/1",
+	"is_linked_to_published_record": true
+}
