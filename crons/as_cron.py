@@ -30,7 +30,6 @@ class BaseAsCron(object):
         self.google_refresh_token = self.config["Google Sheets"]["refresh_token"]
         self.google_client_id = self.config["Google Sheets"]["client_id"]
         self.client_secret = self.config["Google Sheets"]["client_secret"]
-        self.google_sheet = self.config["Google Sheets"][sheet_name]
 
     def run(self):
         start_time = datetime.now()
