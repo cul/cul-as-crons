@@ -1,0 +1,134 @@
+{
+	"lock_version": 19,
+	"publish": true,
+	"created_by": "admin",
+	"last_modified_by": "api_user",
+	"create_time": "2018-06-01T17:57:29Z",
+	"system_mtime": "2021-11-12T12:33:21Z",
+	"user_mtime": "2021-08-11T17:01:22Z",
+	"is_slug_auto": false,
+	"jsonmodel_type": "agent_corporate_entity",
+	"agent_contacts": [
+
+	],
+	"agent_record_controls": [
+
+	],
+	"agent_alternate_sets": [
+
+	],
+	"agent_conventions_declarations": [
+
+	],
+	"agent_other_agency_codes": [
+
+	],
+	"agent_maintenance_histories": [
+
+	],
+	"agent_record_identifiers": [
+
+	],
+	"agent_identifiers": [
+
+	],
+	"agent_sources": [
+
+	],
+	"agent_places": [
+
+	],
+	"agent_occupations": [
+
+	],
+	"agent_functions": [
+
+	],
+	"agent_topics": [
+
+	],
+	"agent_resources": [
+
+	],
+	"linked_agent_roles": [
+		"subject"
+	],
+	"external_documents": [
+
+	],
+	"notes": [
+
+	],
+	"used_within_repositories": [
+		"/repositories/3"
+	],
+	"used_within_published_repositories": [
+		"/repositories/3"
+	],
+	"dates_of_existence": [
+
+	],
+	"used_languages": [
+
+	],
+	"metadata_rights_declarations": [
+
+	],
+	"names": [
+		{
+			"lock_version": 0,
+			"primary_name": "McDonnell & Sons",
+			"sort_name": "McDonnell & Sons",
+			"sort_name_auto_generate": true,
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-08-11T17:01:22Z",
+			"system_mtime": "2021-08-11T17:01:22Z",
+			"user_mtime": "2021-08-11T17:01:22Z",
+			"authorized": true,
+			"is_display_name": true,
+			"jurisdiction": false,
+			"conference_meeting": false,
+			"source": "naf",
+			"jsonmodel_type": "name_corporate_entity",
+			"use_dates": [
+
+			],
+			"parallel_names": [
+
+			],
+			"authority_id": "http://id.loc.gov/authorities/names/no2001020090"
+		}
+	],
+	"related_agents": [
+
+	],
+	"uri": "/agents/corporate_entities/1579",
+	"agent_type": "agent_corporate_entity",
+	"is_linked_to_published_record": true,
+	"display_name": {
+		"lock_version": 0,
+		"primary_name": "McDonnell & Sons",
+		"sort_name": "McDonnell & Sons",
+		"sort_name_auto_generate": true,
+		"created_by": "api_user",
+		"last_modified_by": "api_user",
+		"create_time": "2021-08-11T17:01:22Z",
+		"system_mtime": "2021-08-11T17:01:22Z",
+		"user_mtime": "2021-08-11T17:01:22Z",
+		"authorized": true,
+		"is_display_name": true,
+		"jurisdiction": false,
+		"conference_meeting": false,
+		"source": "naf",
+		"jsonmodel_type": "name_corporate_entity",
+		"use_dates": [
+
+		],
+		"parallel_names": [
+
+		],
+		"authority_id": "http://id.loc.gov/authorities/names/no2001020090"
+	},
+	"title": "McDonnell & Sons"
+}
