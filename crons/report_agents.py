@@ -65,6 +65,11 @@ class AgentsReporter(BaseAsCron):
         return [row_data[field] for field in self.fields]
 
     def get_row_data(self):
+        """Get agent data to be written into a row.
+
+        Yields:
+            dict
+        """
         for agent in self.as_client.all_agents():
             agent_fields = {
                 "uri": agent["uri"],
