@@ -16,22 +16,17 @@ class ResourceReporter(BaseAsCron):
                 logging.StreamHandler(),
             ],
         )
-        google_sheet = "1T3EpIZmnh3Gk-VAIGtvavTQUIpS7AluyKQ8-sJsS8vg"
-        self.data_sheet = DataSheet(self.google_token, google_sheet, "Resources!A:A")
         self.fields = [
-            "repo",
-            "asid",
+            "repository",
+            "uri",
             "bibid",
             "title",
             "published",
-            "create_time",
-            "system_mtime",
-            "created_by",
-            "last_modified_by",
-            "ead_location",
-            "ext_number",
-            "ext_portion",
-            "ext_type",
+            "created at",
+            "modified at",
+            "created by",
+            "modified by",
+            "ead location",
             "local call no.",
             "other ctrl no. 1",
             "other ctrl no. 2",
@@ -39,6 +34,7 @@ class ResourceReporter(BaseAsCron):
             "description status",
             "collecting area",
             "level",
+            "extents",
             "scope note",
             "scopenote length",
             "bioghist note",
@@ -47,25 +43,34 @@ class ResourceReporter(BaseAsCron):
             "processing_status",
         ]
 
-    def get_as_data(self):
-        self.data_sheet.clear_sheet
+    def get_sheet_data(self):
         spreadsheet_data = []
         spreadsheet_data.append(self.fields)
         rows_data = self.get_row_data()
         for r in rows_data:
             resource_row = self.construct_row(r)
             spreadsheet_data.append(resource_row)
-        subject_count = len(spreadsheet_data) - 1
-        logging.info(f"Total resource records: {subject_count}")
-        self.data_sheet.append_sheet(spreadsheet_data)
-        logging.info(
-            f"{len(spreadsheet_data)} rows written to {self.data_sheet.spreadsheet_id}"
-        )
-        msg = f"{subject_count} records imported by {__file__}."
+        resource_count = len(spreadsheet_data) - 1
+        logging.info(f"Total resource records: {resource_count}")
+        self.write_data_to_sheet(spreadsheet_data)
+        msg = f"{resource_count} records imported by {__file__}."
         return msg
 
     def construct_row(self, row_data):
-        pass
+        return [row_data.get(field) for field in self.fields]
+
+    def write_data_to_sheet(self, sheet_data):
+        data_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            self.config["Google Sheets"]["report_agents_sheet"],
+            self.config["Google Sheets"]["report_agents_range"],
+        )
+        data_sheet.clear_sheet()
+        data_sheet.append_sheet(sheet_data)
+        return f"Posted {len(sheet_data)} rows to sheet."
 
     def get_row_data(self):
         """Get resource data to be written into a row.
@@ -73,8 +78,6 @@ class ResourceReporter(BaseAsCron):
         Yields:
             dict
         """
-        # TODO: handle multiple notes of the same type (e.g., scope and content)
-        # TODO: what is the utility of extent info? right now is only capturing one extent even if there are multiple; if we capture all, it may not be useful to split up number from measurement (e.g., 2 GB + 7 linear feet)
         for resource in self.as_client.all_resources():
             scope_note = self.as_client.get_specific_note_text(resource, "scopecontent")
             bio_note = self.as_client.get_specific_note_text(resource, "bioghist")
@@ -88,7 +91,7 @@ class ResourceReporter(BaseAsCron):
                 "modified at": resource["system_mtime"],
                 "created by": resource["created_by"],
                 "modified by": resource["last_modified_by"],
-                "finding aid location": resource.get("ead_location"),
+                "ead location": resource.get("ead_location"),
                 "local call no.": resource.get("user_defined").get("string_1"),
                 "other ctrl no. 1": resource.get("user_defined").get("string_2"),
                 "other ctrl no. 2": resource.get("user_defined").get("string_3"),
@@ -102,9 +105,14 @@ class ResourceReporter(BaseAsCron):
                 "biognote length": len(bio_note),
                 "processing_priority": resource.get("collection_management").get(
                     "processing_priority"
-                ),
+                )
+                if resource.get("collection_management")
+                else "",
                 "processing_status": resource.get("collection_management").get(
                     "processing_status"
-                ),
+                )
+                if resource.get("collection_management")
+                else "",
+                "extents": self.as_client.get_extents(resource),
             }
             yield resource_fields
