@@ -93,3 +93,12 @@ class ArchivesSpaceClient:
                 f"/repositories/{repo_id}/resources/marc21/{resource_id}.xml"
             ).content.decode("utf-8")
             yield marc_xml
+
+    def get_json_response(self, uri):
+        """Get JSON response for ASpace get request
+
+        Args:
+            uri (str): ASpace URI
+        """
+        response = self.aspace.client.get(uri)
+        return response.json()

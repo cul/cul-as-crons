@@ -1,0 +1,466 @@
+{
+    "lock_version": 18,
+    "title": "Gouverneur Morris papers",
+    "publish": true,
+    "restrictions": false,
+    "repository_processing_note": "Digital images (jpegs only) at /digital/ingest/RBML/morris_galleries\n",
+    "ead_id": "4079134",
+    "ead_location": "https://findingaids.library.columbia.edu/ead/nnc-rb/ldpd_4079134",
+    "created_by": "admin",
+    "last_modified_by": "kws2126",
+    "create_time": "2018-06-03T15:54:07Z",
+    "system_mtime": "2022-02-04T16:40:04Z",
+    "user_mtime": "2022-02-04T16:40:04Z",
+    "suppressed": false,
+    "is_slug_auto": false,
+    "id_0": "4079134",
+    "level": "collection",
+    "finding_aid_description_rules": "appm",
+    "finding_aid_language": "eng",
+    "finding_aid_script": "Latn",
+    "jsonmodel_type": "resource",
+    "external_ids": [],
+    "subjects": [
+        {
+            "ref": "/subjects/6754"
+        },
+        {
+            "ref": "/subjects/6753"
+        },
+        {
+            "ref": "/subjects/6370"
+        },
+        {
+            "ref": "/subjects/6369"
+        },
+        {
+            "ref": "/subjects/6752"
+        },
+        {
+            "ref": "/subjects/6751"
+        },
+        {
+            "ref": "/subjects/6750"
+        },
+        {
+            "ref": "/subjects/6749"
+        },
+        {
+            "ref": "/subjects/5166"
+        },
+        {
+            "ref": "/subjects/7172"
+        },
+        {
+            "ref": "/subjects/5844"
+        }
+    ],
+    "linked_events": [],
+    "extents": [
+        {
+            "lock_version": 0,
+            "number": "1374",
+            "container_summary": "23 boxes",
+            "created_by": "kws2126",
+            "last_modified_by": "kws2126",
+            "create_time": "2022-02-04T16:40:04Z",
+            "system_mtime": "2022-02-04T16:40:04Z",
+            "user_mtime": "2022-02-04T16:40:04Z",
+            "portion": "whole",
+            "extent_type": "items",
+            "jsonmodel_type": "extent"
+        }
+    ],
+    "lang_materials": [
+        {
+            "lock_version": 0,
+            "created_by": "kws2126",
+            "last_modified_by": "kws2126",
+            "create_time": "2022-02-04T16:40:04Z",
+            "system_mtime": "2022-02-04T16:40:04Z",
+            "user_mtime": "2022-02-04T16:40:04Z",
+            "jsonmodel_type": "lang_material",
+            "notes": [],
+            "language_and_script": {
+                "lock_version": 0,
+                "created_by": "kws2126",
+                "last_modified_by": "kws2126",
+                "create_time": "2022-02-04T16:40:04Z",
+                "system_mtime": "2022-02-04T16:40:04Z",
+                "user_mtime": "2022-02-04T16:40:04Z",
+                "language": "eng",
+                "script": "Latn",
+                "jsonmodel_type": "language_and_script"
+            }
+        },
+        {
+            "lock_version": 0,
+            "created_by": "kws2126",
+            "last_modified_by": "kws2126",
+            "create_time": "2022-02-04T16:40:04Z",
+            "system_mtime": "2022-02-04T16:40:04Z",
+            "user_mtime": "2022-02-04T16:40:04Z",
+            "jsonmodel_type": "lang_material",
+            "notes": [],
+            "language_and_script": {
+                "lock_version": 0,
+                "created_by": "kws2126",
+                "last_modified_by": "kws2126",
+                "create_time": "2022-02-04T16:40:04Z",
+                "system_mtime": "2022-02-04T16:40:04Z",
+                "user_mtime": "2022-02-04T16:40:04Z",
+                "language": "fre",
+                "script": "Latn",
+                "jsonmodel_type": "language_and_script"
+            }
+        }
+    ],
+    "dates": [
+        {
+            "lock_version": 0,
+            "expression": "1768-1816",
+            "begin": "1768",
+            "end": "1816",
+            "created_by": "kws2126",
+            "last_modified_by": "kws2126",
+            "create_time": "2022-02-04T16:40:04Z",
+            "system_mtime": "2022-02-04T16:40:04Z",
+            "user_mtime": "2022-02-04T16:40:04Z",
+            "date_type": "inclusive",
+            "label": "creation",
+            "jsonmodel_type": "date"
+        }
+    ],
+    "external_documents": [],
+    "rights_statements": [],
+    "linked_agents": [
+        {
+            "role": "creator",
+            "terms": [],
+            "ref": "/agents/people/6896"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/15913"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/5914"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8953"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8099"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8952"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8094"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8951"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8950"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8949"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8948"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8947"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/3232"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8946"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/8945"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/7810"
+        },
+        {
+            "role": "subject",
+            "terms": [],
+            "ref": "/agents/people/5905"
+        }
+    ],
+    "import_previous_arks": [],
+    "revision_statements": [
+        {
+            "date": "2022-01-24",
+            "description": "Encoded finding aid replaces PDF finding aid. kws",
+            "created_by": "kws2126",
+            "last_modified_by": "kws2126",
+            "create_time": "2022-02-04T16:40:04Z",
+            "system_mtime": "2022-02-04T16:40:04Z",
+            "user_mtime": "2022-02-04T16:40:04Z",
+            "publish": true,
+            "jsonmodel_type": "revision_statement",
+            "uri": "/revision_statement/40160",
+            "repository": {
+                "ref": "/repositories/2"
+            }
+        }
+    ],
+    "instances": [],
+    "deaccessions": [],
+    "related_accessions": [
+        {
+            "ref": "/repositories/2/accessions/340"
+        }
+    ],
+    "classifications": [],
+    "notes": [
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "a13fafda7cdc43937f987725feb20ae2",
+            "label": "Restrictions on Access",
+            "type": "accessrestrict",
+            "rights_restriction": {
+                "local_access_restriction_type": []
+            },
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "This collection is located on-site.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "b29e47a6838b3a6a672f62554dfa642f",
+            "type": "accessrestrict",
+            "rights_restriction": {
+                "local_access_restriction_type": []
+            },
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "This collection has no restrictions.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "d90a1342d0c2b89e1c3711e871854562",
+            "type": "accruals",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Materials may have been added to the collection since this finding aid was prepared. Contact rbml@columbia.edu for more information.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "d0b09ee92ab77bd5f82e0d87d2653233",
+            "label": "Immediate Source of Acquisition",
+            "type": "acqinfo",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Method of acquisition--Purchase; Date of acquisition--1954. Accession number--M-54. Gift of Kenneth Rendell, 1978. Purchase, 1989.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "0ab5df000a650c5495d439c0dfaf69fa",
+            "label": "Alternate Form Available",
+            "type": "altformavail",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Microfilm available. Reel 1: Items 1-303; Reel 2: Items 304-606; Reel 3: Items 607-839; Reel 4: Items 840-1,004; Reel 5: Items 1,005-1,371. The microfilm was digitized in 2009; contact rbml@columbia.edu for more information.\n",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "9295033f0ac7e7dd406b6bce7378a229",
+            "label": "Arrangement",
+            "type": "arrangement",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Alphabetical by the writer of the letter or document.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "c878ce48cb2eab6571f0f2e7dc99d1fd",
+            "type": "prefercite",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Identification of specific item including item number; Date (if known); Gouverneur Morris Papers; Box; Rare Book and Manuscript Library, Columbia University Libraries.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "466951d7bfef827eab97965c35dff63c",
+            "label": "Processing Information",
+            "type": "processinfo",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Cataloged Christina Hilton Fenn 08/--/89.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "01341381d8e5628b01e471b97c5da1fa",
+            "label": "Related Archival Materials",
+            "type": "relatedmaterial",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Manuscript diaries and other papers of Morris are in the Library of Congress: <extref   xlink:type=\"simple\" xlink:href=\"https://lccn.loc.gov/mm78033571\">https://lccn.loc.gov/mm78033571</extref>. Correspondence with Morris and related documents are found in many of the RBML's early American collections, including the <extref xlink:type=\"simple\" xlink:href=\"http://findingaids.cul.columbia.edu/ead/nnc-rb/ldpd_4078947\">John Jay papers</extref> and the <extref xlink:type=\"simple\" xlink:href=\"http://www.columbia.edu/cu/libraries/inside/projects/findingaids/scans/pdfs/46_WA-WE_10.pdf\">George Washington papers</extref>. Patrons are also advised to check the physical card catalog for additional cataloged correspondence.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "15605f15c8c4f27d3b13f9c19f356b86",
+            "label": "Summary",
+            "type": "scopecontent",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Letters written to Gouverneur Morris from many of his contemporaries including George Washington, Thomas Jefferson, Thomas Paine, John Paul Jones, Nathaniel Greene, Philip Schuyler, Robert Morris, George Plater, William Short, William T. Franklin, and Thomas Pinckney. Letters from Gouverneur Morris to George Washington, John Jay, Lafayette, Philip Schuyler, Nathaniel Greene, and others. Personal correspondence from Madame Foucault, John Parish, and others. Manuscripts and documents relating to events in which Morris was a participant or interested party such as the Genet Affair and the \"Lost Million\" Affair; diplomatic correspondence with French ministers of foreign affairs, 1792-1794, and miscellaneous articles and reports by Morris, many on public finance and economics.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "77130bd9560c1d165e252263d961436f",
+            "type": "userestrict",
+            "rights_restriction": {
+                "local_access_restriction_type": []
+            },
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Single photocopies may be made for research purposes. The RBML maintains ownership of the physical material only. Copyright remains with the creator and his/her heirs. The responsibility to secure copyright permission rests with the patron.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "5cf5a88ef5b6c3d5befc439236a4cb6a",
+            "type": "otherfindaid",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "For reference, access to the legacy scanned PDF finding aid is <extref xlink:type=\"simple\" xlink:href=\"http://www.columbia.edu/cu/libraries/inside/projects/findingaids/scans/pdfs/33_MOO-NA_12.pdf\">here</extref>.\n",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "b157e2bf49b469cad166069d37d2ad80",
+            "type": "bioghist",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Gouverneur Morris (January 31, 1752 – November 6, 1816) was an American statesman and a signatory to the Articles of Confederation and the United States Constitution. Morris graduated from King's College in 1768, delivering the commencement address \"Wit and Beauty.\" The scion of a prominent New York family whose manor gave the Morrisania section of the present-day Bronx its name, Morris and his older brother Lewis, a signer of the Declaration of Independence, sided with the revolutionaries even as their mother and sisters remained loyal to the crown. After the Revolutionary War, Morris served in the Continental Congress and as assistant to the minister of finance, proposing the decimal system for the national currency and inventing the word cent in the process. As a Constitutional Convention delegate, he is acknowledged to have given final form to the U.S. Constitution, paring the original draft of 23 articles to seven and writing the document's preamble. He also inserted the famous phrase \"We the people\" at the beginning. As James Madison said, \"The finish given to the style and arrangement of the Constitution fairly belongs to the pen of Mr. Morris.\" Morris later served as a diplomatic agent in England, as U.S. minister to France during the French Revolution's Reign of Terror, and as a U.S. senator. In 1811, he chaired a three-man commission that transformed Manhattan Island by designing its 12-avenue, 155-street grid above Houston Street. He also chaired the Erie Canal Commission for three years, but did not live to see the canal's completion. From: http://c250.columbia.edu/c250_celebrates/remarkable_columbians/gouverneur_morris.html",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        }
+    ],
+    "metadata_rights_declarations": [],
+    "uri": "/repositories/2/resources/2904",
+    "repository": {
+        "ref": "/repositories/2"
+    },
+    "user_defined": {
+        "lock_version": 0,
+        "boolean_1": false,
+        "boolean_2": false,
+        "boolean_3": false,
+        "integer_1": "4079134",
+        "string_1": "Ms Coll\\Morris",
+        "string_2": "(OCoLC)298686848",
+        "string_3": "(OCoLC)ocn298686848",
+        "string_4": "(CStRLIN)NYCR89-A628",
+        "created_by": "kws2126",
+        "last_modified_by": "kws2126",
+        "create_time": "2022-02-04T16:40:04Z",
+        "system_mtime": "2022-02-04T16:40:04Z",
+        "user_mtime": "2022-02-04T16:40:04Z",
+        "enum_3": "done",
+        "enum_4": "US_HIST",
+        "jsonmodel_type": "user_defined",
+        "repository": {
+            "ref": "/repositories/2"
+        }
+    },
+    "tree": {
+        "ref": "/repositories/2/resources/2904/tree"
+    }
+}

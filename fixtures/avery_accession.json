@@ -1,0 +1,92 @@
+{
+	"lock_version": 7,
+	"suppressed": false,
+	"title": "GSAPP\r\n",
+	"display_string": "GSAPP\r\n",
+	"publish": false,
+	"content_description": "Historic Pres. Documentation Class\r\n1 box\r\n",
+	"accession_date": "1999-01-01",
+	"restrictions_apply": false,
+	"access_restrictions": false,
+	"use_restrictions": false,
+	"created_by": "sh2309",
+	"last_modified_by": "sh2309",
+	"create_time": "2018-10-15T15:02:19Z",
+	"system_mtime": "2021-11-12T12:33:11Z",
+	"user_mtime": "2019-03-26T16:59:12Z",
+	"is_slug_auto": false,
+	"id_0": "1999.017",
+	"jsonmodel_type": "accession",
+	"external_ids": [
+
+	],
+	"related_accessions": [
+
+	],
+	"classifications": [
+
+	],
+	"subjects": [
+
+	],
+	"linked_events": [
+
+	],
+	"extents": [
+
+	],
+	"lang_materials": [
+
+	],
+	"dates": [
+
+	],
+	"external_documents": [
+
+	],
+	"rights_statements": [
+
+	],
+	"deaccessions": [
+
+	],
+	"related_resources": [
+		{
+			"ref": "/repositories/3/resources/761"
+		}
+	],
+	"linked_agents": [
+
+	],
+	"instances": [
+
+	],
+	"metadata_rights_declarations": [
+
+	],
+	"uri": "/repositories/3/accessions/4599",
+	"repository": {
+		"ref": "/repositories/3"
+	},
+	"collection_management": {
+		"lock_version": 0,
+		"rights_determined": false,
+		"created_by": "sh2309",
+		"last_modified_by": "sh2309",
+		"create_time": "2019-03-26T16:59:12Z",
+		"system_mtime": "2020-12-17T22:22:08Z",
+		"user_mtime": "2019-03-26T16:59:12Z",
+		"processing_status": "completed",
+		"jsonmodel_type": "collection_management",
+		"external_ids": [
+
+		],
+		"uri": "/repositories/3/collection_management/7154",
+		"repository": {
+			"ref": "/repositories/3"
+		},
+		"parent": {
+			"ref": "/repositories/3/accessions/4599"
+		}
+	}
+}

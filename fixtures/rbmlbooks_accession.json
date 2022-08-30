@@ -1,0 +1,108 @@
+{
+    "lock_version": 21,
+    "suppressed": false,
+    "title": "American Institute of Graphic Arts (AIGA) collection",
+    "display_string": "American Institute of Graphic Arts (AIGA) collection",
+    "publish": true,
+    "content_description": "eight record cartons of books from AIGA",
+    "provenance": "New York, NY",
+    "accession_date": "2021-11-01",
+    "restrictions_apply": false,
+    "access_restrictions": false,
+    "use_restrictions": false,
+    "created_by": "jg2138",
+    "last_modified_by": "jg2138",
+    "create_time": "2021-01-20T16:54:00Z",
+    "system_mtime": "2021-09-09T01:58:41Z",
+    "user_mtime": "2021-08-23T14:24:16Z",
+    "is_slug_auto": false,
+    "id_0": "2017",
+    "id_1": "2018",
+    "id_2": "B001",
+    "id_3": "UNCAT",
+    "acquisition_type": "gift",
+    "resource_type": "collection",
+    "jsonmodel_type": "accession",
+    "external_ids": [],
+    "related_accessions": [
+        {
+            "jsonmodel_type": "accession_sibling_relationship",
+            "system_mtime": "2021-08-23 14:25:55 UTC",
+            "user_mtime": "2021-08-23 14:25:55 UTC",
+            "relator": "sibling_of",
+            "relator_type": "bound_with",
+            "ref": "/repositories/6/accessions/5495"
+        },
+        {
+            "jsonmodel_type": "accession_sibling_relationship",
+            "system_mtime": "2021-08-23 14:24:28 UTC",
+            "user_mtime": "2021-08-23 14:24:28 UTC",
+            "relator": "sibling_of",
+            "relator_type": "bound_with",
+            "ref": "/repositories/6/accessions/5494"
+        }
+    ],
+    "classifications": [],
+    "subjects": [],
+    "linked_events": [],
+    "extents": [
+        {
+            "lock_version": 0,
+            "number": "50",
+            "created_by": "jg2138",
+            "last_modified_by": "jg2138",
+            "create_time": "2021-08-23T14:24:16Z",
+            "system_mtime": "2021-08-23T14:24:16Z",
+            "user_mtime": "2021-08-23T14:24:16Z",
+            "portion": "whole",
+            "extent_type": "Volumes",
+            "jsonmodel_type": "extent"
+        }
+    ],
+    "lang_materials": [],
+    "dates": [
+        {
+            "lock_version": 0,
+            "expression": "2017",
+            "created_by": "jg2138",
+            "last_modified_by": "jg2138",
+            "create_time": "2021-08-23T14:24:16Z",
+            "system_mtime": "2021-08-23T14:24:16Z",
+            "user_mtime": "2021-08-23T14:24:16Z",
+            "date_type": "single",
+            "label": "creation",
+            "jsonmodel_type": "date"
+        }
+    ],
+    "external_documents": [],
+    "rights_statements": [],
+    "deaccessions": [],
+    "related_resources": [
+        {
+            "ref": "/repositories/6/resources/6437"
+        }
+    ],
+    "linked_agents": [],
+    "instances": [],
+    "metadata_rights_declarations": [],
+    "uri": "/repositories/6/accessions/5493",
+    "repository": {
+        "ref": "/repositories/6"
+    },
+    "user_defined": {
+        "lock_version": 0,
+        "boolean_1": false,
+        "boolean_2": false,
+        "boolean_3": false,
+        "integer_1": "15276992",
+        "created_by": "jg2138",
+        "last_modified_by": "jg2138",
+        "create_time": "2021-08-23T14:24:16Z",
+        "system_mtime": "2021-08-23T14:24:16Z",
+        "user_mtime": "2021-08-23T14:24:16Z",
+        "jsonmodel_type": "user_defined",
+        "repository": {
+            "ref": "/repositories/6"
+        }
+    }
+}

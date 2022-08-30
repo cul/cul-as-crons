@@ -1,0 +1,114 @@
+{
+    "lock_version": 20,
+    "suppressed": false,
+    "title": "Gouverneur Morris papers, 1768-1816. ",
+    "display_string": "Gouverneur Morris papers, 1768-1816. ",
+    "publish": false,
+    "general_note": "4079134\n\nAT record created by: ceh2148.\n",
+    "accession_date": "1954-05-05",
+    "restrictions_apply": false,
+    "access_restrictions": false,
+    "use_restrictions": false,
+    "created_by": "admin",
+    "last_modified_by": "admin",
+    "create_time": "2018-05-30T13:59:33Z",
+    "system_mtime": "2022-02-04T16:40:04Z",
+    "user_mtime": "2018-05-30T13:59:33Z",
+    "is_slug_auto": false,
+    "id_0": "1954",
+    "id_1": "M006",
+    "acquisition_type": "purchase",
+    "resource_type": "papers",
+    "jsonmodel_type": "accession",
+    "external_ids": [
+        {
+            "external_id": "2241",
+            "source": "Archivists Toolkit Database::ACCESSION",
+            "created_by": "admin",
+            "last_modified_by": "admin",
+            "create_time": "2018-05-30T13:59:33Z",
+            "system_mtime": "2018-05-30T13:59:33Z",
+            "user_mtime": "2018-05-30T13:59:33Z",
+            "jsonmodel_type": "external_id"
+        }
+    ],
+    "related_accessions": [],
+    "classifications": [],
+    "subjects": [],
+    "linked_events": [
+        {
+            "ref": "/repositories/2/events/572"
+        },
+        {
+            "ref": "/repositories/2/events/573"
+        }
+    ],
+    "extents": [
+        {
+            "lock_version": 0,
+            "number": "10.5",
+            "container_summary": "23 boxes",
+            "created_by": "admin",
+            "last_modified_by": "admin",
+            "create_time": "2018-05-30T13:59:33Z",
+            "system_mtime": "2020-07-12T20:46:35Z",
+            "user_mtime": "2018-05-30T13:59:33Z",
+            "portion": "whole",
+            "extent_type": "linear_feet",
+            "jsonmodel_type": "extent"
+        }
+    ],
+    "lang_materials": [],
+    "dates": [],
+    "external_documents": [],
+    "rights_statements": [],
+    "deaccessions": [],
+    "related_resources": [
+        {
+            "ref": "/repositories/2/resources/2904"
+        }
+    ],
+    "linked_agents": [],
+    "instances": [],
+    "metadata_rights_declarations": [],
+    "uri": "/repositories/2/accessions/340",
+    "repository": {
+        "ref": "/repositories/2"
+    },
+    "collection_management": {
+        "lock_version": 0,
+        "rights_determined": false,
+        "created_by": "admin",
+        "last_modified_by": "admin",
+        "create_time": "2018-05-30T13:59:33Z",
+        "system_mtime": "2020-12-17T22:22:08Z",
+        "user_mtime": "2018-05-30T13:59:33Z",
+        "processing_status": "completed",
+        "jsonmodel_type": "collection_management",
+        "external_ids": [],
+        "uri": "/repositories/2/collection_management/336",
+        "repository": {
+            "ref": "/repositories/2"
+        },
+        "parent": {
+            "ref": "/repositories/2/accessions/340"
+        }
+    },
+    "user_defined": {
+        "lock_version": 0,
+        "boolean_1": false,
+        "boolean_2": false,
+        "boolean_3": false,
+        "integer_1": "4079134",
+        "text_2": "Purchase, 1954.\nGift of Robert Rendell 1978\nPurchase 1989",
+        "created_by": "admin",
+        "last_modified_by": "admin",
+        "create_time": "2018-05-30T13:59:33Z",
+        "system_mtime": "2018-05-30T13:59:33Z",
+        "user_mtime": "2018-05-30T13:59:33Z",
+        "jsonmodel_type": "user_defined",
+        "repository": {
+            "ref": "/repositories/2"
+        }
+    }
+}

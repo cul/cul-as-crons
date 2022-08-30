@@ -1,0 +1,278 @@
+{
+    "lock_version": 7,
+    "title": "Columbia University. Graduate School of Architecture Planning and Preservation : Historic Preservation Documentation I class research papers",
+    "publish": true,
+    "restrictions": false,
+    "finding_aid_note": "This collection is unprocessed. Please consult the  Dept. of Drawings & Archives, Avery Architectural and Fine Arts Library",
+    "created_by": "admin",
+    "last_modified_by": "api_user",
+    "create_time": "2018-06-01T17:57:17Z",
+    "system_mtime": "2021-11-12T12:33:11Z",
+    "user_mtime": "2021-11-12T12:33:11Z",
+    "suppressed": false,
+    "is_slug_auto": false,
+    "id_0": "6636103",
+    "level": "collection",
+    "finding_aid_description_rules": "dacs",
+    "finding_aid_language": "eng",
+    "finding_aid_script": "Latn",
+    "jsonmodel_type": "resource",
+    "external_ids": [],
+    "subjects": [
+        {
+            "ref": "/subjects/765"
+        },
+        {
+            "ref": "/subjects/1888"
+        },
+        {
+            "ref": "/subjects/1473"
+        },
+        {
+            "ref": "/subjects/1887"
+        },
+        {
+            "ref": "/subjects/1886"
+        },
+        {
+            "ref": "/subjects/1885"
+        },
+        {
+            "ref": "/subjects/1884"
+        },
+        {
+            "ref": "/subjects/1883"
+        },
+        {
+            "ref": "/subjects/1882"
+        },
+        {
+            "ref": "/subjects/1227"
+        }
+    ],
+    "linked_events": [],
+    "extents": [
+        {
+            "lock_version": 0,
+            "number": "1",
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-11-12T12:33:11Z",
+            "system_mtime": "2021-11-12T12:33:11Z",
+            "user_mtime": "2021-11-12T12:33:11Z",
+            "portion": "whole",
+            "extent_type": "document box",
+            "jsonmodel_type": "extent"
+        }
+    ],
+    "lang_materials": [
+        {
+            "lock_version": 0,
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-11-12T12:33:11Z",
+            "system_mtime": "2021-11-12T12:33:11Z",
+            "user_mtime": "2021-11-12T12:33:11Z",
+            "jsonmodel_type": "lang_material",
+            "notes": [],
+            "language_and_script": {
+                "lock_version": 0,
+                "created_by": "api_user",
+                "last_modified_by": "api_user",
+                "create_time": "2021-11-12T12:33:11Z",
+                "system_mtime": "2021-11-12T12:33:11Z",
+                "user_mtime": "2021-11-12T12:33:11Z",
+                "language": "eng",
+                "jsonmodel_type": "language_and_script"
+            }
+        }
+    ],
+    "dates": [
+        {
+            "lock_version": 0,
+            "expression": "1984-1986",
+            "begin": "1984",
+            "end": "1986",
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-11-12T12:33:11Z",
+            "system_mtime": "2021-11-12T12:33:11Z",
+            "user_mtime": "2021-11-12T12:33:11Z",
+            "date_type": "inclusive",
+            "label": "creation",
+            "jsonmodel_type": "date"
+        }
+    ],
+    "external_documents": [],
+    "rights_statements": [],
+    "linked_agents": [
+        {
+            "role": "creator",
+            "terms": [],
+            "ref": "/agents/corporate_entities/4657"
+        }
+    ],
+    "import_previous_arks": [],
+    "revision_statements": [],
+    "instances": [],
+    "deaccessions": [],
+    "related_accessions": [
+        {
+            "ref": "/repositories/3/accessions/4599"
+        }
+    ],
+    "classifications": [],
+    "notes": [
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "6c93755e9d9125a9505d596523d88308",
+            "label": " Restrictions on Access",
+            "type": "accessrestrict",
+            "rights_restriction": {
+                "local_access_restriction_type": [
+                    "AVAILABLE"
+                ]
+            },
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "This collection is available for use by appointment in the Department of Drawings & Archives, Avery Architectural and Fine Arts Library, Columbia University. For further information and to make an appointment, please email avery-drawings@library.columbia.edu.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "label": "Summary",
+            "subnotes": [
+                {
+                    "content": "This collection includes primary and secondary research papers, slides, and photographs related to research conducted by the GSAPP's Division of Historic Preservation's Documentation I class between 1984 and 1986. Materials focus on the historic architecture and urban design of SoHo and Tribeca in New York City.",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "scopecontent",
+            "persistent_id": "e34b22f17011c9c1328e2f4b26beb8f2",
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "99862f56e37d51663dfde53be228e440",
+            "label": "Preferred Citation",
+            "type": "prefercite",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Columbia University. Graduate School of Architecture, Planning, and Preservation : Historic Preservation Documentation I Class Research Papers. Located in the Dept. of Drawings & Archives, Avery Architectural and Fine Arts Library, Columbia University.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "8abbefeb437cf62fa0def1c8e4824c89",
+            "label": "Terms Governing Use and Reproduction",
+            "type": "userestrict",
+            "rights_restriction": {
+                "local_access_restriction_type": []
+            },
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Columbia University is providing access to the materials in the Library's collections solely for noncommercial educational and research purposes. The unauthorized use, including, but not limited to, publication of the materials without the prior written permission of Columbia University is strictly prohibited. All inquiries regarding permission to publish should be submitted in writing to the Director, Avery Architectural and Fine Arts Library, Columbia University. In addition to permission from Columbia University, permission of the copyright owner (if not Columbia University) and/or any holder of other rights (such as publicity and/or privacy rights) may also be required for reproduction, publication, distributions, and other uses. Responsibility for making an independent legal assessment of any item and securing any necessary permissions rests with the persons desiring to publish the item. Columbia University makes no warranties as to the accuracy of the materials or their fitness for a particular purpose.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "d56ac1009229a67d59fbaf96b0951da9",
+            "label": "Immediate Source of Acquisition",
+            "type": "acqinfo",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Source of acquisition--Gift of Columbia University. Accession number--1999.017.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "76f3eca5416db857cf67bbf871a3de94",
+            "label": "Processing Information",
+            "type": "processinfo",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "Drawings Processed AvR 05/28/08.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        }
+    ],
+    "metadata_rights_declarations": [
+        {
+            "file_uri": "https://creativecommons.org/publicdomain/zero/1.0/",
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-11-12T12:33:11Z",
+            "system_mtime": "2021-11-12T12:33:11Z",
+            "user_mtime": "2021-11-12T12:33:11Z",
+            "lock_version": 0,
+            "license": "public_domain",
+            "jsonmodel_type": "metadata_rights_declaration"
+        }
+    ],
+    "uri": "/repositories/3/resources/761",
+    "repository": {
+        "ref": "/repositories/3"
+    },
+    "collection_management": {
+        "lock_version": 0,
+        "rights_determined": false,
+        "created_by": "api_user",
+        "last_modified_by": "api_user",
+        "create_time": "2021-11-12T12:33:11Z",
+        "system_mtime": "2021-11-12T12:33:11Z",
+        "user_mtime": "2021-11-12T12:33:11Z",
+        "processing_priority": "medium",
+        "processing_status": "underprocessed",
+        "jsonmodel_type": "collection_management",
+        "external_ids": [],
+        "uri": "/repositories/3/collection_management/14990",
+        "repository": {
+            "ref": "/repositories/3"
+        },
+        "parent": {
+            "ref": "/repositories/3/resources/761"
+        }
+    },
+    "user_defined": {
+        "lock_version": 0,
+        "boolean_1": false,
+        "boolean_2": false,
+        "boolean_3": false,
+        "integer_1": "6636103",
+        "string_2": "(OCoLC)299030823",
+        "string_3": "(OCoLC)ocn299030823",
+        "string_4": "(CStRLIN)NYDA1999.017",
+        "created_by": "api_user",
+        "last_modified_by": "api_user",
+        "create_time": "2021-11-12T12:33:11Z",
+        "system_mtime": "2021-11-12T12:33:11Z",
+        "user_mtime": "2021-11-12T12:33:11Z",
+        "jsonmodel_type": "user_defined",
+        "repository": {
+            "ref": "/repositories/3"
+        }
+    },
+    "tree": {
+        "ref": "/repositories/3/resources/761/tree"
+    }
+}

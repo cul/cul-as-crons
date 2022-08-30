@@ -1,0 +1,246 @@
+{
+    "lock_version": 24,
+    "title": "American Institute of Graphic Arts (AIGA) collection",
+    "publish": true,
+    "restrictions": false,
+    "repository_processing_note": "GROWING COLLECTION. Cataloging in progress; annual accessions of 50 books. Located on 15:42-43",
+    "created_by": "jg2138",
+    "last_modified_by": "api_user",
+    "create_time": "2021-01-20T16:44:10Z",
+    "system_mtime": "2021-09-09T01:58:38Z",
+    "user_mtime": "2021-09-09T01:58:38Z",
+    "suppressed": false,
+    "is_slug_auto": false,
+    "id_0": "15276992",
+    "level": "collection",
+    "resource_type": "collection",
+    "finding_aid_language": "eng",
+    "finding_aid_script": "Latn",
+    "jsonmodel_type": "resource",
+    "external_ids": [],
+    "subjects": [],
+    "linked_events": [],
+    "extents": [
+        {
+            "lock_version": 0,
+            "number": "approximately 5100",
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-09-09T01:58:41Z",
+            "system_mtime": "2021-09-09T01:58:41Z",
+            "user_mtime": "2021-09-09T01:58:41Z",
+            "portion": "whole",
+            "extent_type": "Volumes",
+            "jsonmodel_type": "extent"
+        }
+    ],
+    "lang_materials": [
+        {
+            "lock_version": 0,
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-09-09T01:58:41Z",
+            "system_mtime": "2021-09-09T01:58:41Z",
+            "user_mtime": "2021-09-09T01:58:41Z",
+            "jsonmodel_type": "lang_material",
+            "notes": [],
+            "language_and_script": {
+                "lock_version": 0,
+                "created_by": "api_user",
+                "last_modified_by": "api_user",
+                "create_time": "2021-09-09T01:58:41Z",
+                "system_mtime": "2021-09-09T01:58:41Z",
+                "user_mtime": "2021-09-09T01:58:41Z",
+                "language": "eng",
+                "script": "Latn",
+                "jsonmodel_type": "language_and_script"
+            }
+        }
+    ],
+    "dates": [
+        {
+            "lock_version": 0,
+            "expression": "1923-2020",
+            "begin": "1923",
+            "end": "2020",
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-09-09T01:58:41Z",
+            "system_mtime": "2021-09-09T01:58:41Z",
+            "user_mtime": "2021-09-09T01:58:41Z",
+            "date_type": "inclusive",
+            "label": "creation",
+            "jsonmodel_type": "date"
+        }
+    ],
+    "external_documents": [
+        {
+            "lock_version": 0,
+            "title": "AIGA list.xls",
+            "location": "L:\\:\\RareBooks\\Book Department\\Lists of specific book collections\\",
+            "publish": true,
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-09-09T01:58:41Z",
+            "system_mtime": "2021-09-09T01:58:41Z",
+            "user_mtime": "2021-09-09T01:58:41Z",
+            "jsonmodel_type": "external_document"
+        }
+    ],
+    "rights_statements": [],
+    "linked_agents": [],
+    "import_previous_arks": [],
+    "revision_statements": [],
+    "instances": [],
+    "deaccessions": [
+        {
+            "lock_version": 0,
+            "description": " AIGA books that are moldy and will be discarded\n1986 - 39\n1987 - 15\n1988 - 66\n1989 - 38\n1989 - 56\n1990 - 41\n1990 - 42\n1990 - 44\n1990 - 45\n1990 - 54\n1991 - 32\n1991 - 35\n1991 - 39\n1991 - 47\n1991 - 74\n1992 - 12\n1993 - 28\nThe following books are not moldy but have all or some of their pages stuck together, so they also need to be replaced:\nEureka - [BIB] Search S2: FIND Author Armento, Beverly Jeanne\n1985 - 27\n1986 - 42\n1986 - 51\n1987 - 27\n1989 - 12\n1993 - 26\n1993 - 30\n1993 - 36",
+            "reason": "Mold",
+            "notification": false,
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-09-09T01:58:41Z",
+            "system_mtime": "2021-09-09T01:58:41Z",
+            "user_mtime": "2021-09-09T01:58:41Z",
+            "scope": "part",
+            "jsonmodel_type": "deaccession",
+            "extents": [],
+            "repository": {
+                "ref": "/repositories/6"
+            },
+            "date": {
+                "lock_version": 0,
+                "expression": "2019",
+                "created_by": "api_user",
+                "last_modified_by": "api_user",
+                "create_time": "2021-09-09T01:58:41Z",
+                "system_mtime": "2021-09-09T01:58:41Z",
+                "user_mtime": "2021-09-09T01:58:41Z",
+                "date_type": "single",
+                "label": "deaccession",
+                "jsonmodel_type": "date"
+            }
+        },
+        {
+            "lock_version": 0,
+            "description": "2 moldy AIGA book covers (just covers without books) for 1944-15 (Millay, Collected lyrics) and 1985-70 (Bowie, Serious moonlight). ",
+            "reason": "mold",
+            "disposition": "discarded with permission from curator",
+            "notification": false,
+            "created_by": "api_user",
+            "last_modified_by": "api_user",
+            "create_time": "2021-09-09T01:58:41Z",
+            "system_mtime": "2021-09-09T01:58:41Z",
+            "user_mtime": "2021-09-09T01:58:41Z",
+            "scope": "part",
+            "jsonmodel_type": "deaccession",
+            "extents": [],
+            "repository": {
+                "ref": "/repositories/6"
+            },
+            "date": {
+                "lock_version": 0,
+                "expression": "2019",
+                "created_by": "api_user",
+                "last_modified_by": "api_user",
+                "create_time": "2021-09-09T01:58:41Z",
+                "system_mtime": "2021-09-09T01:58:41Z",
+                "user_mtime": "2021-09-09T01:58:41Z",
+                "date_type": "single",
+                "label": "deaccession",
+                "jsonmodel_type": "date"
+            }
+        }
+    ],
+    "related_accessions": [
+        {
+            "ref": "/repositories/6/accessions/5493"
+        },
+        {
+            "ref": "/repositories/6/accessions/5494"
+        },
+        {
+            "ref": "/repositories/6/accessions/5495"
+        }
+    ],
+    "classifications": [],
+    "notes": [
+        {
+            "jsonmodel_type": "note_multipart",
+            "persistent_id": "432b0d907db684ecf2abc95fafc5010c",
+            "type": "scopecontent",
+            "subnotes": [
+                {
+                    "jsonmodel_type": "note_text",
+                    "content": "The winners of the American Institute of Graphic Artists awards known as “The Fifty Books of the Year” from 1923 to the present. RBML also has some of the cover award winners.",
+                    "publish": true
+                }
+            ],
+            "publish": true
+        },
+        {
+            "jsonmodel_type": "note_multipart",
+            "rights_restriction": {
+                "local_access_restriction_type": []
+            },
+            "subnotes": [
+                {
+                    "content": "All books in this collection are cataloged, and should be requested individually in CLIO. This record is for informational purposes only.",
+                    "jsonmodel_type": "note_text",
+                    "publish": true
+                }
+            ],
+            "type": "accessrestrict",
+            "persistent_id": "d904d92012e7cb6b8b13d322a2e5fca1",
+            "publish": true
+        }
+    ],
+    "metadata_rights_declarations": [],
+    "uri": "/repositories/6/resources/6437",
+    "repository": {
+        "ref": "/repositories/6"
+    },
+    "collection_management": {
+        "lock_version": 0,
+        "processing_plan": "Cataloging by Bill Hamilton in progress",
+        "rights_determined": false,
+        "created_by": "api_user",
+        "last_modified_by": "api_user",
+        "create_time": "2021-09-09T01:58:41Z",
+        "system_mtime": "2021-09-09T01:58:41Z",
+        "user_mtime": "2021-09-09T01:58:41Z",
+        "processing_priority": "low",
+        "processing_status": "being_processed",
+        "jsonmodel_type": "collection_management",
+        "external_ids": [],
+        "uri": "/repositories/6/collection_management/14376",
+        "repository": {
+            "ref": "/repositories/6"
+        },
+        "parent": {
+            "ref": "/repositories/6/resources/6437"
+        }
+    },
+    "user_defined": {
+        "lock_version": 0,
+        "boolean_1": false,
+        "boolean_2": false,
+        "boolean_3": false,
+        "integer_1": "15276992",
+        "created_by": "api_user",
+        "last_modified_by": "api_user",
+        "create_time": "2021-09-09T01:58:41Z",
+        "system_mtime": "2021-09-09T01:58:41Z",
+        "user_mtime": "2021-09-09T01:58:41Z",
+        "enum_3": "nmw",
+        "enum_4": "BOOK_ARTS",
+        "jsonmodel_type": "user_defined",
+        "repository": {
+            "ref": "/repositories/6"
+        }
+    },
+    "tree": {
+        "ref": "/repositories/6/resources/6437/tree"
+    }
+}
