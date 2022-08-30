@@ -1,5 +1,4 @@
 import csv
-import uuid
 
 import google.oauth2.credentials
 from googleapiclient.discovery import build
@@ -106,23 +105,6 @@ class DataSheet(GoogleSheetsClient):
         response = the_data["values"] if "values" in the_data else []
         return response
 
-    def get_sheet_data_series(self):
-        """Get data columns as a dict with key and series.
-
-        Note that series keys must be unique; if column heads are duplicated a UUID will be appended to key in output.
-        """
-        the_cols = self.get_sheet_data_columns()
-        the_series = {}
-        for col in [x for x in the_cols if len(x) > 0]:
-            key = col.pop(0)
-            if key in the_series:
-                key_new = "{}_{}".format(key, uuid.uuid1())
-                print(f"Warning: Duplicate column heading {key}. Renaming as {key_new}")
-                the_series[key_new] = col
-            else:
-                the_series[key] = col
-        return the_series
-
     def get_sheet_url(self):
         """Pull the title of tab from the range."""
         tab_name = self.data_range.split("!")[0]
@@ -173,31 +155,6 @@ class DataSheet(GoogleSheetsClient):
         )
         response = request.execute()
         return response
-
-    def sheet_lookup(self, search_str, target_col, return_cols):
-        """Provide string to match, the column to match in, and col(s) to return.
-
-        The return_col can either be an integer or a list of integers, e.g.,
-        target_col=0, return_col=[1,2], which will return an array of results. Will
-        return multiple matches in a list.
-
-        Args:
-            search_str (str):
-            target_col (int): index of column to match in
-            return_cols (int or list): column(s) to return. Can be either an integer or a list of integers.
-
-        Returns:
-            list: list of results
-
-        """
-        sheet_data = self.get_sheet_data()
-        results = []
-        if not isinstance(return_cols, list):
-            return_cols = [return_cols]
-        for row in [x for x in sheet_data if x[target_col] == search_str]:
-            result_set = [row[col] for col in return_cols]
-            results.append(result_set)
-        return results
 
     def import_csv(self, a_csv, delim=",", quote="NONE"):
         """Will clear contents of sheet range first.
