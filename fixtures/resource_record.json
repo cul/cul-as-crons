@@ -1,0 +1,571 @@
+{
+	"lock_version": 9,
+	"title": "Henry Ford Peace Expedition Collection",
+	"publish": true,
+	"restrictions": false,
+	"ead_location": "http://findingaids.cul.columbia.edu/ead/nnc-rb/ldpd_4078773",
+	"finding_aid_title": "Henry Ford Peace Expedition Collection",
+	"finding_aid_note": "Finding aid in repository",
+	"created_by": "admin",
+	"last_modified_by": "api_user",
+	"create_time": "2019-05-21T16:03:22Z",
+	"system_mtime": "2021-11-11T20:23:31Z",
+	"user_mtime": "2021-11-11T20:23:31Z",
+	"suppressed": false,
+	"is_slug_auto": false,
+	"id_0": "4078773",
+	"level": "collection",
+	"finding_aid_description_rules": "Describing Archives: A Content Standard",
+	"finding_aid_language": "eng",
+	"finding_aid_script": "Latn",
+	"jsonmodel_type": "resource",
+	"external_ids": [
+
+	],
+	"subjects": [
+		{
+			"ref": "/subjects/5073"
+		},
+		{
+			"ref": "/subjects/5072"
+		},
+		{
+			"ref": "/subjects/5633"
+		},
+		{
+			"ref": "/subjects/736"
+		},
+		{
+			"ref": "/subjects/9696"
+		}
+	],
+	"linked_events": [
+
+	],
+	"extents": [
+		{
+			"lock_version": 0,
+			"number": "0.42",
+			"container_summary": "1 document box",
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"portion": "whole",
+			"extent_type": "linear feet",
+			"jsonmodel_type": "extent"
+		}
+	],
+	"lang_materials": [
+		{
+			"lock_version": 0,
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"jsonmodel_type": "lang_material",
+			"notes": [
+
+			],
+			"language_and_script": {
+				"lock_version": 0,
+				"created_by": "api_user",
+				"last_modified_by": "api_user",
+				"create_time": "2021-11-11T20:23:31Z",
+				"system_mtime": "2021-11-11T20:23:31Z",
+				"user_mtime": "2021-11-11T20:23:31Z",
+				"language": "eng",
+				"script": "Latn",
+				"jsonmodel_type": "language_and_script"
+			}
+		},
+		{
+			"lock_version": 0,
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"jsonmodel_type": "lang_material",
+			"notes": [
+
+			],
+			"language_and_script": {
+				"lock_version": 0,
+				"created_by": "api_user",
+				"last_modified_by": "api_user",
+				"create_time": "2021-11-11T20:23:31Z",
+				"system_mtime": "2021-11-11T20:23:31Z",
+				"user_mtime": "2021-11-11T20:23:31Z",
+				"language": "swe",
+				"script": "Latn",
+				"jsonmodel_type": "language_and_script"
+			}
+		}
+	],
+	"dates": [
+		{
+			"lock_version": 0,
+			"expression": "1913-1924",
+			"begin": "1915",
+			"end": "1916",
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"date_type": "inclusive",
+			"label": "creation",
+			"jsonmodel_type": "date"
+		},
+		{
+			"lock_version": 0,
+			"expression": "1915-1916",
+			"begin": "1915-01-01",
+			"end": "1916-01-01",
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"date_type": "bulk",
+			"label": "creation",
+			"jsonmodel_type": "date"
+		}
+	],
+	"external_documents": [
+
+	],
+	"rights_statements": [
+
+	],
+	"linked_agents": [
+		{
+			"role": "creator",
+			"terms": [
+
+			],
+			"ref": "/agents/corporate_entities/2957"
+		},
+		{
+			"role": "creator",
+			"terms": [
+
+			],
+			"ref": "/agents/people/7520"
+		},
+		{
+			"role": "subject",
+			"terms": [
+
+			],
+			"ref": "/agents/people/7519"
+		},
+		{
+			"role": "subject",
+			"terms": [
+
+			],
+			"ref": "/agents/people/7518"
+		},
+		{
+			"role": "subject",
+			"terms": [
+
+			],
+			"ref": "/agents/corporate_entities/2957"
+		},
+		{
+			"role": "subject",
+			"terms": [
+
+			],
+			"ref": "/agents/corporate_entities/2956"
+		}
+	],
+	"import_previous_arks": [
+
+	],
+	"revision_statements": [
+		{
+			"date": "2010-07-31",
+			"description": "File created.",
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"publish": true,
+			"jsonmodel_type": "revision_statement",
+			"uri": "/revision_statement/36526",
+			"repository": {
+				"ref": "/repositories/2"
+			}
+		},
+		{
+			"date": "2010-08-04",
+			"description": "XML document instance created by Catherine N. Carson",
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"publish": true,
+			"jsonmodel_type": "revision_statement",
+			"uri": "/revision_statement/36527",
+			"repository": {
+				"ref": "/repositories/2"
+			}
+		},
+		{
+			"date": "2019-05-20",
+			"description": "EAD was imported spring 2019 as part of the ArchivesSpace Phase II migration.",
+			"created_by": "api_user",
+			"last_modified_by": "api_user",
+			"create_time": "2021-11-11T20:23:31Z",
+			"system_mtime": "2021-11-11T20:23:31Z",
+			"user_mtime": "2021-11-11T20:23:31Z",
+			"publish": true,
+			"jsonmodel_type": "revision_statement",
+			"uri": "/revision_statement/36528",
+			"repository": {
+				"ref": "/repositories/2"
+			}
+		}
+	],
+	"instances": [
+
+	],
+	"deaccessions": [
+
+	],
+	"related_accessions": [
+		{
+			"ref": "/repositories/2/accessions/258"
+		}
+	],
+	"classifications": [
+
+	],
+	"notes": [
+		{
+			"jsonmodel_type": "note_singlepart",
+			"persistent_id": "49d836a05c935b853d8d6d5e46b44d7e",
+			"type": "abstract",
+			"content": [
+				"This collection contains photographs, pamphlets, newspaper clippings, and writings relating to the Henry Ford Peace Expedition that took place in the winter of 1915-1916."
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "a1954a06bfdcab46f361fa12a150d8e1",
+			"label": "Arrangement",
+			"type": "arrangement",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "The material is arranged in two series.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "aspace_34b8fa46102a973496c1a0c27da5f658",
+			"type": "relatedmaterial",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Other institutions that house collections relating to the Henry Ford Peace Expedition include: Swarthmore College Peace Collection, Swarthmore College Henry Ford Peace Expedition Literary File, photography collection, University of Texas, Austin Papers Relating to the Ford Peace Plan, 1915-1918, Library of Congress Fredrick and Lilian Holt Peace Expedition Papers, 1915-1917, University of Michigan",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "d09078136f3feee2aabba25aef66d4ad",
+			"label": "Restrictions on Access",
+			"type": "accessrestrict",
+			"rights_restriction": {
+				"local_access_restriction_type": [
+
+				]
+			},
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "This collection has no restrictions.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "102a5133cf182a981dca58b25eeabd82",
+			"label": "Restrictions on Access",
+			"type": "accessrestrict",
+			"rights_restriction": {
+				"local_access_restriction_type": [
+
+				]
+			},
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "The following boxes are located off-site: Box 1. You will need to request this material from the Rare Book and Manuscript Library at least three business days in advance to use the collection in the Rare Book and Manuscript Library reading room. Materials in map case 14-P-1 are located on-site.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "31f474efb506e25c730bb00fc487940b",
+			"label": "Summary",
+			"type": "scopecontent",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "This collection of printed materials and photographs was assembled by Mary Alden Hopkins, a member of the Expedition, in 1952. The content primarily spans the time period just before, during, and after the expedition between the winter of 1915 and 1916. The collection centers on Hopkins' personal accounts of the expedition, biographical pamphlets, and passenger lists. Official statements issued by Louis P. Lochner, General Secretary of The Neutral Conference for Continuous Mediation, at Stockholm, are also included herein. Additionally, a letter from Lochner with the \"Appeal to Neutrals\" the Neutral Conference's manifesto, is located in this collection. Several issues of Four Lights, a magazine published by the Women's Peace Party of New York City, are included along with various newspaper clippings pertaining both to the expedition and to the war in general. The photographs in this collection are both unidentified and undated, but certainly describe the social and political activities that took place during the expedition.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "94bb8b75924a1b69afb4a3078fa476e9",
+			"label": "Preferred Citation",
+			"type": "prefercite",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Identification of specific item; Date (if known); Henry Ford Peace Expedition collection; Box and Folder; Rare Book and Manuscript Library, Columbia University Library.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "f32d46de8712623e7f2773911fa1823c",
+			"label": "Terms Governing Use and Reproduction",
+			"type": "userestrict",
+			"rights_restriction": {
+				"local_access_restriction_type": [
+
+				]
+			},
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Single photocopies may be made for research purposes. The RBML maintains ownership of the physical material only. Copyright remains with the creator and his/her heirs. The responsibility to secure copyright permission rests with the patron.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "dac99125e39aa014769128c4b810ca43",
+			"label": "Immediate Source of Acquisition",
+			"type": "acqinfo",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Source of acquisition--Mary Alden Hopkins. Method of acquisition--Gift of; Date of acquisition--1952.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "edd54aa901b687350751ca359bbc64db",
+			"label": "Biographical / Historical",
+			"type": "bioghist",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "The purpose of the Henry Ford Peace Expedition was to call a conference of delegates from non-combatant countries during World War I. In the winter of 1915-1916, the Ford Peace Expedition carried a delegation of Americans to Norway, Sweden, and Holland to meet with fellow European pacifists. Henry Ford hosted the \"Peace Ship\" which served as both a vehicle for travel and for collaboration amongst its passengers.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "fd2c128a10fe67dbb2006387bc96c251",
+			"label": "Biographical / Historical",
+			"type": "bioghist",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "During the months prior to the expedition, Hungarian feminist and pacifist Rosika Schwimmer encouraged Ford to commission the expedition. On December 4th, 1915, Henry Ford and members of the peace voyage boarded Oscar II, also known as the Peace Ship, in Hoboken, New Jersey for the expedition. The delegates for the peace expedition traveled first to Christiania (present day Oslo), Norway, and later met with fellow pacifists in Sweden and Holland. In February, 1916, members of the neutral nations from Europe met with the Ford party in Stockholm, Sweden, to form the Neutral Conference for Continuous Mediation. The expedition returned from Europe in February of 1916, but work within the Neutral Conference for Continuous Mediation continued until the end of that year. Among many active figures that influenced the expedition were Rosika Schwimmer, Ellen Key, and Louis P. Lochner.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "806a35baf5b0a2d74e811e0ab597ec8b",
+			"label": "Processing Information",
+			"type": "processinfo",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Papers processed by Robyn Hjermstad.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "7c45319d0011902ecc9adba11554a9c2",
+			"label": "Processing Information",
+			"type": "processinfo",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Finding aid written by Robyn Hjermstad June 2010.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "aspace_9583bfb8026168d7ddb578f84a0de70a",
+			"label": "Accrual",
+			"type": "accruals",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "No additions expected",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "d3eb2135413de6557c3b8c3b9e7591de",
+			"label": "Selected Related Material-- Other Repositories",
+			"type": "relatedmaterial",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "<extref xlink:type=\"simple\" xlink:href=\"http://www.swarthmore.edu/library/peace/\">Swarthmore College Peace Collection,</extref> Swarthmore College.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "559f9a42bd6467d7af246db1e2fde5fc",
+			"label": "Selected Related Material-- Other Repositories",
+			"type": "relatedmaterial",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "<extref xlink:type=\"simple\" xlink:href=\"https://norman.hrc.utexas.edu/fasearch/html/lfhenryfordpe.html\">Henry Ford Peace Expedition Literary File,</extref> Photography Collection, University of Texas, Austin.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "84c997950383822faef736f0a50fb9fc",
+			"label": "Selected Related Material-- Other Repositories",
+			"type": "relatedmaterial",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "<extref xlink:type=\"simple\" xlink:href=\"http://lccn.loc.gov/mm78021048\">Papers Relating to the Ford Peace Plan, 1915-1918,</extref> Library of Congress.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "8605c5946dc7fb04da7f5a50ce9bcc4f",
+			"label": "Selected Related Material-- Other Repositories",
+			"type": "relatedmaterial",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "<extref xlink:type=\"simple\" xlink:href=\"https://quod.lib.umich.edu/s/sclead/umich-scl-holtfl\">Frederick and Lilian Holt Peace Expedition Papers, 1915-1917,</extref> University of Michigan .",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"persistent_id": "0a762e08a0bd9475d689970e9804b006",
+			"type": "processinfo",
+			"subnotes": [
+				{
+					"jsonmodel_type": "note_text",
+					"content": "Collection is processed to folder level.",
+					"publish": true
+				}
+			],
+			"publish": true
+		},
+		{
+			"jsonmodel_type": "note_multipart",
+			"subnotes": [
+				{
+					"content": "Materials may have been added to the collection since this finding aid was prepared. Contact rbml@columbia.edu for more information.",
+					"jsonmodel_type": "note_text",
+					"publish": true
+				}
+			],
+			"type": "accruals",
+			"persistent_id": "144001eb21b3b391899bff49a48eee9e",
+			"publish": true
+		}
+	],
+	"metadata_rights_declarations": [
+
+	],
+	"uri": "/repositories/2/resources/5000",
+	"repository": {
+		"ref": "/repositories/2"
+	},
+	"user_defined": {
+		"lock_version": 0,
+		"boolean_1": false,
+		"boolean_2": false,
+		"boolean_3": false,
+		"integer_1": "4078773",
+		"string_1": "MS#0441",
+		"string_2": "(OCoLC)495526584",
+		"string_3": "(OCoLC)ocn495526584",
+		"string_4": "(CStRLIN)NYCR89-A299",
+		"created_by": "api_user",
+		"last_modified_by": "api_user",
+		"create_time": "2021-11-11T20:23:31Z",
+		"system_mtime": "2021-11-11T20:23:31Z",
+		"user_mtime": "2021-11-11T20:23:31Z",
+		"jsonmodel_type": "user_defined",
+		"repository": {
+			"ref": "/repositories/2"
+		}
+	},
+	"tree": {
+		"ref": "/repositories/2/resources/5000/tree"
+	}
+}

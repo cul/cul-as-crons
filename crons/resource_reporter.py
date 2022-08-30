@@ -85,7 +85,7 @@ class ResourceReporter(BaseAsCron):
                 "repository": resource["repository"]["ref"],
                 "uri": resource["uri"],
                 "bibid": resource["id_0"],
-                "title": resource["title"],
+                "title": resource["title"].strip(),
                 "published": resource["publish"],
                 "created at": resource["create_time"],
                 "modified at": resource["system_mtime"],
@@ -99,9 +99,9 @@ class ResourceReporter(BaseAsCron):
                 "description status": resource.get("user_defined").get("enum_3"),
                 "collecting area": resource.get("user_defined").get("enum_4"),
                 "level": resource["level"],
-                "scope note": scope_note[:280],
+                "scope note": scope_note.strip()[:280],
                 "scopenote length": len(scope_note),
-                "bioghist note": bio_note[:280],
+                "bioghist note": bio_note.strip()[:280],
                 "biognote length": len(bio_note),
                 "processing_priority": resource.get("collection_management").get(
                     "processing_priority"
