@@ -35,12 +35,43 @@ class EadValidator(object):
         )
         self.script_name = os.path.basename(__file__)
         self.my_path = os.path.basename(__file__)
-        google_token = self.config["Google Sheets"]["token"]
+        self.google_access_token = self.config["Google Sheets"]["access_token"]
+        self.google_refresh_token = self.config["Google Sheets"]["refresh_token"]
+        self.google_client_id = self.config["Google Sheets"]["client_id"]
+        self.client_secret = self.config["Google Sheets"]["client_secret"]
         self.sheet_id = "1Ltf5_hhR-xN4YSvNWmPX8bqJA1UjqAaSjgeHBr_5chA"
-        self.parse_sheet = DataSheet(google_token, self.sheet_id, "parse!A:Z")
-        self.validation_sheet = DataSheet(google_token, self.sheet_id, "schema!A:Z")
-        self.eval_sheet = DataSheet(google_token, self.sheet_id, "eval!A:Z")
-        self.log_sheet = DataSheet(google_token, self.sheet_id, "log!A:Z")
+        self.parse_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            self.sheet_id,
+            "parse!A:Z",
+        )
+        self.validation_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            self.sheet_id,
+            "schema!A:Z",
+        )
+        self.eval_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            self.sheet_id,
+            "eval!A:Z",
+        )
+        self.log_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            self.sheet_id,
+            "log!A:Z",
+        )
         self.fa_app_cache = "ldpdserv@ldpd-nginx-prod1:/opt/passenger/ldpd/findingaids_prod/caches/ead_cache"
         self.ead_cache = "/cul/cul0/ldpd/archivesspace/ead_cache"
         self.dest_path = "/cul/cul0/ldpd/archivesspace/"
