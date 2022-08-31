@@ -16,23 +16,23 @@ class SubjectReporter(BaseAsCron):
             ],
         )
         self.fields = [
-            ("uri", "uri"),
-            ("title", "title"),
-            ("source", "source"),
-            ("authority_id", "authority_id"),
-            ("is_linked_to_published_record", "is_linked_to_published_record"),
-            ("publish", "publish"),
-            ("last_modified_by", "last_modified_by"),
-            ("last_modified", "system_mtime"),
+            "uri",
+            "title",
+            "source",
+            "authority_id",
+            "is_linked_to_published_record",
+            "publish",
+            "last_modified_by",
+            "last_modified",
         ]
 
     def get_sheet_data(self):
         spreadsheet_data = []
-        spreadsheet_data.append([x[0] for x in self.fields])
-        subject_records = self.as_client.all_subjects()
-        for subject in subject_records:
-            row = self.get_row(subject)
-            spreadsheet_data.append(row)
+        spreadsheet_data.append(self.fields)
+        subject_data = self.get_row_data()
+        for subject in subject_data:
+            subject_row = self.construct_row(subject)
+            spreadsheet_data.append(subject_row)
         subject_count = len(spreadsheet_data) - 1
         logging.info(f"Total subject records: {subject_count}")
         self.write_data_to_sheet(
@@ -51,3 +51,27 @@ class SubjectReporter(BaseAsCron):
             for term in subject_record.get("terms"):
                 row.append("{} [{}]".format(term["term"], term["term_type"]))
         return row
+
+    def construct_row(self, row_data):
+        return [row_data.get(field) for field in self.fields]
+
+    def get_row_data(self):
+        """Get subject data to be written into a row.
+
+        Yields:
+            dict
+        """
+        for subject in self.as_client.all_subjects():
+            subject_fields = {
+                "uri": subject["uri"],
+                "title": subject["title"],
+                "source": subject["source"],
+                "authority_id": subject["authority_id"],
+                "is_linked_to_published_record": subject[
+                    "is_linked_to_published_record"
+                ],
+                "publish": subject["publish"],
+                "last_modified_by": subject["last_modified_by"],
+                "last_modified": subject["system_mtime"],
+            }
+            yield subject_fields
