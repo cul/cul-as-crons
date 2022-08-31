@@ -59,9 +59,6 @@ class ResourceReporter(BaseAsCron):
         msg = f"{resource_count} records imported by {__file__}."
         return msg
 
-    def construct_row(self, row_data):
-        return [row_data.get(field) for field in self.fields]
-
     def get_row_data(self):
         """Get resource data to be written into a row.
 

@@ -40,6 +40,17 @@ class BaseAsCron(object):
         msg = f"{get_sheet_data} {msg_duration}"
         return msg
 
+    def construct_row(self, row_data):
+        """Construct row to write to spreadsheet.
+
+        Args:
+            row_data (dict): data from ASpace to write to row
+
+        Returns:
+            list: ordered fields
+        """
+        return [row_data.get(field) for field in self.fields]
+
     def write_data_to_sheet(self, sheet_data, sheet_id, data_range):
         """Write data to a Google Sheet.
 

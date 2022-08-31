@@ -43,17 +43,6 @@ class AgentsReporter(BaseAsCron):
         msg = f"{agent_count} records imported by {__file__}."
         return msg
 
-    def construct_row(self, row_data):
-        """Construct row to write to spreadsheet.
-
-        Args:
-            row_data (dict): data from ASpace to write to row
-
-        Returns:
-            list: ordered fields
-        """
-        return [row_data[field] for field in self.fields]
-
     def get_row_data(self):
         """Get agent data to be written into a row.
 

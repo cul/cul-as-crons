@@ -52,9 +52,6 @@ class SubjectReporter(BaseAsCron):
                 row.append("{} [{}]".format(term["term"], term["term_type"]))
         return row
 
-    def construct_row(self, row_data):
-        return [row_data.get(field) for field in self.fields]
-
     def get_row_data(self):
         """Get subject data to be written into a row.
 

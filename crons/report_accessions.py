@@ -60,17 +60,6 @@ class AccessionsReporter(BaseAsCron):
         logging.info(msg)
         return msg
 
-    def construct_row(self, row_data):
-        """Construct row to write to spreadsheet.
-
-        Args:
-            row_data (dict): data from ASpace to write to row
-
-        Returns:
-            list: ordered fields
-        """
-        return [row_data.get(field) for field in self.fields]
-
     def get_row_data(self, repo_id):
         """Get accession data to be written into a row.
 
