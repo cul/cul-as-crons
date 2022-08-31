@@ -2,6 +2,7 @@ from configparser import ConfigParser
 from datetime import datetime
 
 from .aspace_client import ArchivesSpaceClient
+from .google_sheets_client import DataSheet
 
 
 class BaseAsCron(object):
@@ -38,6 +39,26 @@ class BaseAsCron(object):
         msg_duration = f"Start: {start_time}. Finished: {end_time} (duration: {end_time - start_time})"
         msg = f"{get_sheet_data} {msg_duration}"
         return msg
+
+    def write_data_to_sheet(self, sheet_data, sheet_id, data_range):
+        """Write data to a Google Sheet.
+
+        Args:
+            sheet_data (list): list of lists (rows)
+            sheet_id: Google Sheet ID
+            data_range: the A1 notation of a range for a logical table of data
+        """
+        data_sheet = DataSheet(
+            self.google_access_token,
+            self.google_refresh_token,
+            self.google_client_id,
+            self.client_secret,
+            sheet_id,
+            data_range,
+        )
+        data_sheet.clear_sheet()
+        data_sheet.append_sheet(sheet_data)
+        return f"Posted {len(sheet_data)} rows to sheet."
 
     def get_sheet_data(self):
         raise NotImplementedError("You must implement a `get_sheet_data` method")

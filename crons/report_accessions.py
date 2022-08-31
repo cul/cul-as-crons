@@ -2,7 +2,6 @@ import datetime
 import logging
 
 from .as_cron import BaseAsCron
-from .google_sheets_client import DataSheet
 from .helpers import get_fiscal_year
 
 
@@ -53,22 +52,13 @@ class AccessionsReporter(BaseAsCron):
         for r in rows_data:
             resource_row = self.construct_row(r)
             spreadsheet_data.append(resource_row)
-        msg = self.write_data_to_sheet(spreadsheet_data, f"{name}!A:Z")
+        msg = self.write_data_to_sheet(
+            spreadsheet_data,
+            self.config["Google Sheets"]["report_accessions_sheet"],
+            f"{name}!A:Z",
+        )
         logging.info(msg)
         return msg
-
-    def write_data_to_sheet(self, sheet_data, data_range):
-        data_sheet = DataSheet(
-            self.google_access_token,
-            self.google_refresh_token,
-            self.google_client_id,
-            self.client_secret,
-            self.config["Google Sheets"]["report_accessions_sheet"],
-            data_range,
-        )
-        data_sheet.clear_sheet()
-        data_sheet.append_sheet(sheet_data)
-        return f"Posted {len(sheet_data)} rows to sheet."
 
     def construct_row(self, row_data):
         """Construct row to write to spreadsheet.

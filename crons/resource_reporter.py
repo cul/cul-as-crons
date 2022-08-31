@@ -1,7 +1,6 @@
 import logging
 
 from .as_cron import BaseAsCron
-from .google_sheets_client import DataSheet
 
 
 class ResourceReporter(BaseAsCron):
@@ -52,25 +51,16 @@ class ResourceReporter(BaseAsCron):
             spreadsheet_data.append(resource_row)
         resource_count = len(spreadsheet_data) - 1
         logging.info(f"Total resource records: {resource_count}")
-        self.write_data_to_sheet(spreadsheet_data)
+        self.write_data_to_sheet(
+            spreadsheet_data,
+            self.config["Google Sheets"]["resource_reporter_sheet"],
+            self.config["Google Sheets"]["resource_reporter_range"],
+        )
         msg = f"{resource_count} records imported by {__file__}."
         return msg
 
     def construct_row(self, row_data):
         return [row_data.get(field) for field in self.fields]
-
-    def write_data_to_sheet(self, sheet_data):
-        data_sheet = DataSheet(
-            self.google_access_token,
-            self.google_refresh_token,
-            self.google_client_id,
-            self.client_secret,
-            self.config["Google Sheets"]["report_agents_sheet"],
-            self.config["Google Sheets"]["report_agents_range"],
-        )
-        data_sheet.clear_sheet()
-        data_sheet.append_sheet(sheet_data)
-        return f"Posted {len(sheet_data)} rows to sheet."
 
     def get_row_data(self):
         """Get resource data to be written into a row.

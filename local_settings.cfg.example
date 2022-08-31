@@ -6,6 +6,12 @@ client_secret: CLIENT_SECRET
 token: /path/to/token.json
 report_subjects_sheet: examplesheetid
 report_subjects_range: subjects!A:Z
+report_agents_sheet: examplesheetid
+report_agents_range: agents!A:Z
+report_accessions_sheet: examplesheetid
+report_accessions_range: accessions!A:Z
+resource_reporter_sheet: examplesheetid
+resource_reporter_range: resources!A:Z
 digester_sheet: examplesheetid
 digester_test_sheet: examplesheetid
 digester_range: Sheet1!A:Z
