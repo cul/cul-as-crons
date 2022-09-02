@@ -16,6 +16,9 @@ digester_sheet: examplesheetid
 digester_test_sheet: examplesheetid
 digester_range: Sheet1!A:Z
 
+[CSV]
+outpath = .
+
 [Other]
 archival_data_directory: /example/oai
 archival_data_test_directory: /example/test/oai

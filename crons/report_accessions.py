@@ -1,5 +1,6 @@
 import datetime
 import logging
+from pathlib import Path
 
 from .as_cron import BaseAsCron
 from .helpers import get_fiscal_year
@@ -38,27 +39,38 @@ class AccessionsReporter(BaseAsCron):
             "last_modified_by",
         ]
 
-    def get_sheet_data(self):
+    def create_report(self, google=False):
         repositories = {"rbml": 2, "avery": 3, "rbmlbooks": 6}
         for name, repo_id in repositories.items():
-            self.construct_sheet(name, repo_id)
+            self.construct_sheet(name, repo_id, google=google)
         msg = f"Accession records imported by {__file__}."
         return msg
 
-    def construct_sheet(self, name, repo_id):
+    def construct_sheet(self, name, repo_id, google=False):
+        spreadsheet_data = self.get_sheet_data(repo_id)
+        rows_count = len(spreadsheet_data) - 1
+        if google:
+            self.write_data_to_google_sheet(
+                spreadsheet_data,
+                self.config["Google Sheets"]["report_accessions_sheet"],
+                f"{name}!A:Z",
+            )
+        else:
+            csv_filename = f"{datetime.datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}_{name}.csv"
+            csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
+            self.write_data_to_csv(spreadsheet_data, csv_filepath)
+        msg = f"{rows_count} records imported by {__file__}."
+        logging.info(msg)
+        return msg
+
+    def get_sheet_data(self, repo_id):
         spreadsheet_data = []
         spreadsheet_data.append(self.fields)
         rows_data = self.get_row_data(repo_id)
         for r in rows_data:
             resource_row = self.construct_row(r)
             spreadsheet_data.append(resource_row)
-        msg = self.write_data_to_sheet(
-            spreadsheet_data,
-            self.config["Google Sheets"]["report_accessions_sheet"],
-            f"{name}!A:Z",
-        )
-        logging.info(msg)
-        return msg
+        return spreadsheet_data
 
     def get_row_data(self, repo_id):
         """Get accession data to be written into a row.

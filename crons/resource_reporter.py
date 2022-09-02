@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+from pathlib import Path
 
 from .as_cron import BaseAsCron
 
@@ -42,22 +44,31 @@ class ResourceReporter(BaseAsCron):
             "processing_status",
         ]
 
+    def create_report(self, google=False):
+        spreadsheet_data = self.get_sheet_data()
+        resource_count = len(spreadsheet_data) - 1
+        logging.info(f"Total resource records: {resource_count}")
+        if google:
+            self.write_data_to_google_sheet(
+                spreadsheet_data,
+                self.config["Google Sheets"]["resource_reporter_sheet"],
+                self.config["Google Sheets"]["resource_reporter_range"],
+            )
+        else:
+            csv_filename = f"{datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}.csv"
+            csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
+            self.write_data_to_csv(spreadsheet_data, csv_filepath)
+        msg = f"{resource_count} records imported by {__file__}."
+        return msg
+
     def get_sheet_data(self):
         spreadsheet_data = []
         spreadsheet_data.append(self.fields)
-        rows_data = self.get_row_data()
-        for r in rows_data:
-            resource_row = self.construct_row(r)
+        resource_data = self.get_row_data()
+        for resource in resource_data:
+            resource_row = self.construct_row(resource)
             spreadsheet_data.append(resource_row)
-        resource_count = len(spreadsheet_data) - 1
-        logging.info(f"Total resource records: {resource_count}")
-        self.write_data_to_sheet(
-            spreadsheet_data,
-            self.config["Google Sheets"]["resource_reporter_sheet"],
-            self.config["Google Sheets"]["resource_reporter_range"],
-        )
-        msg = f"{resource_count} records imported by {__file__}."
-        return msg
+        return spreadsheet_data
 
     def get_row_data(self):
         """Get resource data to be written into a row.

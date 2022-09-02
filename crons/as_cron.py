@@ -1,3 +1,4 @@
+import csv
 from configparser import ConfigParser
 from datetime import datetime
 
@@ -32,12 +33,12 @@ class BaseAsCron(object):
         self.google_client_id = self.config["Google Sheets"]["client_id"]
         self.client_secret = self.config["Google Sheets"]["client_secret"]
 
-    def run(self):
+    def run(self, google=False):
         start_time = datetime.now()
-        get_sheet_data = self.get_sheet_data()
+        report = self.create_report(google=google)
         end_time = datetime.now()
         msg_duration = f"Start: {start_time}. Finished: {end_time} (duration: {end_time - start_time})"
-        msg = f"{get_sheet_data} {msg_duration}"
+        msg = f"{report} {msg_duration}"
         return msg
 
     def construct_row(self, row_data):
@@ -51,7 +52,7 @@ class BaseAsCron(object):
         """
         return [row_data.get(field) for field in self.fields]
 
-    def write_data_to_sheet(self, sheet_data, sheet_id, data_range):
+    def write_data_to_google_sheet(self, sheet_data, sheet_id, data_range):
         """Write data to a Google Sheet.
 
         Args:
@@ -71,5 +72,16 @@ class BaseAsCron(object):
         data_sheet.append_sheet(sheet_data)
         return f"Posted {len(sheet_data)} rows to sheet."
 
-    def get_sheet_data(self):
-        raise NotImplementedError("You must implement a `get_sheet_data` method")
+    def write_data_to_csv(self, sheet_data, filepath):
+        """Write data to a CSV file.
+
+        Args:
+            sheet_data (list): list of lists (rows)
+            filepath (Path obj or str): Path object or string of CSV filepath
+        """
+        with open(filepath, "w") as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(sheet_data)
+
+    def create_report(self):
+        raise NotImplementedError("You must implement a `create_report` method")

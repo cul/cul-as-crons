@@ -16,7 +16,7 @@ class TestBaseAsCron(unittest.TestCase):
         self.assertTrue(base_as_cron)
 
     @freeze_time("2022-09-01 00:00:00")
-    @patch("crons.as_cron.BaseAsCron.get_sheet_data")
+    @patch("crons.as_cron.BaseAsCron.create_report")
     @patch("crons.as_cron.BaseAsCron.__init__")
     def test_run(self, mock_init, mock_as_data):
         mock_init.return_value = None

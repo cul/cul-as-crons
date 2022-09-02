@@ -23,11 +23,10 @@ EXTENT = "0.42 linear feet"
 
 class TestResourceReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.all_resources")
-    @patch("crons.resource_reporter.ResourceReporter.write_data_to_sheet")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
-    def test_get_sheet_data(self, mock_as_init, mock_write, mock_resources):
+    def test_create_report(self, mock_as_init, mock_resources):
         resource_reporter = ResourceReporter("local_settings.cfg.example")
-        as_data = resource_reporter.get_sheet_data()
+        as_data = resource_reporter.create_report()
         self.assertTrue(as_data)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")

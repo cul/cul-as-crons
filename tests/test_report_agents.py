@@ -18,13 +18,11 @@ def mock_agents_generator():
 
 class TestAgentsReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.all_agents")
-    @patch("crons.report_agents.AgentsReporter.write_data_to_sheet")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
-    def test_get_sheet_data(self, mock_as_init, mock_write, mock_agents):
+    def test_create_report(self, mock_as_init, mock_agents):
         mock_as_init.return_value = None
-        mock_write.return_value = None
         agent_reporter = AgentsReporter("local_settings.cfg.example")
-        as_data = agent_reporter.get_sheet_data()
+        as_data = agent_reporter.create_report()
         self.assertTrue(as_data)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")

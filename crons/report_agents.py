@@ -1,4 +1,6 @@
 import logging
+from datetime import datetime
+from pathlib import Path
 
 from .as_cron import BaseAsCron
 
@@ -26,6 +28,23 @@ class AgentsReporter(BaseAsCron):
             "last_modified",
         ]
 
+    def create_report(self, google=False):
+        spreadsheet_data = self.get_sheet_data()
+        agent_count = len(spreadsheet_data) - 1
+        logging.info(f"Total agent records: {agent_count}")
+        if google:
+            self.write_data_to_google_sheet(
+                spreadsheet_data,
+                self.config["Google Sheets"]["report_agents_sheet"],
+                self.config["Google Sheets"]["report_agents_range"],
+            )
+        else:
+            csv_filename = f"{datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}.csv"
+            csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
+            self.write_data_to_csv(spreadsheet_data, csv_filepath)
+        msg = f"{agent_count} records imported by {__file__}."
+        return msg
+
     def get_sheet_data(self):
         spreadsheet_data = []
         spreadsheet_data.append(self.fields)
@@ -33,15 +52,7 @@ class AgentsReporter(BaseAsCron):
         for agent in agent_data:
             agent_row = self.construct_row(agent)
             spreadsheet_data.append(agent_row)
-        agent_count = len(spreadsheet_data) - 1
-        logging.info(f"Total agent records: {agent_count}")
-        self.write_data_to_sheet(
-            spreadsheet_data,
-            self.config["Google Sheets"]["report_agents_sheet"],
-            self.config["Google Sheets"]["report_agents_range"],
-        )
-        msg = f"{agent_count} records imported by {__file__}."
-        return msg
+        return spreadsheet_data
 
     def get_row_data(self):
         """Get agent data to be written into a row.

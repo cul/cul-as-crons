@@ -21,10 +21,9 @@ def mock_accessions_generator(repo):
 class TestAccessionsReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.get_json_response")
     @patch("crons.aspace_client.ArchivesSpaceClient.accessions_from_repository")
-    @patch("crons.report_accessions.AccessionsReporter.write_data_to_sheet")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_construct_sheet(
-        self, mock_as_init, mock_write, mock_accessions, mock_get_json_response
+        self, mock_as_init, mock_accessions, mock_get_json_response
     ):
         mock_accessions.return_value = mock_accessions_generator("rbml")
         with open(Path("fixtures", "rbml_resource.json")) as s:
