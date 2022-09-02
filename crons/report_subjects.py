@@ -18,14 +18,14 @@ class SubjectReporter(BaseAsCron):
             ],
         )
         self.fields = [
-            ("uri", "uri"),
-            ("title", "title"),
-            ("source", "source"),
-            ("authority_id", "authority_id"),
-            ("is_linked_to_published_record", "is_linked_to_published_record"),
-            ("publish", "publish"),
-            ("last_modified_by", "last_modified_by"),
-            ("last_modified", "system_mtime"),
+            "uri",
+            "title",
+            "source",
+            "authority_id",
+            "is_linked_to_published_record",
+            "publish",
+            "last_modified_by",
+            "last_modified",
         ]
 
     def create_report(self, google=False):
@@ -57,7 +57,7 @@ class SubjectReporter(BaseAsCron):
 
     def get_row(self, subject_record):
         row = []
-        for field in [x[1] for x in self.fields]:
+        for field in [x for x in self.fields]:
             row.append(subject_record.get(field))
         if subject_record.get("terms"):
             for term in subject_record.get("terms"):
