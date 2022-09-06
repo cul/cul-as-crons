@@ -85,9 +85,12 @@ class AccessionsReporter(BaseAsCron):
         for accession in self.as_client.accessions_from_repository(repo_id):
             y, m, d = (int(a) for a in accession["accession_date"].split("-"))
             accession_date = datetime.date(y, m, d)
-            resource = self.as_client.get_json_response(
-                accession["related_resources"][0]["ref"]
-            )
+            if accession.get("related_resources"):
+                resource = self.as_client.get_json_response(
+                    accession["related_resources"][0]["ref"]
+                )
+            else:
+                resource = None
             accession_fields = {
                 "repository": accession["repository"]["ref"],
                 "uri": accession["uri"],
@@ -102,8 +105,8 @@ class AccessionsReporter(BaseAsCron):
                 "modified at": accession["system_mtime"],
                 "created by": accession["created_by"],
                 "modified by": accession["last_modified_by"],
-                "resource_bibid": resource["id_0"],
-                "resource_asid": resource["uri"],
+                "resource_bibid": resource["id_0"] if resource else "",
+                "resource_asid": resource["uri"] if resource else "",
                 "year": y if y > 1700 else "",
                 "fiscal_year": get_fiscal_year(accession_date),
                 "processing_status": accession.get("collection_management").get(
