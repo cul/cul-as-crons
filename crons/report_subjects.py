@@ -26,6 +26,7 @@ class SubjectReporter(BaseAsCron):
             "publish",
             "last_modified_by",
             "last_modified",
+            "terms",
         ]
 
     def create_report(self, google=False):
@@ -55,15 +56,6 @@ class SubjectReporter(BaseAsCron):
             spreadsheet_data.append(subject_row)
         return spreadsheet_data
 
-    def get_row(self, subject_record):
-        row = []
-        for field in [x for x in self.fields]:
-            row.append(subject_record.get(field))
-        if subject_record.get("terms"):
-            for term in subject_record.get("terms"):
-                row.append("{} [{}]".format(term["term"], term["term_type"]))
-        return row
-
     def get_row_data(self):
         """Get subject data to be written into a row.
 
@@ -71,16 +63,21 @@ class SubjectReporter(BaseAsCron):
             dict
         """
         for subject in self.as_client.all_subjects():
+            terms_list = [
+                "{} [{}]".format(term["term"], term["term_type"])
+                for term in subject.get("terms")
+            ]
             subject_fields = {
                 "uri": subject["uri"],
                 "title": subject["title"],
                 "source": subject["source"],
-                "authority_id": subject["authority_id"],
+                "authority_id": subject.get("authority_id"),
                 "is_linked_to_published_record": subject[
                     "is_linked_to_published_record"
                 ],
                 "publish": subject["publish"],
                 "last_modified_by": subject["last_modified_by"],
                 "last_modified": subject["system_mtime"],
+                "terms": ", ".join(terms_list),
             }
             yield subject_fields
