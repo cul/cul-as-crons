@@ -61,7 +61,7 @@ class ArchivesSpaceClient:
             string: note text of all notes of indicated note type
         """
         notes = []
-        for note in [n for n in resource_json["notes"] if n["type"] == note_type]:
+        for note in [n for n in resource_json["notes"] if n.get("type") == note_type]:
             notes.append("".join(get_note_text(note, self.aspace.client)))
         return " ".join(notes)
 
