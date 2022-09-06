@@ -3,6 +3,7 @@ from datetime import datetime
 from pathlib import Path
 
 from .as_cron import BaseAsCron
+from .helpers import get_user_defined
 
 
 class ResourceReporter(BaseAsCron):
@@ -90,12 +91,12 @@ class ResourceReporter(BaseAsCron):
                 "created by": resource["created_by"],
                 "modified by": resource["last_modified_by"],
                 "ead location": resource.get("ead_location"),
-                "local call no.": resource.get("user_defined").get("string_1"),
-                "other ctrl no. 1": resource.get("user_defined").get("string_2"),
-                "other ctrl no. 2": resource.get("user_defined").get("string_3"),
-                "other ctrl no. 3": resource.get("user_defined").get("string_4"),
-                "description status": resource.get("user_defined").get("enum_3"),
-                "collecting area": resource.get("user_defined").get("enum_4"),
+                "local call no.": get_user_defined(resource, "string_1"),
+                "other ctrl no. 1": get_user_defined(resource, "string_2"),
+                "other ctrl no. 2": get_user_defined(resource, "string_3"),
+                "other ctrl no. 3": get_user_defined(resource, "string_4"),
+                "description status": get_user_defined(resource, "enum_3"),
+                "collecting area": get_user_defined(resource, "enum_4"),
                 "level": resource["level"],
                 "scope note": scope_note.strip()[:280],
                 "scopenote length": len(scope_note),

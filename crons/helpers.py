@@ -14,3 +14,16 @@ def get_fiscal_year(accession_date):
             return accession_date.year + 1
         else:
             return accession_date.year
+
+
+def get_user_defined(resource, field):
+    """Return user_defined data if it exists.
+
+    Args:
+        resource (dict): ASpace resource
+        field (str): user defined field
+    """
+    if resource.get("user_defined"):
+        return resource.get("user_defined").get(field)
+    else:
+        return ""
