@@ -68,7 +68,7 @@ class AgentsReporter(BaseAsCron):
                 "authority_id": agent.get("names")[0].get("authority_id"),
                 "is_linked_to_published_record": agent["is_linked_to_published_record"],
                 "publish": agent["publish"],
-                "last_modified_by": agent["last_modified_by"],
+                "last_modified_by": agent.get("last_modified_by"),
                 "last_modified": agent["system_mtime"],
             }
             yield agent_fields
