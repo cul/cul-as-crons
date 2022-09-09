@@ -2,11 +2,14 @@ import json
 import types
 import unittest
 from pathlib import Path
+from shutil import rmtree
 from unittest.mock import patch
 
 from freezegun import freeze_time
 
 from crons.report_accessions import AccessionsReporter
+
+TEST_DIRECTORY = "test_reports"
 
 
 def mock_accessions_generator(repo):
@@ -19,6 +22,13 @@ def mock_accessions_generator(repo):
 
 
 class TestAccessionsReporter(unittest.TestCase):
+    def setUp(self):
+        test_path = Path(TEST_DIRECTORY)
+        test_path.mkdir(exist_ok=True)
+
+    def tearDown(self):
+        rmtree(TEST_DIRECTORY)
+
     @patch("crons.aspace_client.ArchivesSpaceClient.get_json_response")
     @patch("crons.aspace_client.ArchivesSpaceClient.accessions_from_repository")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)

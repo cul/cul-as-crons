@@ -2,9 +2,12 @@ import json
 import types
 import unittest
 from pathlib import Path
+from shutil import rmtree
 from unittest.mock import patch
 
 from crons.report_agents import AgentsReporter
+
+TEST_DIRECTORY = "test_reports"
 
 
 def mock_agents_generator():
@@ -17,6 +20,13 @@ def mock_agents_generator():
 
 
 class TestAgentsReporter(unittest.TestCase):
+    def setUp(self):
+        test_path = Path(TEST_DIRECTORY)
+        test_path.mkdir(exist_ok=True)
+
+    def tearDown(self):
+        rmtree(TEST_DIRECTORY)
+
     @patch("crons.aspace_client.ArchivesSpaceClient.all_agents")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_create_report(self, mock_as_init, mock_agents):

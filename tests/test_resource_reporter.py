@@ -2,9 +2,12 @@ import json
 import types
 import unittest
 from pathlib import Path
+from shutil import rmtree
 from unittest.mock import patch
 
 from crons.resource_reporter import ResourceReporter
+
+TEST_DIRECTORY = "test_reports"
 
 
 def mock_resources_generator():
@@ -22,6 +25,13 @@ EXTENT = "0.42 linear feet"
 
 
 class TestResourceReporter(unittest.TestCase):
+    def setUp(self):
+        test_path = Path(TEST_DIRECTORY)
+        test_path.mkdir(exist_ok=True)
+
+    def tearDown(self):
+        rmtree(TEST_DIRECTORY)
+
     @patch("crons.aspace_client.ArchivesSpaceClient.all_resources")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_create_report(self, mock_as_init, mock_resources):
