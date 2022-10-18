@@ -3,7 +3,7 @@ import logging
 from pathlib import Path
 
 from .as_cron import BaseAsCron
-from .helpers import get_fiscal_year
+from .helpers import formula_to_string, get_fiscal_year
 
 
 class AccessionsReporter(BaseAsCron):
@@ -34,13 +34,13 @@ class AccessionsReporter(BaseAsCron):
             "fiscal-year",
             "processing_priority",
             "processing_status",
-            "create_time",
-            "system_mtime",
-            "last_modified_by",
+            "created at",
+            "modified at",
+            "modified by",
         ]
 
     def create_report(self, google=False):
-        repositories = {"rbml": 2, "avery": 3, "rbmlbooks": 6}
+        repositories = {"rbml": 2, "avery": 3, "rbmlbooks": 6, "ohac": 7}
         for name, repo_id in repositories.items():
             self.construct_sheet(name, repo_id, google=google)
         msg = f"Accession records imported by {__file__}."
@@ -99,7 +99,9 @@ class AccessionsReporter(BaseAsCron):
                 "id_0": accession.get("id_0"),
                 "id_1": accession.get("id_1"),
                 "id_2": accession.get("id_2"),
-                "id_3": accession.get("id_3"),
+                "id_3": formula_to_string(accession.get("id_3"))
+                if accession.get("id_3")
+                else "",
                 "integer_1": accession.get("integer_1"),
                 "created at": accession["create_time"],
                 "modified at": accession["system_mtime"],
