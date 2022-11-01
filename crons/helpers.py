@@ -27,3 +27,14 @@ def get_user_defined(resource, field):
         return resource.get("user_defined").get(field)
     else:
         return ""
+
+
+def formula_to_string(string):
+    """Add leading single quote to strings that may be a formula in Google Sheets
+
+    Args:
+        string: string to check for leading + or +
+    """
+    if string.startswith("+") or string.startswith("="):
+        string = f"'{string}"
+    return string
