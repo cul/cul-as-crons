@@ -86,13 +86,30 @@ class ArchivesSpaceClient:
         """
         resource_ids = self.aspace.client.get(
             f"/repositories/{repo_id}/resources",
-            params={"all_ids": True, "modified_since": timestamp},
+            params={"all_ids": True, "modified_since": timestamp, "publish": True},
         ).json()
         for resource_id in resource_ids:
             marc_xml = self.aspace.client.get(
                 f"/repositories/{repo_id}/resources/marc21/{resource_id}.xml"
             ).content.decode("utf-8")
             yield marc_xml
+
+    def get_new_resources(self, repo_id, timestamp):
+        """Get resources that have been updated since a provided timestamp.
+
+        Args:
+            repo_id (int): ASpace repository ID (e.g., 2)
+            timestamp (int): A UTC timestamp coerced to an integer
+
+        Yields:
+            obj: JSON model object for ASpace resource
+        """
+        resource_ids = self.aspace.client.get(
+            f"/repositories/{repo_id}/resources",
+            params={"all_ids": True, "modified_since": timestamp, "publish": True},
+        ).json()
+        for resource_id in resource_ids:
+            yield self.aspace.repositories(repo_id).resources(resource_id)
 
     def get_json_response(self, uri):
         """Get JSON response for ASpace get request

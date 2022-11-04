@@ -1,3 +1,7 @@
+from calendar import timegm
+from datetime import datetime, timedelta
+
+
 def get_fiscal_year(accession_date):
     """Gets fiscal year (July-June) for a date.
 
@@ -38,3 +42,9 @@ def formula_to_string(string):
     if string.startswith("+") or string.startswith("="):
         string = f"'{string}"
     return string
+
+
+def yesterday_utc():
+    """Gets UTC timestamp for 1 day ago."""
+    yesterday = datetime.utcnow() - timedelta(days=1)
+    return timegm(yesterday.utctimetuple())
