@@ -2,6 +2,10 @@ from asnake.aspace import ASpace
 from asnake.utils import get_note_text
 
 
+class ArchivesSpaceException(object):
+    pass
+
+
 class ArchivesSpaceClient:
     """Handles communication with ArchivesSpace."""
 
@@ -112,10 +116,17 @@ class ArchivesSpaceClient:
             yield self.aspace.repositories(repo_id).resources(resource_id)
 
     def get_json_response(self, uri):
-        """Get JSON response for ASpace get request
+        """Get JSON response for ASpace get request.
 
         Args:
             uri (str): ASpace URI
         """
         response = self.aspace.client.get(uri)
         return response.json()
+
+    def publish_agent(self, agent):
+        agent_json = agent.json()
+        agent_json["publish"] = True
+        updated = self.aspace.client.post(agent.uri, json=agent_json)
+        if updated.status_code != 200:
+            raise ArchivesSpaceException(updated.reason)

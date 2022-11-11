@@ -34,7 +34,7 @@ def get_user_defined(resource, field):
 
 
 def formula_to_string(string):
-    """Add leading single quote to strings that may be a formula in Google Sheets
+    """Add leading single quote to strings that may be a formula in Google Sheets.
 
     Args:
         string: string to check for leading + or +
@@ -46,5 +46,5 @@ def formula_to_string(string):
 
 def yesterday_utc():
     """Gets UTC timestamp for 1 day ago."""
-    yesterday = datetime.utcnow() - timedelta(days=1)
+    yesterday = datetime.utcnow() - timedelta(hours=36)
     return timegm(yesterday.utctimetuple())
