@@ -1,5 +1,5 @@
 from asnake.aspace import ASpace
-from asnake.utils import get_note_text
+from asnake.utils import get_note_text, walk_tree
 
 
 class ArchivesSpaceException(object):
@@ -110,7 +110,12 @@ class ArchivesSpaceClient:
         """
         resource_ids = self.aspace.client.get(
             f"/repositories/{repo_id}/resources",
-            params={"all_ids": True, "modified_since": timestamp, "publish": True},
+            params={
+                "all_ids": True,
+                "modified_since": timestamp,
+                "publish": True,
+                "suppressed": False,
+            },
         ).json()
         for resource_id in resource_ids:
             yield self.aspace.repositories(repo_id).resources(resource_id)
@@ -130,3 +135,25 @@ class ArchivesSpaceClient:
         updated = self.aspace.client.post(agent.uri, json=agent_json)
         if updated.status_code != 200:
             raise ArchivesSpaceException(updated.reason)
+
+    def update_aspace_field(self, aspace_json, field_name, new_info):
+        """Updates (or adds) a field to an ArchivesSpace record.
+
+        Args:
+            aspace_json (dict): ArchivesSpace data
+            field_name (str): name of field to update
+            new_info (str): value of updated field
+        """
+        aspace_json[field_name] = new_info
+        try:
+            response = self.aspace.client.post(aspace_json["uri"], json=aspace_json)
+            response.raise_for_status()
+        except Exception as e:
+            raise e
+
+    def get_all_children(self, resource):
+        """Gets children from the tree of a resource."""
+        tree = walk_tree(resource, self.aspace.client)
+        next(tree)
+        for child in tree:
+            yield child
