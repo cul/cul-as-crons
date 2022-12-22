@@ -35,14 +35,14 @@ class TestResourceReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.all_resources")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_create_report(self, mock_as_init, mock_resources):
-        resource_reporter = ResourceReporter("local_settings.cfg.example")
+        resource_reporter = ResourceReporter()
         as_data = resource_reporter.create_report()
         self.assertTrue(as_data)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_construct_row(self, mock_as_init):
         mock_as_init.return_value = None
-        resource_reporter = ResourceReporter("local_settings.cfg.example")
+        resource_reporter = ResourceReporter()
         resource_data = {
             "repository": "/repositories/2",
             "uri": "/repositories/2/resources/5000",
@@ -79,7 +79,7 @@ class TestResourceReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_get_row_data(self, mock_as_init, mock_resources, mock_note, mock_extent):
         mock_resources.return_value = mock_resources_generator()
-        resource_reporter = ResourceReporter("local_settings.cfg.example")
+        resource_reporter = ResourceReporter()
         resource_rows = resource_reporter.get_row_data()
         self.assertIsInstance(resource_rows, types.GeneratorType)
         # print([a for a in resource_rows][0])

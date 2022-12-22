@@ -7,8 +7,8 @@ from .helpers import formula_to_string, get_fiscal_year
 
 
 class AccessionsReporter(BaseAsCron):
-    def __init__(self, config_file):
-        super(AccessionsReporter, self).__init__(config_file, "report_accessions_sheet")
+    def __init__(self):
+        super(AccessionsReporter, self).__init__("report_accessions_sheet")
         logging.basicConfig(
             datefmt="%m/%d/%Y %I:%M:%S %p",
             format="%(asctime)s %(message)s",

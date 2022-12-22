@@ -31,14 +31,14 @@ class TestAgentsReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_create_report(self, mock_as_init, mock_agents):
         mock_as_init.return_value = None
-        agent_reporter = AgentsReporter("local_settings.cfg.example")
+        agent_reporter = AgentsReporter()
         as_data = agent_reporter.create_report()
         self.assertTrue(as_data)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_construct_row(self, mock_as_init):
         mock_as_init.return_value = None
-        agent_reporter = AgentsReporter("local_settings.cfg.example")
+        agent_reporter = AgentsReporter()
         agent_data = {
             "uri": "/agents/corporate_entities/1579",
             "title": "McDonnell & Sons",
@@ -58,7 +58,7 @@ class TestAgentsReporter(unittest.TestCase):
     def test_get_row_data(self, mock_as_init, mock_agents):
         mock_as_init.return_value = None
         mock_agents.return_value = mock_agents_generator()
-        agent_reporter = AgentsReporter("local_settings.cfg.example")
+        agent_reporter = AgentsReporter()
         agents_rows = agent_reporter.get_row_data()
         self.assertIsInstance(agents_rows, types.GeneratorType)
         self.assertEqual(len([a for a in agents_rows]), 5)

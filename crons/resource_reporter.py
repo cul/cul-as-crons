@@ -7,8 +7,8 @@ from .helpers import get_user_defined
 
 
 class ResourceReporter(BaseAsCron):
-    def __init__(self, config_file):
-        super(ResourceReporter, self).__init__(config_file, "report_resources_sheet")
+    def __init__(self):
+        super(ResourceReporter, self).__init__("report_resources_sheet")
         logging.basicConfig(
             datefmt="%m/%d/%Y %I:%M:%S %p",
             format="%(asctime)s %(message)s",

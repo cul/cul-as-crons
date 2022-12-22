@@ -6,8 +6,8 @@ from .as_cron import BaseAsCron
 
 
 class AgentsReporter(BaseAsCron):
-    def __init__(self, config_file):
-        super(AgentsReporter, self).__init__(config_file, "report_agents_sheet")
+    def __init__(self):
+        super(AgentsReporter, self).__init__("report_agents_sheet")
         logging.basicConfig(
             datefmt="%m/%d/%Y %I:%M:%S %p",
             format="%(asctime)s %(message)s",

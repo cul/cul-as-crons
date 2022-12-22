@@ -19,6 +19,6 @@ class TestSubjectReporter(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.all_subjects")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_create_report(self, mock_as_init, mock_subjects):
-        subject_reporter = SubjectReporter("local_settings.cfg.example")
+        subject_reporter = SubjectReporter()
         as_data = subject_reporter.create_report()
         self.assertTrue(as_data)

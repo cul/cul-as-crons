@@ -6,8 +6,8 @@ from .as_cron import BaseAsCron
 
 
 class SubjectReporter(BaseAsCron):
-    def __init__(self, config_file):
-        super(SubjectReporter, self).__init__(config_file, "report_subjects_sheet")
+    def __init__(self):
+        super(SubjectReporter, self).__init__("report_subjects_sheet")
         logging.basicConfig(
             datefmt="%m/%d/%Y %I:%M:%S %p",
             format="%(asctime)s %(message)s",
