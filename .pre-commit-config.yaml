@@ -13,7 +13,3 @@ repos:
   hooks:
   - id: isort
     args: [--profile, black]
-- repo: https://github.com/jazzband/pip-tools
-  rev: 6.8.0
-  hooks:
-    - id: pip-compile
