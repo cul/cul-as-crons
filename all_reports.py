@@ -18,5 +18,6 @@ def main():
     AgentsReporter().run(args.google_sheets)
     SubjectReporter().run(args.google_sheets)
 
+
 if __name__ == "__main__":
     main()
