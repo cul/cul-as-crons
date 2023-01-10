@@ -12,7 +12,7 @@ class TestBaseAsCron(unittest.TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_init(self, mock_aspace):
         mock_aspace.return_value = None
-        base_as_cron = BaseAsCron("local_settings.cfg.example", "report_subjects_sheet")
+        base_as_cron = BaseAsCron("report_subjects_sheet")
         self.assertTrue(base_as_cron)
 
     @freeze_time("2022-09-01 00:00:00")
@@ -21,9 +21,7 @@ class TestBaseAsCron(unittest.TestCase):
     def test_run(self, mock_init, mock_as_data):
         mock_init.return_value = None
         mock_as_data.return_value = MESSAGE
-        run_cron = BaseAsCron(
-            "local_settings.cfg.example", "report_subjects_sheet"
-        ).run()
+        run_cron = BaseAsCron("report_subjects_sheet").run()
         self.assertEqual(
             run_cron,
             f"{MESSAGE} Start: 2022-09-01 00:00:00. Finished: 2022-09-01 00:00:00 (duration: 0:00:00)",

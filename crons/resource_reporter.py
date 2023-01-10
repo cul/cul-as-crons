@@ -7,8 +7,8 @@ from .helpers import get_user_defined
 
 
 class ResourceReporter(BaseAsCron):
-    def __init__(self, config_file):
-        super(ResourceReporter, self).__init__(config_file, "report_resources_sheet")
+    def __init__(self):
+        super(ResourceReporter, self).__init__("report_resources_sheet")
         logging.basicConfig(
             datefmt="%m/%d/%Y %I:%M:%S %p",
             format="%(asctime)s %(message)s",
@@ -46,21 +46,24 @@ class ResourceReporter(BaseAsCron):
         ]
 
     def create_report(self, google=False):
-        spreadsheet_data = self.get_sheet_data()
-        resource_count = len(spreadsheet_data) - 1
-        logging.info(f"Total resource records: {resource_count}")
-        if google:
-            self.write_data_to_google_sheet(
-                spreadsheet_data,
-                self.config["Google Sheets"]["resource_reporter_sheet"],
-                self.config["Google Sheets"]["resource_reporter_range"],
-            )
-        else:
-            csv_filename = f"{datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}.csv"
-            csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
-            self.write_data_to_csv(spreadsheet_data, csv_filepath)
-        msg = f"{resource_count} records imported by {__file__}."
-        return msg
+        try:
+            spreadsheet_data = self.get_sheet_data()
+            resource_count = len(spreadsheet_data) - 1
+            logging.info(f"Total resource records: {resource_count}")
+            if google:
+                self.write_data_to_google_sheet(
+                    spreadsheet_data,
+                    self.config["Google Sheets"]["resource_reporter_sheet"],
+                    self.config["Google Sheets"]["resource_reporter_range"],
+                )
+            else:
+                csv_filename = f"{datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}.csv"
+                csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
+                self.write_data_to_csv(spreadsheet_data, csv_filepath)
+            msg = f"{resource_count} records imported by {__file__}."
+            return msg
+        except Exception as e:
+            logging.error(e)
 
     def get_sheet_data(self):
         spreadsheet_data = []

@@ -12,7 +12,7 @@ class BaseAsCron(object):
     Subclasses should implement a `get_sheet_data` method.
     """
 
-    def __init__(self, config_file, sheet_name):
+    def __init__(self, sheet_name):
         """Set up configs and logging.
 
         Args:
@@ -20,7 +20,7 @@ class BaseAsCron(object):
             log_name: path to log file
             sheet_name: key from config that corresponds to a Google Sheet
         """
-        self.config_file = config_file
+        self.config_file = "local_settings.cfg"
         self.config = ConfigParser()
         self.config.read(self.config_file)
         self.as_client = ArchivesSpaceClient(

@@ -39,13 +39,13 @@ class TestAccessionsReporter(unittest.TestCase):
         with open(Path("fixtures", "rbml_resource.json")) as s:
             resource = json.load(s)
         mock_get_json_response.return_value = resource
-        accession_reporter = AccessionsReporter("local_settings.cfg.example")
+        accession_reporter = AccessionsReporter()
         constructed_sheet = accession_reporter.construct_sheet("rbml", 2)
         self.assertTrue(constructed_sheet)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_construct_row(self, mock_as_init):
-        accession_reporter = AccessionsReporter("local_settings.cfg.example")
+        accession_reporter = AccessionsReporter()
         accession_data = {
             "repository": "/repositories/3",
             "uri": "/repositories/3/accessions/4599",
@@ -83,7 +83,7 @@ class TestAccessionsReporter(unittest.TestCase):
             with open(Path("fixtures", f"{repo}_resource.json")) as s:
                 resource = json.load(s)
             mock_get_json_response.return_value = resource
-            accession_reporter = AccessionsReporter("local_settings.cfg.example")
+            accession_reporter = AccessionsReporter()
             accession_rows = accession_reporter.get_row_data(repo_id)
             self.assertTrue(accession_rows)
             self.assertIsInstance(accession_rows, types.GeneratorType)
