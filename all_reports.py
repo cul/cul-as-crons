@@ -7,7 +7,7 @@ from crons.resource_reporter import ResourceReporter
 
 
 def main():
-    """docstring for main"""
+    print("hello")
     parser = argparse.ArgumentParser(
         description="Generates reports against ArchivesSpace API"
     )
@@ -17,3 +17,6 @@ def main():
     AccessionsReporter().run(args.google_sheets)
     AgentsReporter().run(args.google_sheets)
     SubjectReporter().run(args.google_sheets)
+
+if __name__ == "__main__":
+    main()
