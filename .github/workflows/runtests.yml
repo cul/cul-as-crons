@@ -25,7 +25,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install tox tox-gh-actions
-          rm local_settings.cfg
 
       - name: Copy config
         run: cp local_settings.cfg.example local_settings.cfg
