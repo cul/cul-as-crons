@@ -6,3 +6,4 @@ build
 .pytest_cache
 env/
 local_settings.cfg
+*.log
