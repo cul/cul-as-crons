@@ -7,7 +7,6 @@ from crons.resource_reporter import ResourceReporter
 
 
 def main():
-    print("hello")
     parser = argparse.ArgumentParser(
         description="Generates reports against ArchivesSpace API"
     )

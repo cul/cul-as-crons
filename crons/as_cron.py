@@ -1,6 +1,7 @@
 import csv
 from configparser import ConfigParser
 from datetime import datetime
+from pathlib import Path
 
 from .aspace_client import ArchivesSpaceClient
 from .google_sheets_client import DataSheet
@@ -20,7 +21,8 @@ class BaseAsCron(object):
             log_name: path to log file
             sheet_name: key from config that corresponds to a Google Sheet
         """
-        self.config_file = "local_settings.cfg"
+        current_path = Path(__file__).parents[1].resolve()
+        self.config_file = Path(current_path, "local_settings.cfg")
         self.config = ConfigParser()
         self.config.read(self.config_file)
         self.as_client = ArchivesSpaceClient(
