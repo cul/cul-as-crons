@@ -84,6 +84,7 @@ class BaseAsCron(object):
         with open(filepath, "w") as csvfile:
             writer = csv.writer(csvfile)
             writer.writerows(sheet_data)
+        return f"Wrote {len(sheet_data)} rows to {filepath}"
 
     def create_report(self):
         raise NotImplementedError("You must implement a `create_report` method")
