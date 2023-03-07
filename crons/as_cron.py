@@ -30,7 +30,7 @@ class BaseAsCron(object):
             self.config["ArchivesSpace"]["username"],
             self.config["ArchivesSpace"]["password"],
         )
-        self.google_access_token = self.config["Google Sheets"]["access_token"]
+        self.google_access_token = None
         self.google_refresh_token = self.config["Google Sheets"]["refresh_token"]
         self.google_client_id = self.config["Google Sheets"]["client_id"]
         self.client_secret = self.config["Google Sheets"]["client_secret"]
@@ -72,7 +72,7 @@ class BaseAsCron(object):
         )
         data_sheet.clear_sheet()
         data_sheet.append_sheet(sheet_data)
-        return f"Posted {len(sheet_data)} rows to sheet."
+        return f"Posted {len(sheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id}"
 
     def write_data_to_csv(self, sheet_data, filepath):
         """Write data to a CSV file.

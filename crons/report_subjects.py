@@ -36,7 +36,7 @@ class SubjectReporter(BaseAsCron):
             logging.info(f"Total subject records: {subject_count}")
 
             if google:
-                self.write_data_to_google_sheet(
+                msg = self.write_data_to_google_sheet(
                     spreadsheet_data,
                     self.config["Google Sheets"]["report_subjects_sheet"],
                     self.config["Google Sheets"]["report_subjects_range"],
@@ -44,8 +44,8 @@ class SubjectReporter(BaseAsCron):
             else:
                 csv_filename = f"{datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}.csv"
                 csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
-                self.write_data_to_csv(spreadsheet_data, csv_filepath)
-            msg = f"{subject_count} records imported by {__file__}."
+                msg = self.write_data_to_csv(spreadsheet_data, csv_filepath)
+            logging.info(msg)
             return msg
         except Exception as e:
             logging.error(e)

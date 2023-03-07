@@ -43,11 +43,11 @@ class AccessionsReporter(BaseAsCron):
         repositories = {"rbml": 2, "avery": 3, "rbmlbooks": 6, "ohac": 7}
         for name, repo_id in repositories.items():
             try:
-                self.construct_sheet(name, repo_id, google=google)
+                msg = self.construct_sheet(name, repo_id, google=google)
+                logging.info(msg)
+                return msg
             except Exception as e:
                 logging.error(f"Error for {name} accessions: {e}")
-        msg = f"Accession records imported by {__file__}."
-        return msg
 
     def construct_sheet(self, name, repo_id, google=False):
         logging.info(f"Starting accessions reporting for {name}...")
