@@ -57,7 +57,7 @@ class AccessionsReporter(BaseAsCron):
             self.write_data_to_google_sheet(
                 spreadsheet_data, sheet_id, f"{name}!A:Z",
             )
-            msg = f"Posted {len(spreadsheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id}"
+            msg = f"Posted {len(spreadsheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id} "
         else:
             csv_filename = f"{datetime.datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}_{name}.csv"
             csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)

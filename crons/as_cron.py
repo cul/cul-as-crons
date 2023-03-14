@@ -72,7 +72,7 @@ class BaseAsCron(object):
         )
         data_sheet.clear_sheet()
         data_sheet.append_sheet(sheet_data)
-        return f"Posted {len(sheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id}"
+        return f"Posted {len(sheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id} "
 
     def write_data_to_csv(self, sheet_data, filepath):
         """Write data to a CSV file.
