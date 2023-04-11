@@ -20,7 +20,7 @@ class OAIHarvester(object):
                 logging.StreamHandler(),
             ],
         )
-        self.pyoaiharvest = os.path.join(os.path.dirname(__file__), "pyoaiharvest.py")
+        self.pyoaiharvest = "/opt/dcps/cul-as-crons/crons/pyoaiharvest.py"
         self.oai_url = "https://aspace.library.columbia.edu/public/oai/"
 
     def run(self, today_string, harvest_all=False):
