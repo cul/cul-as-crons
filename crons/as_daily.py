@@ -75,6 +75,7 @@ class OAIHarvester(object):
         if from_date:
             cmd.append("-f")
             cmd.append(from_date)
+        logging.info(cmd)
         p = subprocess.Popen(
             cmd,
             stdin=subprocess.PIPE,
