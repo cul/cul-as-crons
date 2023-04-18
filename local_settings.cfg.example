@@ -22,6 +22,7 @@ outpath = test_reports
 archival_data_directory: /example/oai
 archival_data_test_directory: /example/test/oai
 as_daily_xslt = /example/cleanOAI.xsl
+finding_aids_lists = /path/to/example
 
 [ArchivesSpace]
 baseurl: https://sandbox.archivesspace.org/api/
