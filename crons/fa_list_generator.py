@@ -34,21 +34,11 @@ class FindingAidLists(object):
             rbml_code = "nnc-rb"
             ua_code = "nnc-ua"
             oh_code = "nnc-ccoh"
-            if (
-                resource.json()
-                .get("user_defined", {})
-                .get("string_1", "")
-                .startswith("UA")
-            ):
+            call_number = resource.json().get("user_defined", {}).get("string_1", "")
+            if call_number.startswith("UA"):
                 resource_link = f'<li><a href="/ead/{ua_code}/ldpd_{resource.id_0}">{title}</a></li>'
                 ua_links[title] = resource_link
-            elif (
-                resource.json()
-                .get("user_defined", {})
-                .get("string_1", "")
-                .startswith("OH")
-            ):
-                repo_code = "nnc-ccoh"
+            elif call_number.startswith("OH"):
                 resource_link = f'<li><a href="/ead/{oh_code}/ldpd_{resource.id_0}">{title}</a></li>'
                 oh_links[title] = resource_link
             else:
