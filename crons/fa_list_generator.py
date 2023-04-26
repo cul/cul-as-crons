@@ -3,6 +3,7 @@ from configparser import ConfigParser
 from pathlib import Path
 
 from crons.aspace_client import ArchivesSpaceClient
+from crons.helpers import format_date
 
 
 class FindingAidLists(object):
@@ -91,11 +92,11 @@ class FindingAidLists(object):
         bulk_dates = []
         if resource.dates:
             first_date = resource.dates[0].json()
-            date_string = self.format_date(first_date)
+            date_string = format_date(first_date)
             if len(resource.dates) > 1:
                 bulk_dates = [x for x in resource.dates if x.date_type == "bulk"]
                 bulk_date_string = (
-                    self.format_date(bulk_dates[0].json()) if bulk_dates else None
+                    format_date(bulk_dates[0].json()) if bulk_dates else None
                 )
             if bulk_dates:
                 return f"{title} {date_string} (bulk {bulk_date_string})"
@@ -103,17 +104,3 @@ class FindingAidLists(object):
                 return f"{title} {date_string}"
         else:
             return resource.title
-
-    def format_date(self, date_json):
-        """Formats an ArchivesSpace data if date does not have a date expression.
-
-        Args:
-            date_json (dict): ArchivesSpace date
-        """
-        if date_json.get("expression"):
-            date_string = date_json["expression"]
-        else:
-            date_string = date_json["begin"]
-            if date_json.get("end"):
-                date_string = f"{date_json['begin']}-{date_json['end']}"
-        return date_string

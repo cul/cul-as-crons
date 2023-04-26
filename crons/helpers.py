@@ -38,3 +38,17 @@ def formula_to_string(string):
     if string.startswith("+") or string.startswith("="):
         string = f"'{string}"
     return string
+
+def format_date(date_json):
+    """Formats an ArchivesSpace data if date does not have a date expression.
+
+    Args:
+        date_json (dict): ArchivesSpace date
+    """
+    if date_json.get("expression"):
+        date_string = date_json["expression"]
+    else:
+        date_string = date_json["begin"]
+        if date_json.get("end"):
+            date_string = f"{date_json['begin']}-{date_json['end']}"
+    return date_string
