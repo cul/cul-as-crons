@@ -37,8 +37,9 @@ class FindingAidLists(object):
                 resource_links = {}
                 for resource in self.as_client.published_resources(repo_id):
                     title = self.construct_title(resource)
-                    resource_link = f'<li><a href="/ead/{repo_code}/ldpd_{resource.id_0}">{title}</a></li>'
-                    resource_links[title] = resource_link
+                    resource_links[title] = self.create_resource_link(
+                        repo_code, resource.id_0, title
+                    )
                 self.create_html_snippet(resource_links, repo_code)
             rbml_links = {}
             ua_links = {}
@@ -52,23 +53,30 @@ class FindingAidLists(object):
                     resource.json().get("user_defined", {}).get("string_1", "")
                 )
                 if call_number.startswith("UA"):
-                    resource_link = f'<li><a href="/ead/{ua_code}/ldpd_{resource.id_0}">{title}</a></li>'
-                    ua_links[title] = resource_link
+                    ua_links[title] = self.create_resource_link(
+                        ua_code, resource.id_0, title
+                    )
                 elif call_number.startswith("OH"):
-                    resource_link = f'<li><a href="/ead/{oh_code}/ldpd_{resource.id_0}">{title}</a></li>'
-                    oh_links[title] = resource_link
+                    oh_links[title] = self.create_resource_link(
+                        oh_code, resource.id_0, title
+                    )
                 else:
-                    resource_link = f'<li><a href="/ead/{rbml_code}/ldpd_{resource.id_0}">{title}</a></li>'
-                    rbml_links[title] = resource_link
+                    rbml_links[title] = self.create_resource_link(
+                        rbml_code, resource.id_0, title
+                    )
             self.create_html_snippet(rbml_links, rbml_code)
             self.create_html_snippet(ua_links, ua_code)
             for resource in self.as_client.published_resources(7):
                 title = self.construct_title(resource)
-                resource_link = f'<li><a href="/ead/{oh_code}/ldpd_{resource.id_0}">{title}</a></li>'
-                oh_links[title] = resource_link
+                oh_links[title] = self.create_resource_link(
+                    oh_code, resource.id_0, title
+                )
             self.create_html_snippet(oh_links, oh_code)
         except Exception as e:
             logging.error(e)
+
+    def create_resource_link(self, repo_code, bibid, title):
+        return f'<li><a href="/ead/{repo_code}/ldpd_{bibid}">{title}</a></li>'
 
     def create_html_snippet(self, links_dict, repo_code):
         """Writes an HTML unordered list to a file.

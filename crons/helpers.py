@@ -39,6 +39,7 @@ def formula_to_string(string):
         string = f"'{string}"
     return string
 
+
 def format_date(date_json):
     """Formats an ArchivesSpace data if date does not have a date expression.
 
