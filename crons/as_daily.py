@@ -58,7 +58,9 @@ class OAIHarvester(object):
         logging.info(process_xml)
 
     def oai_harvest(
-        self, out_path, from_date=None,
+        self,
+        out_path,
+        from_date=None,
     ):
         cmd = [
             "python",
@@ -102,9 +104,7 @@ class OAIHarvester(object):
                     logging.info(f"removing: {filepath}")
                     os.remove(filepath)
 
-    def saxon_process(
-        self, xml_file, xslt_file, out_file=None, params=None
-    ):
+    def saxon_process(self, xml_file, xslt_file, out_file=None, params=None):
         cmd = [
             "java",
             "-jar",
