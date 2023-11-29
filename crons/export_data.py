@@ -6,7 +6,7 @@ from pathlib import Path
 from .aspace_client import ArchivesSpaceClient
 
 
-class ExportData(object):
+class DataExporter(object):
     def __init__(self):
         """If no date is provided, default to 24 hours ago.
 
@@ -31,7 +31,7 @@ class ExportData(object):
 
         """
         serialization = serialization.lower()
-        timestamp = self.yesterday_utc() if None else timestamp
+        timestamp = self.yesterday_utc() if timestamp is None else timestamp
         for instance_name in self.config.sections():
             try:
                 as_client = ArchivesSpaceClient(
@@ -50,19 +50,25 @@ class ExportData(object):
                     for resource_id in resource_ids:
                         resource = repo.resources(resource_id)
                         if resource.publish and not resource.suppressed:
-                            if self.serialization == "ead":
+                            if serialization == "ead":
                                 params = {
                                     "include_unpublished": False,
                                     "include_daos": True,
                                 }
-                                yield as_client.aspace.client.get(
+                                yield f"{resource.id_0}{getattr(resource, 'id_1', '')}", as_client.aspace.client.get(
                                     f"/repositories/{repo.id}/resource_descriptions/{resource_id}.xml",
                                     params=params,
-                                ).content.decode("utf-8")
-                            elif self.serialization == "marc21":
-                                yield as_client.aspace.client.get(
+                                ).content.decode(
+                                    "utf-8"
+                                )
+                            elif serialization == "marc21":
+                                yield self.get_bibid(
+                                    resource
+                                ), as_client.aspace.client.get(
                                     f"/repositories/{repo.id}/resources/marc21/{resource_id}.xml"
-                                ).content.decode("utf-8")
+                                ).content.decode(
+                                    "utf-8"
+                                )
             except Exception as e:
                 logging.error(e)
 
@@ -74,3 +80,11 @@ class ExportData(object):
         """
         current_time = datetime.now() - timedelta(days=1)
         return int(current_time.timestamp())
+
+    def get_bibid(self, resource):
+        if resource.id_0.isnumeric():
+            return resource.id_0
+        elif resource.user_defined.integer_1.isnumeric():
+            return resource.user_defined.integer_1
+        else:
+            return False
