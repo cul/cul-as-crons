@@ -1,3 +1,6 @@
+from datetime import datetime, timedelta
+
+
 def get_fiscal_year(accession_date):
     """Gets fiscal year (July-June) for a date.
 
@@ -53,3 +56,13 @@ def format_date(date_json):
         if date_json.get("end"):
             date_string = f"{date_json['begin']}-{date_json['end']}"
     return date_string
+
+
+def yesterday_utc():
+    """Creates UTC timestamp for 24 hours ago.
+
+    Returns:
+        integer
+    """
+    current_time = datetime.now() - timedelta(days=1)
+    return int(current_time.timestamp())

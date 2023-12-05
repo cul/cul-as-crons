@@ -1,6 +1,5 @@
 import logging
 from configparser import ConfigParser
-from datetime import datetime, timedelta
 from pathlib import Path
 
 from .aspace_client import ArchivesSpaceClient
@@ -71,15 +70,6 @@ class DataExporter(object):
                                 )
             except Exception as e:
                 logging.error(e)
-
-    def yesterday_utc(self):
-        """Creates UTC timestamp for 24 hours ago.
-
-        Returns:
-            integer
-        """
-        current_time = datetime.now() - timedelta(days=1)
-        return int(current_time.timestamp())
 
     def get_bibid(self, resource):
         if resource.id_0.isnumeric():
