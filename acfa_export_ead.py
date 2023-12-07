@@ -9,7 +9,7 @@ def main():
     )
     parser.add_argument("parent_cache", help="Parent directory of EAD and HTML caches")
     args = parser.parse_args()
-    UpdateAllInstances(args.parent_cache)
+    UpdateAllInstances(args.parent_cache).all_repos()
 
 
 if __name__ == "__main__":
