@@ -69,7 +69,8 @@ class UpdateRepository(object):
             for matching_file in self.html_cache.glob(f"*{bibid}*"):
                 if matching_file.suffix == ".html":
                     matching_file.unlink()
-            self.crawl_finding_aid(resource, self.repo.org_code.lower())
+            if bibid.isnumeric():
+                self.crawl_finding_aid(resource, self.repo.org_code.lower())
             # TODO: trigger reindex
 
     def updated_resources(self, timestamp):
