@@ -33,6 +33,7 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
+                print(f"Updating {repo.name}")
                 UpdateRepository(as_client, repo, self.parent_cache).daily_update()
 
 
@@ -51,12 +52,14 @@ class UpdateRepository(object):
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
         timestamp = yesterday_utc() if timestamp is None else timestamp
+        print(f"Adding updated finding aids to {self.ead_cache}")
         for resource in self.updated_resources(timestamp):
             ead = self.as_client.aspace.client.get(
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
                 params=self.export_params,
             ).content.decode("utf-8")
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
+            print(bibid)
             if bibid.isnumeric():
                 ead_filepath = Path(self.ead_cache, f"as_ead_ldpd_{bibid}.xml")
             else:
