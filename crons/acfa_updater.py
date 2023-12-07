@@ -1,4 +1,3 @@
-import logging
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -34,7 +33,7 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
-                UpdateRepository(as_client, repo).daily_update()
+                UpdateRepository(as_client, repo, self.parent_cache).daily_update()
 
 
 class UpdateRepository(object):
@@ -91,4 +90,3 @@ class UpdateRepository(object):
         for x in range(len(children)):
             requests.get(f"{fa_url}/dsc/{series_num}")
             series_num += 1
-        logging.info(f"Requested {resource.title} ({resource.id_0})")
