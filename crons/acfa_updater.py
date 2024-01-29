@@ -4,7 +4,7 @@ from pathlib import Path
 import requests
 
 from .aspace_client import ArchivesSpaceClient
-from .helpers import yesterday_utc
+from .helpers import validate_against_schema, yesterday_utc
 
 
 class UpdateAllInstances(object):
@@ -54,24 +54,31 @@ class UpdateRepository(object):
         timestamp = yesterday_utc() if timestamp is None else timestamp
         print(f"Adding updated finding aids to {self.ead_cache}")
         for resource in self.updated_resources(timestamp):
-            ead = self.as_client.aspace.client.get(
+            ead_response = self.as_client.aspace.client.get(
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
                 params=self.export_params,
-            ).content.decode("utf-8")
+            )
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
             print(bibid)
-            if bibid.isnumeric():
-                ead_filepath = Path(self.ead_cache, f"as_ead_ldpd_{bibid}.xml")
-            else:
-                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-            with open(ead_filepath, "w") as ead_file:
-                ead_file.write(ead)
-            for matching_file in self.html_cache.glob(f"*{bibid}*"):
-                if matching_file.suffix == ".html":
-                    matching_file.unlink()
-            if bibid.isnumeric():
-                self.crawl_finding_aid(resource, self.repo.org_code.lower())
-            # TODO: trigger reindex
+            try:
+                if not validate_against_schema(ead_response.content, "ead"):
+                    print(f"{bibid}: Invalid EAD")
+                    # TODO: email?
+                if bibid.isnumeric():
+                    ead_filepath = Path(self.ead_cache, f"as_ead_ldpd_{bibid}.xml")
+                else:
+                    ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                with open(ead_filepath, "w") as ead_file:
+                    ead_file.write(ead_response.content.decode("utf-8"))
+                for matching_file in self.html_cache.glob(f"*{bibid}*"):
+                    if matching_file.suffix == ".html":
+                        matching_file.unlink()
+                if bibid.isnumeric():
+                    self.crawl_finding_aid(resource, self.repo.org_code.lower())
+                # TODO: trigger reindex
+            except Exception as e:
+                print(bibid, e)
+                # TODO: email?
 
     def updated_resources(self, timestamp):
         resource_ids = self.as_client.aspace.client.get(

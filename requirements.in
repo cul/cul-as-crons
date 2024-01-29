@@ -1,5 +1,6 @@
 ArchivesSnake~=0.9
 freezegun~=1.2
 google-api-python-client~=2.107
+lxml~=5.1
 protobuf~=4.25
 python-dateutil~=2.8
