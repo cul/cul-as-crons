@@ -52,7 +52,6 @@ class UpdateRepository(object):
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
         timestamp = yesterday_utc() if timestamp is None else timestamp
-        print(f"Adding updated finding aids to {self.ead_cache}")
         for resource in self.updated_resources(timestamp):
             ead_response = self.as_client.aspace.client.get(
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
