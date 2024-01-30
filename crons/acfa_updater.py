@@ -58,7 +58,6 @@ class UpdateRepository(object):
                 params=self.export_params,
             )
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
-            print(bibid)
             try:
                 if not validate_against_schema(ead_response.content, "ead"):
                     print(f"{bibid}: Invalid EAD")
@@ -74,6 +73,7 @@ class UpdateRepository(object):
                         matching_file.unlink()
                 if bibid.isnumeric():
                     self.crawl_finding_aid(resource, self.repo.org_code.lower())
+                print(bibid)
                 # TODO: trigger reindex
             except Exception as e:
                 print(bibid, e)
