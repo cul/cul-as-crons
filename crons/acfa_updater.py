@@ -24,7 +24,7 @@ class UpdateAllInstances(object):
         self.config.read(config_file)
         self.parent_cache = parent_cache
 
-    def all_repos(self):
+    def all_repos(self, acfa_api_token):
         """Iterates through each repository in each ASpace instance."""
         for instance_name in self.config.sections():
             as_client = ArchivesSpaceClient(
@@ -34,16 +34,19 @@ class UpdateAllInstances(object):
             )
             for repo in as_client.aspace.repositories:
                 print(f"Updating {repo.name}")
-                UpdateRepository(as_client, repo, self.parent_cache).daily_update()
+                UpdateRepository(
+                    acfa_api_token, as_client, repo, self.parent_cache
+                ).daily_update()
 
 
 class UpdateRepository(object):
-    def __init__(self, as_client, repo, parent_cache):
+    def __init__(self, acfa_api_token, as_client, repo, parent_cache):
         self.export_params = {
             "include_unpublished": False,
             "include_daos": True,
         }
-        self.acfa_base_url = "https://findingaids.library.columbia.edu/ead/"
+        self.acfa_base_url = "https://findingaids.library.columbia.edu/"
+        self.acfa_api_token = acfa_api_token
         self.as_client = as_client
         self.repo = repo
         self.ead_cache = Path(parent_cache, "ead_cache")
@@ -51,6 +54,7 @@ class UpdateRepository(object):
 
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
+        bibids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
         for resource in self.updated_resources(timestamp):
             ead_response = self.as_client.aspace.client.get(
@@ -63,21 +67,36 @@ class UpdateRepository(object):
                     print(f"{bibid}: Invalid EAD")
                     # TODO: email?
                 if bibid.isnumeric():
-                    ead_filepath = Path(self.ead_cache, f"as_ead_ldpd_{bibid}.xml")
-                else:
-                    ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                    bibid = f"ldpd_{bibid}"
+                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
                 with open(ead_filepath, "w") as ead_file:
                     ead_file.write(ead_response.content.decode("utf-8"))
                 for matching_file in self.html_cache.glob(f"*{bibid}*"):
                     if matching_file.suffix == ".html":
                         matching_file.unlink()
-                if bibid.isnumeric():
+                if bibid.startswith("ldpd_"):
                     self.crawl_finding_aid(resource, self.repo.org_code.lower())
-                print(bibid)
-                # TODO: trigger reindex
+                bibids.append(bibid)
             except Exception as e:
                 print(bibid, e)
                 # TODO: email?
+        self.update_index(bibids)
+
+    def index_only(self, timestamp=None):
+        """Only update index for recently updated resources."""
+        bibids = []
+        timestamp = yesterday_utc() if timestamp is None else timestamp
+        for resource in self.updated_resources(timestamp):
+            bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
+            try:
+                if bibid.isnumeric():
+                    bibid = f"ldpd_{bibid}"
+                bibids.append(bibid)
+            except Exception as e:
+                print(bibid, e)
+        print(bibids)
+        response = self.update_index(bibids)
+        print(response.content)
 
     def updated_resources(self, timestamp):
         resource_ids = self.as_client.aspace.client.get(
@@ -89,8 +108,18 @@ class UpdateRepository(object):
             if resource.publish and not resource.suppressed:
                 yield resource
 
+    def update_index(self, bibids):
+        url = f"{self.acfa_base_url}api/v1/index/index_ead"
+        json_data = {"bibids": bibids}
+        headers = {
+            "Authorization": f"Token {self.acfa_api_token}",
+            "Content-Type": "application/json",
+        }
+        response = requests.post(url, json=json_data, headers=headers)
+        return response
+
     def crawl_finding_aid(self, resource, repo_code):
-        fa_url = f"{self.acfa_base_url}{repo_code}/ldpd_{resource.id_0}"
+        fa_url = f"{self.acfa_base_url}ead/{repo_code}/ldpd_{resource.id_0}"
         requests.get(fa_url)
         requests.get(f"{fa_url}/dsc")
         series_num = 1

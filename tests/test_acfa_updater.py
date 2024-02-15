@@ -14,5 +14,7 @@ class TestUpdateAllInstances(TestCase):
 class TestUpdateRepository(TestCase):
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_init(self, mock_aspace):
-        updated_repositories = UpdateRepository(mock_aspace, "repo", "tmp/parent_cache")
+        updated_repositories = UpdateRepository(
+            mock_aspace, "api_key", "repo", "tmp/parent_cache"
+        )
         self.assertTrue(updated_repositories)
