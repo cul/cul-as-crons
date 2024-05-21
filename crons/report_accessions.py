@@ -43,27 +43,26 @@ class AccessionsReporter(BaseAsCron):
         repositories = {"rbml": 2, "avery": 3, "rbmlbooks": 6, "ohac": 7}
         for name, repo_id in repositories.items():
             try:
-                self.construct_sheet(name, repo_id, google=google)
+                msg = self.construct_sheet(name, repo_id, google=google)
+                logging.info(msg)
+                return msg
             except Exception as e:
                 logging.error(f"Error for {name} accessions: {e}")
-        msg = f"Accession records imported by {__file__}."
-        return msg
 
     def construct_sheet(self, name, repo_id, google=False):
+        sheet_id = self.config["Google Sheets"]["report_accessions_sheet"]
         logging.info(f"Starting accessions reporting for {name}...")
         spreadsheet_data = self.get_sheet_data(repo_id)
-        rows_count = len(spreadsheet_data) - 1
         if google:
             self.write_data_to_google_sheet(
-                spreadsheet_data,
-                self.config["Google Sheets"]["report_accessions_sheet"],
-                f"{name}!A:Z",
+                spreadsheet_data, sheet_id, f"{name}!A:Z",
             )
+            msg = f"Posted {len(spreadsheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id} "
         else:
             csv_filename = f"{datetime.datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}_{name}.csv"
             csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
             self.write_data_to_csv(spreadsheet_data, csv_filepath)
-        msg = f"{rows_count} records imported by {__file__}."
+            msg = f"Wrote {len(spreadsheet_data)} rows to {csv_filename}."
         logging.info(msg)
         return msg
 

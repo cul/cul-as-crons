@@ -1,3 +1,24 @@
+from datetime import datetime, timedelta
+
+from lxml import etree
+
+
+def validate_against_schema(xml, schema_name):
+    """Validates XML data against ead or MARC21 schema.
+
+    Args:
+        xml (obj): xml data
+        schema_name (str): ead or MARC21slim
+    """
+    xmlschema_doc = etree.parse(f"schemas/{schema_name}.xsd.xml")
+    xmlschema = etree.XMLSchema(xmlschema_doc)
+    root = etree.fromstring(xml)
+    if xmlschema.validate(root):
+        return True
+    else:
+        return False
+
+
 def get_fiscal_year(accession_date):
     """Gets fiscal year (July-June) for a date.
 
@@ -30,7 +51,7 @@ def get_user_defined(resource, field):
 
 
 def formula_to_string(string):
-    """Add leading single quote to strings that may be a formula in Google Sheets
+    """Add leading single quote to strings that may be a formula in Google Sheets.
 
     Args:
         string: string to check for leading + or +
@@ -38,3 +59,28 @@ def formula_to_string(string):
     if string.startswith("+") or string.startswith("="):
         string = f"'{string}"
     return string
+
+
+def format_date(date_json):
+    """Formats an ArchivesSpace data if date does not have a date expression.
+
+    Args:
+        date_json (dict): ArchivesSpace date
+    """
+    if date_json.get("expression"):
+        date_string = date_json["expression"]
+    else:
+        date_string = date_json["begin"]
+        if date_json.get("end"):
+            date_string = f"{date_json['begin']}-{date_json['end']}"
+    return date_string
+
+
+def yesterday_utc():
+    """Creates UTC timestamp for 24 hours ago.
+
+    Returns:
+        integer
+    """
+    current_time = datetime.now() - timedelta(days=1)
+    return int(current_time.timestamp())

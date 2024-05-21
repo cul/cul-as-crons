@@ -5,5 +5,5 @@ build
 *.egg-info
 .pytest_cache
 env/
-local_settings.cfg
+*.cfg
 *.log

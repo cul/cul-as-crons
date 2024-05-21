@@ -18,6 +18,7 @@ class ResourceReporter(BaseAsCron):
                 logging.StreamHandler(),
             ],
         )
+        logging.getLogger("googleapiclient").setLevel(logging.WARNING)
         self.fields = [
             "repository",
             "uri",
@@ -51,7 +52,7 @@ class ResourceReporter(BaseAsCron):
             resource_count = len(spreadsheet_data) - 1
             logging.info(f"Total resource records: {resource_count}")
             if google:
-                self.write_data_to_google_sheet(
+                msg = self.write_data_to_google_sheet(
                     spreadsheet_data,
                     self.config["Google Sheets"]["resource_reporter_sheet"],
                     self.config["Google Sheets"]["resource_reporter_range"],
@@ -59,8 +60,8 @@ class ResourceReporter(BaseAsCron):
             else:
                 csv_filename = f"{datetime.now().strftime('%Y_%m_%d_%H%M')}_{Path(__file__).resolve().name.split('.')[0]}.csv"
                 csv_filepath = Path(self.config["CSV"]["outpath"], csv_filename)
-                self.write_data_to_csv(spreadsheet_data, csv_filepath)
-            msg = f"{resource_count} records imported by {__file__}."
+                msg = self.write_data_to_csv(spreadsheet_data, csv_filepath)
+            logging.info(msg)
             return msg
         except Exception as e:
             logging.error(e)
