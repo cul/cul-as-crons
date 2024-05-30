@@ -38,7 +38,6 @@ class UpdateAllInstances(object):
                     acfa_api_token, as_client, repo, self.parent_cache
                 ).daily_update()
 
-
 class UpdateRepository(object):
     def __init__(self, acfa_api_token, as_client, repo, parent_cache):
         self.export_params = {
@@ -50,7 +49,7 @@ class UpdateRepository(object):
         self.as_client = as_client
         self.repo = repo
         self.ead_cache = Path(parent_cache, "ead_cache")
-        self.html_cache = Path(parent_cache, "html_cache")
+        self.pdf_cache = Path(parent_cache, "pdf_cache")
 
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
@@ -71,11 +70,6 @@ class UpdateRepository(object):
                 ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
                 with open(ead_filepath, "w") as ead_file:
                     ead_file.write(ead_response.content.decode("utf-8"))
-                for matching_file in self.html_cache.glob(f"*{bibid}*"):
-                    if matching_file.suffix == ".html":
-                        matching_file.unlink()
-                if bibid.startswith("ldpd_"):
-                    self.crawl_finding_aid(resource, self.repo.org_code.lower())
                 bibids.append(bibid)
             except Exception as e:
                 print(bibid, e)
@@ -117,15 +111,13 @@ class UpdateRepository(object):
         }
         response = requests.post(url, json=json_data, headers=headers)
         return response
+        
+    def save_pdf(self, resource):
+        try:
+            pdf_response = self.as_client.aspace.client.get(
+                f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf",
+                params=self.export_params,
+            )
+        except Exception as e:
+            pass
 
-    def crawl_finding_aid(self, resource, repo_code):
-        fa_url = f"{self.acfa_base_url}ead/{repo_code}/ldpd_{resource.id_0}"
-        requests.get(fa_url)
-        requests.get(f"{fa_url}/dsc")
-        series_num = 1
-        children = self.as_client.aspace.client.get(
-            f"{resource.uri}/tree/waypoint?offset=0"
-        ).json()
-        for x in range(len(children)):
-            requests.get(f"{fa_url}/dsc/{series_num}")
-            series_num += 1
