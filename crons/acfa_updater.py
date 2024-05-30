@@ -38,6 +38,7 @@ class UpdateAllInstances(object):
                     acfa_api_token, as_client, repo, self.parent_cache
                 ).daily_update()
 
+
 class UpdateRepository(object):
     def __init__(self, acfa_api_token, as_client, repo, parent_cache):
         self.export_params = {
@@ -70,6 +71,13 @@ class UpdateRepository(object):
                 ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
                 with open(ead_filepath, "w") as ead_file:
                     ead_file.write(ead_response.content.decode("utf-8"))
+                pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
+                pdf_response = self.as_client.aspace.client.get(
+                    f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf",
+                    params=self.export_params,
+                )
+                with open(pdf_filepath, "wb") as pdf_file:
+                    pdf_file.write(pdf_response.content)
                 bibids.append(bibid)
             except Exception as e:
                 print(bibid, e)
@@ -111,13 +119,3 @@ class UpdateRepository(object):
         }
         response = requests.post(url, json=json_data, headers=headers)
         return response
-        
-    def save_pdf(self, resource):
-        try:
-            pdf_response = self.as_client.aspace.client.get(
-                f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf",
-                params=self.export_params,
-            )
-        except Exception as e:
-            pass
-
