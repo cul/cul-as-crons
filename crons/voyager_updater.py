@@ -25,6 +25,9 @@ class UpdateAllInstances(object):
 
     def all_repos(self):
         """Iterates through each repository in each ASpace instance."""
+        voyager_import = etree.Element(
+            "collection", xmlns="http://www.loc.gov/MARC21/slim"
+        )
         for instance_name in self.config.sections():
             as_client = ArchivesSpaceClient(
                 self.config[instance_name]["baseurl"],
@@ -33,7 +36,11 @@ class UpdateAllInstances(object):
             )
             for repo in as_client.aspace.repositories:
                 print(f"Updating {repo.name}")
-                UpdateRepository(as_client, repo).updated_marc()
+                for processed_marc_record in UpdateRepository(
+                    as_client, repo
+                ).updated_marc():
+                    voyager_import.append(processed_marc_record)
+        # TODO: write processed data to file
 
 
 class UpdateRepository(object):
@@ -41,8 +48,8 @@ class UpdateRepository(object):
         """Initializes an UpdateRepository instance.
 
         Args:
-            as_client (ArchivesSpaceClient): ArchivesSpace client instance.
-            repo (ArchivesSpace.Repository): ArchivesSpace repository object.
+            as_client (ArchivesSpaceClient): ArchivesSpace client instance
+            repo (ArchivesSpace.Repository): ArchivesSpace repository object
         """
         self.export_params = {
             "include_unpublished": False,
@@ -57,7 +64,7 @@ class UpdateRepository(object):
             timestamp (str, optional): The timestamp to filter resources by modification date. Defaults to yesterday_utc().
 
         Yields:
-            Generator: MARCXML content.
+            Generator: processed MARCXML record
         """
         timestamp = yesterday_utc() if timestamp is None else timestamp
         for resource in self.updated_resources(timestamp):
@@ -72,9 +79,8 @@ class UpdateRepository(object):
                     marc_record = MarcRecord(bibid, marc_response)
                     if not marc_record.validate_marc:
                         print(f"{bibid}: Invalid MARC")
-                    # marc_root = etree.fromstring(marc_response.content)
-                    # yield marc_root
-                    yield marc_response.content
+                    processed_marc_record = marc_record.process_cul_record()
+                    yield processed_marc_record
                     # print(bibid)
                     # print(marc)
                 except Exception as e:
@@ -84,10 +90,10 @@ class UpdateRepository(object):
         """Retrieves recently updated resources from the repository.
 
         Args:
-            timestamp (str): The timestamp to filter resources by modification date.
+            timestamp (str): The timestamp to filter resources by modification date
 
         Yields:
-            Generator: ArchivesSpace resource objects.
+            Generator: ArchivesSpace resource objects
         """
         resource_ids = self.as_client.aspace.client.get(
             f"/repositories/{self.repo.id}/resources",
@@ -102,10 +108,10 @@ class UpdateRepository(object):
         """Retrieves the bibid from a resource.
 
         Args:
-            resource (ArchivesSpace.Resource): ArchivesSpace resource object.
+            resource (ArchivesSpace.Resource): ArchivesSpace resource object
 
         Returns:
-            str: The bibid if found, otherwise False.
+            str: The bibid if found, otherwise False
         """
         if resource.id_0.isnumeric():
             return resource.id_0
@@ -130,18 +136,13 @@ class MarcRecord(object):
         """
         self.bibid = str(bibid)
         self.marc_response = marc_response
-        self.marc_record = etree.fromstring(marc_response.content)
+        marc_collection = etree.fromstring(marc_response.content)
+        self.marc_record = marc_collection.find("record")
         self.namespaces = {None: "http://www.loc.gov/MARC21/slim"}
 
     def validate_marc(self):
         """Validates a MARC record against the MARC21slim schema."""
         validate_against_schema(self.marc_response.content, "MARC21slim")
-
-    def all_records(self):
-        # make sure bibid is in 001 tag
-        # update leader
-        # QUESTION: do we need to change namespace?
-        pass
 
     def process_cul_record(self):
         print("Procesing...")
@@ -152,6 +153,7 @@ class MarcRecord(object):
         self.update_datafield_856()
         self.add_965noexportAUTH()
         self.corpname_punctuation()
+        return self.marc_record
 
     def add_controlfield_001(self):
         """Adds bibid to controlfield 001."""
