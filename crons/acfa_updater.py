@@ -1,3 +1,5 @@
+import logging
+import time
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -19,6 +21,16 @@ class UpdateAllInstances(object):
         password: admin
         """
         current_path = Path(__file__).parents[1].resolve()
+        log_file = Path(current_path, "acfa_updater.log")
+        logging.basicConfig(
+            datefmt="%m/%d/%Y %I:%M:%S %p",
+            format="%(asctime)s %(message)s",
+            level=logging.INFO,
+            handlers=[
+                logging.FileHandler(log_file),
+                logging.StreamHandler(),
+            ],
+        )
         config_file = Path(current_path, "as_export.cfg")
         self.config = ConfigParser()
         self.config.read(config_file)
@@ -33,7 +45,6 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
-                print(f"Updating {repo.name}")
                 UpdateRepository(
                     acfa_api_token, as_client, repo, self.parent_cache
                 ).daily_update()
@@ -64,25 +75,63 @@ class UpdateRepository(object):
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
             try:
                 if not validate_against_schema(ead_response.content, "ead"):
-                    print(f"{bibid}: Invalid EAD")
-                    # TODO: email?
+                    logging.info(f"{bibid}: Invalid EAD")
+                #     # TODO: email?
                 if bibid.isnumeric():
                     bibid = f"ldpd_{bibid}"
-                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                with open(ead_filepath, "w") as ead_file:
-                    ead_file.write(ead_response.content.decode("utf-8"))
+                # ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                # with open(ead_filepath, "w") as ead_file:
+                #     ead_file.write(ead_response.content.decode("utf-8"))
                 pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
-                pdf_response = self.as_client.aspace.client.get(
-                    f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf",
-                    params=self.export_params,
-                )
+                pdf_response = self.create_pdf_job(resource.id)
+                # pdf_response = self.as_client.aspace.client.get(
+                #     f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf"
+                # )
                 with open(pdf_filepath, "wb") as pdf_file:
                     pdf_file.write(pdf_response.content)
                 bibids.append(bibid)
             except Exception as e:
-                print(bibid, e)
+                logging.error(bibid, e)
                 # TODO: email?
-        self.update_index(bibids)
+        print(bibids)
+        # self.update_index(bibids)
+
+    def create_pdf_job(self, resource_id):
+        data = {
+            "jsonmodel_type": "job",
+            "status": "queued",
+            "has_modified_records": False,
+            "inactive_record": False,
+            "job": {
+                "jsonmodel_type": "print_to_pdf_job",
+                "source": f"/repositories/{self.repo.id}/resources/{resource_id}",
+                "include_unpublished": False,
+            },
+        }
+        response = self.as_client.aspace.client.post(
+            f"repositories/{self.repo.id}/jobs", json=data
+        )
+        response.raise_for_status()
+        job_uri = response.json().get("uri")
+        job_json = self.as_client.aspace.client.get(job_uri).json()
+        start_time = time.time()
+        max_minutes = 15
+        while True:
+            job_json = self.as_client.aspace.client.get(job_uri).json()
+            if time.time() - start_time >= max_minutes * 60:
+                raise Exception(f"Job timed out after {max_minutes} minutes")
+            elif job_json["status"] == "completed":
+                output_file_id = self.as_client.aspace.client.get(
+                    f"{job_uri}/output_files"
+                ).json()[0]
+                pdf_response = self.as_client.aspace.client.get(
+                    f"{job_uri}/output_files/{output_file_id}"
+                )
+                return pdf_response
+            elif job_json["status"] == "failed":
+                raise Exception("PDF export failed!")
+            else:
+                time.sleep(10)
 
     def index_only(self, timestamp=None):
         """Only update index for recently updated resources."""
