@@ -47,7 +47,7 @@ class UpdateAllInstances(object):
             for repo in as_client.aspace.repositories:
                 UpdateRepository(
                     acfa_api_token, as_client, repo, self.parent_cache
-                ).daily_update()
+                ).daily_update(1608315228)
 
 
 class UpdateRepository(object):
@@ -65,35 +65,36 @@ class UpdateRepository(object):
 
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
-        bibids = []
+        # bibids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
         for resource in self.updated_resources(timestamp):
-            ead_response = self.as_client.aspace.client.get(
-                f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
-                params=self.export_params,
-            )
+            # ead_response = self.as_client.aspace.client.get(
+            #     f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
+            #     params=self.export_params,
+            # )
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
-            try:
-                if not validate_against_schema(ead_response.content, "ead"):
-                    logging.info(f"{bibid}: Invalid EAD")
-                #     # TODO: email?
-                if bibid.isnumeric():
-                    bibid = f"ldpd_{bibid}"
-                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                with open(ead_filepath, "w") as ead_file:
-                    ead_file.write(ead_response.content.decode("utf-8"))
-                pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
-                pdf_response = self.create_pdf_job(resource.id)
-                # pdf_response = self.as_client.aspace.client.get(
-                #     f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf"
-                # )
-                with open(pdf_filepath, "wb") as pdf_file:
-                    pdf_file.write(pdf_response.content)
-                bibids.append(bibid)
-            except Exception as e:
-                logging.error(bibid, e)
-                # TODO: email?
-        print(bibids)
+            if bibid != "ldpd_10815449":
+                try:
+                    # if not validate_against_schema(ead_response.content, "ead"):
+                    #     logging.info(f"{bibid}: Invalid EAD")
+                    #     # TODO: email?
+                    if bibid.isnumeric():
+                        bibid = f"ldpd_{bibid}"
+                    # ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                    # with open(ead_filepath, "w") as ead_file:
+                    #     ead_file.write(ead_response.content.decode("utf-8"))
+                    pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
+                    pdf_response = self.create_pdf_job(resource.id)
+                    # pdf_response = self.as_client.aspace.client.get(
+                    #     f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.pdf"
+                    # )
+                    with open(pdf_filepath, "wb") as pdf_file:
+                        pdf_file.write(pdf_response.content)
+                    # bibids.append(bibid)
+                except Exception as e:
+                    logging.error(bibid, e)
+                    # TODO: email?
+        # print(bibids)
         # self.update_index(bibids)
 
     def create_pdf_job(self, resource_id):
