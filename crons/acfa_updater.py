@@ -79,9 +79,9 @@ class UpdateRepository(object):
                 #     # TODO: email?
                 if bibid.isnumeric():
                     bibid = f"ldpd_{bibid}"
-                # ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                # with open(ead_filepath, "w") as ead_file:
-                #     ead_file.write(ead_response.content.decode("utf-8"))
+                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                with open(ead_filepath, "w") as ead_file:
+                    ead_file.write(ead_response.content.decode("utf-8"))
                 pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
                 pdf_response = self.create_pdf_job(resource.id)
                 # pdf_response = self.as_client.aspace.client.get(
