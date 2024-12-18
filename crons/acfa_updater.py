@@ -132,7 +132,7 @@ class UpdateRepository(object):
             elif job_json["status"] == "failed":
                 raise Exception("PDF export failed!")
             else:
-                time.sleep(10)
+                time.sleep(1)
 
     def index_only(self, timestamp=None):
         """Only update index for recently updated resources."""
