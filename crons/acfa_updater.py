@@ -45,9 +45,10 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
-                UpdateRepository(
-                    acfa_api_token, as_client, repo, self.parent_cache
-                ).daily_update(1608315228)
+                if not repo.name.startswith("R"):
+                    UpdateRepository(
+                        acfa_api_token, as_client, repo, self.parent_cache
+                    ).daily_update(1608315228)
 
 
 class UpdateRepository(object):
