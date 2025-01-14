@@ -45,10 +45,10 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
-                if not repo.name.startswith("R"):
+                if repo.name.startswith("R"):
                     UpdateRepository(
                         acfa_api_token, as_client, repo, self.parent_cache
-                    ).daily_update(1608315228)
+                    ).daily_update(1704817601)
 
 
 class UpdateRepository(object):
@@ -74,7 +74,7 @@ class UpdateRepository(object):
             #     params=self.export_params,
             # )
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
-            if bibid != "ldpd_10815449":
+            if bibid != "10815449":
                 try:
                     # if not validate_against_schema(ead_response.content, "ead"):
                     #     logging.info(f"{bibid}: Invalid EAD")
