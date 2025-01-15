@@ -48,7 +48,7 @@ class UpdateAllInstances(object):
                 if repo.name.startswith("R"):
                     UpdateRepository(
                         acfa_api_token, as_client, repo, self.parent_cache
-                    ).daily_update(1704817601)
+                    ).daily_update(1733230242)
 
 
 class UpdateRepository(object):
