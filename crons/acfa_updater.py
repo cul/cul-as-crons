@@ -45,10 +45,9 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
-                if repo.name.startswith("R"):
-                    UpdateRepository(
-                        acfa_api_token, as_client, repo, self.parent_cache
-                    ).daily_update(1733230242)
+                UpdateRepository(
+                    acfa_api_token, as_client, repo, self.parent_cache
+                ).daily_update()
 
 
 class UpdateRepository(object):
@@ -66,24 +65,29 @@ class UpdateRepository(object):
 
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
-        # bibids = []
+        bibids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
         for resource in self.updated_resources(timestamp):
-            # ead_response = self.as_client.aspace.client.get(
-            #     f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
-            #     params=self.export_params,
-            # )
-            bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
+            ead_response = self.as_client.aspace.client.get(
+                f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
+                params=self.export_params,
+            )
+            if getattr(resource, 'id_2'):
+                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')-{getattr(resource, 'id_2', '')}}"
+            elif getattr(resource, 'id_1'):
+                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')}"
+            else:
+                bibid = f"{resource.id_0}"
             if bibid != "10815449":
                 try:
-                    # if not validate_against_schema(ead_response.content, "ead"):
-                    #     logging.info(f"{bibid}: Invalid EAD")
-                    #     # TODO: email?
+                    if not validate_against_schema(ead_response.content, "ead"):
+                        logging.info(f"{bibid}: Invalid EAD")
+                        # TODO: email?
                     if bibid.isnumeric():
-                        bibid = f"ldpd_{bibid}"
-                    # ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                    # with open(ead_filepath, "w") as ead_file:
-                    #     ead_file.write(ead_response.content.decode("utf-8"))
+                        bibid = f"cul-{bibid}"
+                    ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                    with open(ead_filepath, "w") as ead_file:
+                        ead_file.write(ead_response.content.decode("utf-8"))
                     pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
                     pdf_response = self.create_pdf_job(resource.id)
                     # pdf_response = self.as_client.aspace.client.get(
@@ -96,7 +100,7 @@ class UpdateRepository(object):
                     logging.error(bibid, e)
                     # TODO: email?
         # print(bibids)
-        # self.update_index(bibids)
+        self.update_index(bibids)
 
     def create_pdf_job(self, resource_id):
         data = {
@@ -143,7 +147,7 @@ class UpdateRepository(object):
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
             try:
                 if bibid.isnumeric():
-                    bibid = f"ldpd_{bibid}"
+                    bibid = f"cul-{bibid}"
                 bibids.append(bibid)
             except Exception as e:
                 print(bibid, e)
