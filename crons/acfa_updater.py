@@ -72,10 +72,10 @@ class UpdateRepository(object):
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
                 params=self.export_params,
             )
-            if getattr(resource, 'id_2'):
-                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')-{getattr(resource, 'id_2', '')}}"
-            elif getattr(resource, 'id_1'):
-                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')}"
+            if getattr(resource, 'id_2', False):
+                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')-{getattr(resource, 'id_2')}}"
+            elif getattr(resource, 'id_1', False):
+                bibid = f"{resource.id_0}-{getattr(resource, 'id_1')}"
             else:
                 bibid = f"{resource.id_0}"
             if bibid != "10815449":
@@ -95,9 +95,9 @@ class UpdateRepository(object):
                     # )
                     with open(pdf_filepath, "wb") as pdf_file:
                         pdf_file.write(pdf_response.content)
-                    # bibids.append(bibid)
+                    bibids.append(bibid)
                 except Exception as e:
-                    logging.error(bibid, e)
+                    logging.error(f"{bibid}: {e}")
                     # TODO: email?
         # print(bibids)
         self.update_index(bibids)
