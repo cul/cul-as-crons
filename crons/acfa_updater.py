@@ -78,22 +78,25 @@ class UpdateRepository(object):
                 bibid = f"{resource.id_0}-{getattr(resource, 'id_1')}"
             else:
                 bibid = f"{resource.id_0}"
-            if bibid != "10815449":
-                try:
-                    if not validate_against_schema(ead_response.content, "ead"):
-                        logging.info(f"{bibid}: Invalid EAD")
-                    if bibid.isnumeric():
-                        bibid = f"cul-{bibid}"
-                    ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                    with open(ead_filepath, "w") as ead_file:
-                        ead_file.write(ead_response.content.decode("utf-8"))
+            try:
+                if not validate_against_schema(ead_response.content, "ead"):
+                    logging.info(f"{bibid}: Invalid EAD")
+                    # TODO: email?
+                if bibid.isnumeric():
+                    bibid = f"cul-{bibid}"
+                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                with open(ead_filepath, "w") as ead_file:
+                    ead_file.write(ead_response.content.decode("utf-8"))
+                if bibid != "10815449" or bibid != "cul-10815449":
                     pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
                     pdf_response = self.create_pdf_job(resource.id)
                     with open(pdf_filepath, "wb") as pdf_file:
                         pdf_file.write(pdf_response.content)
-                    bibids.append(bibid)
-                except Exception as e:
-                    logging.error(f"{bibid}: {e}")
+                bibids.append(bibid)
+            except Exception as e:
+                logging.error(f"{bibid}: {e}")
+                # TODO: email?
+        # print(bibids)
         self.update_index(bibids)
 
     def create_pdf_job(self, resource_id):
