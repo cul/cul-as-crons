@@ -54,7 +54,7 @@ class Digester(object):
             f"This 24-hour digest composed at {now} by {basename(__file__)}. Contact asops@library.columbia.edu with questions/problems."
         )
         for s in self.get_digest():
-            logging.info(f"\n\U000025B6 *** OUTPUT FROM {s['script']} ***")
+            logging.info(f"\n\U000025b6 *** OUTPUT FROM {s['script']} ***")
             for m in s["msg"]:
                 logging.info("• {m['value']}")
             logging.info("******************\n")
