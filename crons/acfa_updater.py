@@ -1,3 +1,5 @@
+import logging
+import time
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -19,6 +21,16 @@ class UpdateAllInstances(object):
         password: admin
         """
         current_path = Path(__file__).parents[1].resolve()
+        log_file = Path(current_path, "acfa_updater.log")
+        logging.basicConfig(
+            datefmt="%m/%d/%Y %I:%M:%S %p",
+            format="%(asctime)s %(message)s",
+            level=logging.INFO,
+            handlers=[
+                logging.FileHandler(log_file),
+                logging.StreamHandler(),
+            ],
+        )
         config_file = Path(current_path, "as_export.cfg")
         self.config = ConfigParser()
         self.config.read(config_file)
@@ -33,7 +45,6 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["password"],
             )
             for repo in as_client.aspace.repositories:
-                print(f"Updating {repo.name}")
                 UpdateRepository(
                     acfa_api_token, as_client, repo, self.parent_cache
                 ).daily_update()
@@ -50,7 +61,7 @@ class UpdateRepository(object):
         self.as_client = as_client
         self.repo = repo
         self.ead_cache = Path(parent_cache, "ead_cache")
-        self.html_cache = Path(parent_cache, "html_cache")
+        self.pdf_cache = Path(parent_cache, "pdf_cache")
 
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
@@ -61,26 +72,66 @@ class UpdateRepository(object):
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
                 params=self.export_params,
             )
-            bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
-            try:
-                if not validate_against_schema(ead_response.content, "ead"):
-                    print(f"{bibid}: Invalid EAD")
-                    # TODO: email?
-                if bibid.isnumeric():
-                    bibid = f"ldpd_{bibid}"
-                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                with open(ead_filepath, "w") as ead_file:
-                    ead_file.write(ead_response.content.decode("utf-8"))
-                for matching_file in self.html_cache.glob(f"*{bibid}*"):
-                    if matching_file.suffix == ".html":
-                        matching_file.unlink()
-                if bibid.startswith("ldpd_"):
-                    self.crawl_finding_aid(resource, self.repo.org_code.lower())
-                bibids.append(bibid)
-            except Exception as e:
-                print(bibid, e)
-                # TODO: email?
+            if getattr(resource, "id_2", False):
+                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')-{getattr(resource, 'id_2')}}"
+            elif getattr(resource, "id_1", False):
+                bibid = f"{resource.id_0}-{getattr(resource, 'id_1')}"
+            else:
+                bibid = f"{resource.id_0}"
+            if bibid != "10815449":
+                try:
+                    if not validate_against_schema(ead_response.content, "ead"):
+                        logging.info(f"{bibid}: Invalid EAD")
+                    if bibid.isnumeric():
+                        bibid = f"cul-{bibid}"
+                    ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
+                    with open(ead_filepath, "w") as ead_file:
+                        ead_file.write(ead_response.content.decode("utf-8"))
+                    pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
+                    pdf_response = self.create_pdf_job(resource.id)
+                    with open(pdf_filepath, "wb") as pdf_file:
+                        pdf_file.write(pdf_response.content)
+                    bibids.append(bibid)
+                except Exception as e:
+                    logging.error(f"{bibid}: {e}")
         self.update_index(bibids)
+
+    def create_pdf_job(self, resource_id):
+        data = {
+            "jsonmodel_type": "job",
+            "status": "queued",
+            "has_modified_records": False,
+            "inactive_record": False,
+            "job": {
+                "jsonmodel_type": "print_to_pdf_job",
+                "source": f"/repositories/{self.repo.id}/resources/{resource_id}",
+                "include_unpublished": False,
+            },
+        }
+        response = self.as_client.aspace.client.post(
+            f"repositories/{self.repo.id}/jobs", json=data
+        )
+        response.raise_for_status()
+        job_uri = response.json().get("uri")
+        job_json = self.as_client.aspace.client.get(job_uri).json()
+        start_time = time.time()
+        max_minutes = 15
+        while True:
+            job_json = self.as_client.aspace.client.get(job_uri).json()
+            if time.time() - start_time >= max_minutes * 60:
+                raise Exception(f"Job timed out after {max_minutes} minutes")
+            elif job_json["status"] == "completed":
+                output_file_id = self.as_client.aspace.client.get(
+                    f"{job_uri}/output_files"
+                ).json()[0]
+                pdf_response = self.as_client.aspace.client.get(
+                    f"{job_uri}/output_files/{output_file_id}"
+                )
+                return pdf_response
+            elif job_json["status"] == "failed":
+                raise Exception("PDF export failed!")
+            else:
+                time.sleep(1)
 
     def index_only(self, timestamp=None):
         """Only update index for recently updated resources."""
@@ -90,7 +141,7 @@ class UpdateRepository(object):
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
             try:
                 if bibid.isnumeric():
-                    bibid = f"ldpd_{bibid}"
+                    bibid = f"cul-{bibid}"
                 bibids.append(bibid)
             except Exception as e:
                 print(bibid, e)
@@ -117,15 +168,3 @@ class UpdateRepository(object):
         }
         response = requests.post(url, json=json_data, headers=headers)
         return response
-
-    def crawl_finding_aid(self, resource, repo_code):
-        fa_url = f"{self.acfa_base_url}ead/{repo_code}/ldpd_{resource.id_0}"
-        requests.get(fa_url)
-        requests.get(f"{fa_url}/dsc")
-        series_num = 1
-        children = self.as_client.aspace.client.get(
-            f"{resource.uri}/tree/waypoint?offset=0"
-        ).json()
-        for x in range(len(children)):
-            requests.get(f"{fa_url}/dsc/{series_num}")
-            series_num += 1
