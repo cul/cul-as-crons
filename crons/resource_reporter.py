@@ -106,16 +106,16 @@ class ResourceReporter(BaseAsCron):
                 "scopenote length": len(scope_note),
                 "bioghist note": bio_note.strip()[:280],
                 "biognote length": len(bio_note),
-                "processing_priority": resource.get("collection_management").get(
-                    "processing_priority"
-                )
-                if resource.get("collection_management")
-                else "",
-                "processing_status": resource.get("collection_management").get(
-                    "processing_status"
-                )
-                if resource.get("collection_management")
-                else "",
+                "processing_priority": (
+                    resource.get("collection_management").get("processing_priority")
+                    if resource.get("collection_management")
+                    else ""
+                ),
+                "processing_status": (
+                    resource.get("collection_management").get("processing_status")
+                    if resource.get("collection_management")
+                    else ""
+                ),
                 "extents": self.as_client.get_extents(resource),
             }
             yield resource_fields

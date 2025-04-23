@@ -55,7 +55,9 @@ class AccessionsReporter(BaseAsCron):
         spreadsheet_data = self.get_sheet_data(repo_id)
         if google:
             self.write_data_to_google_sheet(
-                spreadsheet_data, sheet_id, f"{name}!A:Z",
+                spreadsheet_data,
+                sheet_id,
+                f"{name}!A:Z",
             )
             msg = f"Posted {len(spreadsheet_data)} rows to https://docs.google.com/spreadsheets/d/{sheet_id} "
         else:
@@ -102,9 +104,11 @@ class AccessionsReporter(BaseAsCron):
                 "id_0": accession.get("id_0"),
                 "id_1": accession.get("id_1"),
                 "id_2": accession.get("id_2"),
-                "id_3": formula_to_string(accession.get("id_3"))
-                if accession.get("id_3")
-                else "",
+                "id_3": (
+                    formula_to_string(accession.get("id_3"))
+                    if accession.get("id_3")
+                    else ""
+                ),
                 "integer_1": accession.get("integer_1"),
                 "created at": accession["create_time"],
                 "modified at": accession["system_mtime"],
@@ -114,16 +118,16 @@ class AccessionsReporter(BaseAsCron):
                 "resource_asid": resource["uri"] if resource else "",
                 "year": y if y > 1700 else "",
                 "fiscal_year": get_fiscal_year(accession_date),
-                "processing_status": accession.get("collection_management").get(
-                    "processing_status"
-                )
-                if accession.get("collection_management")
-                else "",
-                "processing_priority": accession.get("collection_management").get(
-                    "processing_priority"
-                )
-                if accession.get("collection_management")
-                else "",
+                "processing_status": (
+                    accession.get("collection_management").get("processing_status")
+                    if accession.get("collection_management")
+                    else ""
+                ),
+                "processing_priority": (
+                    accession.get("collection_management").get("processing_priority")
+                    if accession.get("collection_management")
+                    else ""
+                ),
                 "recent": True if accession_date > one_week_ago else False,
                 "extents": self.as_client.get_extents(accession),
             }
