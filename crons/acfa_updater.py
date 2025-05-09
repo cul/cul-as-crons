@@ -47,7 +47,8 @@ class UpdateAllInstances(object):
                 self.config[instance_name]["username"],
                 self.config[instance_name]["password"],
             )
-            email_address = self.config[instance_name]["email"]
+            email_from = self.config[instance_name]["email_from"]
+            email_to = self.config[instance_name]["email_to"]
             email_server = self.config[instance_name]["email_server"]
             for repo in as_client.aspace.repositories:
                 repo_errors = UpdateRepository(
@@ -55,12 +56,12 @@ class UpdateAllInstances(object):
                 ).daily_update()
                 errors.extend(repo_errors)
             if errors:
-                self.send_error_email(email_address, email_server, errors)
+                self.send_error_email(email_from, email_to, email_server, errors)
 
-    def send_error_email(self, email_address, email_server, errors):
+    def send_error_email(self, email_from, email_to, email_server, errors):
         message = email.message.EmailMessage()
-        message["From"] = email_address
-        message["To"] = email_address
+        message["From"] = email_from
+        message["To"] = email_to
         message["Subject"] = "Finding Aid Export Error(s)"
         body = "The following errors occurred during the nightly finding aid update process:\n\n"
         for error in errors:
