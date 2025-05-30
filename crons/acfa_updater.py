@@ -1,4 +1,6 @@
+import email
 import logging
+import smtplib
 import time
 from configparser import ConfigParser
 from pathlib import Path
@@ -39,15 +41,35 @@ class UpdateAllInstances(object):
     def all_repos(self, acfa_api_token):
         """Iterates through each repository in each ASpace instance."""
         for instance_name in self.config.sections():
+            errors = []
             as_client = ArchivesSpaceClient(
                 self.config[instance_name]["baseurl"],
                 self.config[instance_name]["username"],
                 self.config[instance_name]["password"],
             )
+            email_from = self.config[instance_name]["email_from"]
+            email_to = self.config[instance_name]["email_to"]
+            email_server = self.config[instance_name]["email_server"]
             for repo in as_client.aspace.repositories:
-                UpdateRepository(
+                repo_errors = UpdateRepository(
                     acfa_api_token, as_client, repo, self.parent_cache
                 ).daily_update()
+                errors.extend(repo_errors)
+            if errors:
+                self.send_error_email(email_from, email_to, email_server, errors)
+
+    def send_error_email(self, email_from, email_to, email_server, errors):
+        message = email.message.EmailMessage()
+        message["From"] = email_from
+        message["To"] = email_to
+        message["Subject"] = "Finding Aid Export Error(s)"
+        body = "The following errors occurred during the nightly finding aid update process:\n\n"
+        for error in errors:
+            body += f"{error}\n"
+        message.set_content(body)
+        server = smtplib.SMTP(email_server)
+        server.send_message(message)
+        server.quit()
 
 
 class UpdateRepository(object):
@@ -67,6 +89,7 @@ class UpdateRepository(object):
         """Updates EAD and HTML caches, updates index."""
         bibids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
+        errors = []
         for resource in self.updated_resources(timestamp):
             ead_response = self.as_client.aspace.client.get(
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
@@ -81,7 +104,7 @@ class UpdateRepository(object):
             try:
                 if not validate_against_schema(ead_response.content, "ead"):
                     logging.info(f"{bibid}: Invalid EAD")
-                    # TODO: email?
+                    errors.append(f"Invalid EAD: {bibid}")
                 if bibid.isnumeric():
                     bibid = f"cul-{bibid}"
                 ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
@@ -95,9 +118,9 @@ class UpdateRepository(object):
                 bibids.append(bibid)
             except Exception as e:
                 logging.error(f"{bibid}: {e}")
-                # TODO: email?
-        # print(bibids)
+                errors.append(f"Error when processing {bibid}: {e}")
         self.update_index(bibids)
+        return errors
 
     def create_pdf_job(self, resource_id):
         data = {
