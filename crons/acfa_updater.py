@@ -51,10 +51,11 @@ class UpdateAllInstances(object):
             email_to = self.config[instance_name]["email_to"]
             email_server = self.config[instance_name]["email_server"]
             for repo in as_client.aspace.repositories:
-                repo_errors = UpdateRepository(
-                    acfa_api_token, as_client, repo, self.parent_cache
-                ).daily_update()
-                errors.extend(repo_errors)
+                if repo.publish:
+                    repo_errors = UpdateRepository(
+                        acfa_api_token, as_client, repo, self.parent_cache
+                    ).daily_update()
+                    errors.extend(repo_errors)
             if errors:
                 self.send_error_email(email_from, email_to, email_server, errors)
 
