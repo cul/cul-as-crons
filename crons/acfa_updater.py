@@ -106,11 +106,12 @@ class UpdateRepository(object):
                 if not validate_against_schema(ead_response.content, "ead"):
                     logging.info(f"{bibid}: Invalid EAD")
                     errors.append(f"Invalid EAD: {bibid}")
-                if bibid.isnumeric():
+                if bibid.isnumeric() or bibid.startswith("in"):
                     bibid = f"cul-{bibid}"
                 ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
                 with open(ead_filepath, "w") as ead_file:
                     ead_file.write(ead_response.content.decode("utf-8"))
+                # skip Prokofiev
                 if bibid != "10815449" or bibid != "cul-10815449":
                     pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
                     pdf_response = self.create_pdf_job(resource.id)
@@ -119,7 +120,9 @@ class UpdateRepository(object):
                 bibids.append(bibid)
             except Exception as e:
                 logging.error(f"{bibid}: {e}")
-                errors.append(f"Error when processing {bibid}: {e}")
+                errors.append(
+                    f"Error when processing {bibid} ({self.repo.repo_code}): {e}"
+                )
         self.update_index(bibids)
         return errors
 
