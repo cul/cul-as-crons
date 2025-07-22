@@ -1,5 +1,3 @@
-import argparse
-
 from crons.daily_report import DailyReport
 
 
