@@ -49,17 +49,20 @@ class DailyReport(object):
         repository since 24 hours ago, constructs an email body with the report,
         and then sends the email.
         """
-        timestamp = yesterday_utc()
-        record_count = 0
-        email_body = f"The following records have been updated since {datetime.fromtimestamp(timestamp).isoformat()}:\n\n"
-        for repo in self.as_client.aspace.repositories:
-            if repo.publish:
-                repository = Repository(self.as_client, repo, timestamp)
-                repository.get_report()
-                record_count += len(repository.published_resources)
-                record_count += len(repository.unpublished_resources)
-                email_body += repository.email_message
-        self.send_report_email(record_count, email_body)
+        try:
+            timestamp = yesterday_utc()
+            record_count = 0
+            email_body = f"The following records have been updated since {datetime.fromtimestamp(timestamp).isoformat()}:\n\n"
+            for repo in self.as_client.aspace.repositories:
+                if repo.publish:
+                    repository = Repository(self.as_client, repo, timestamp)
+                    repository.get_report()
+                    record_count += len(repository.published_resources)
+                    record_count += len(repository.unpublished_resources)
+                    email_body += repository.email_message
+            self.send_report_email(record_count, email_body)
+        except Exception as e:
+            logging.error(e)
 
     def send_report_email(self, record_count, email_body):
         """Sends the daily report email.
@@ -68,14 +71,17 @@ class DailyReport(object):
             record_count (int): The total number of updated resource records.
             email_body (str): The body content of the email.
         """
-        message = email.message.EmailMessage()
-        message["From"] = self.email_from
-        message["To"] = self.email_to
-        message["Subject"] = f"{record_count} Resource Records Updated"
-        message.set_content(email_body)
-        server = smtplib.SMTP(self.email_server)
-        server.send_message(message)
-        server.quit()
+        try:
+            message = email.message.EmailMessage()
+            message["From"] = self.email_from
+            message["To"] = self.email_to
+            message["Subject"] = f"{record_count} Resource Records Updated"
+            message.set_content(email_body)
+            server = smtplib.SMTP(self.email_server)
+            server.send_message(message)
+            server.quit()
+        except Exception:
+            raise
 
 
 class Repository(object):
