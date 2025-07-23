@@ -130,11 +130,11 @@ class Repository(object):
         and lists their titles and IDs.
         """
         if len(self.published_resources) + len(self.unpublished_resources) > 0:
-            self.email_message = f"{len(self.published_resources)} published resource records and {len(self.unpublished_resources)} unpublished resource records updated in {self.repo.name}\n"
+            self.email_message = f"{len(self.published_resources)} published resource records and {len(self.unpublished_resources)} unpublished resource records updated in {self.repo.name}:\n"
             for resource in self.published_resources:
-                self.email_message += f"{resource}\n"
+                self.email_message += f"- {resource}\n"
             for resource in self.unpublished_resources:
-                self.email_message += f"{resource}\n"
+                self.email_message += f"- {resource}\n"
             self.email_message += "\n"
         else:
             self.email_message = f"0 resource records updated in {self.repo.name}\n\n"
