@@ -117,7 +117,7 @@ class Repository(object):
 
     def get_updated_resources(self):
         """Updates the lists of published and unpublished resources."""
-        for resource in self.updated_resources(self.timestamp):
+        for resource in self.updated_resources():
             if resource.publish:
                 self.published_resources.append(f"{resource.title} ({resource.id_0})")
             else:
