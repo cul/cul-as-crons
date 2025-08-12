@@ -45,7 +45,6 @@ class AccessionsReporter(BaseAsCron):
             try:
                 msg = self.construct_sheet(name, repo_id, google=google)
                 logging.info(msg)
-                return msg
             except Exception as e:
                 logging.error(f"Error for {name} accessions: {e}")
 
