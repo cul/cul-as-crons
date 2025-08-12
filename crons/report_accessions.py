@@ -33,6 +33,7 @@ class AccessionsReporter(BaseAsCron):
             "year",
             "fiscal_year",
             "linear_feet",
+            "extents_info",
             "processing_priority",
             "processing_status",
             "created at",
@@ -119,6 +120,7 @@ class AccessionsReporter(BaseAsCron):
                 "year": y if y > 1700 else "",
                 "fiscal_year": get_fiscal_year(accession_date),
                 "linear_feet": self.linear_feet(accession["extents"]),
+                "extents_info": self.extents_info(accession["extents"]),
                 "processing_status": (
                     accession.get("collection_management").get("processing_status")
                     if accession.get("collection_management")
@@ -143,3 +145,12 @@ class AccessionsReporter(BaseAsCron):
                 except Exception:
                     pass
         return linear_feet
+
+    def extents_info(self, extents):
+        extents_info = []
+        for extent in extents:
+            extent_string = f"{extent['number']} {extent['extent_type']}"
+            if extent.get("container_summary"):
+                extent_string += f" ({extent['container_summary']})"
+            extents_info.append(extent_string)
+        return "; ".join(extents_info)
