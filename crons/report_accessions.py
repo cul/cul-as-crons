@@ -31,7 +31,9 @@ class AccessionsReporter(BaseAsCron):
             "resource_asid",
             "repo",
             "year",
-            "fiscal-year",
+            "fiscal_year",
+            "linear_feet",
+            "extents_info",
             "processing_priority",
             "processing_status",
             "created at",
@@ -117,6 +119,8 @@ class AccessionsReporter(BaseAsCron):
                 "resource_asid": resource["uri"] if resource else "",
                 "year": y if y > 1700 else "",
                 "fiscal_year": get_fiscal_year(accession_date),
+                "linear_feet": self.linear_feet(accession["extents"]),
+                "extents_info": self.extents_info(accession["extents"]),
                 "processing_status": (
                     accession.get("collection_management").get("processing_status")
                     if accession.get("collection_management")
@@ -131,3 +135,22 @@ class AccessionsReporter(BaseAsCron):
                 "extents": self.as_client.get_extents(accession),
             }
             yield accession_fields
+
+    def linear_feet(self, extents):
+        linear_feet = 0
+        for extent in extents:
+            if "linear" in extent["extent_type"].lower():
+                try:
+                    linear_feet += float(extent["number"])
+                except Exception:
+                    pass
+        return linear_feet
+
+    def extents_info(self, extents):
+        extents_info = []
+        for extent in extents:
+            extent_string = f"{extent['number']} {extent['extent_type']}"
+            if extent.get("container_summary"):
+                extent_string += f" ({extent['container_summary']})"
+            extents_info.append(extent_string)
+        return "; ".join(extents_info)
