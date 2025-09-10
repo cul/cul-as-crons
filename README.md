@@ -4,7 +4,7 @@ Scripts that are run against the ArchivesSpace API on a daily or weekly basis.
 
 ## Requirements
 
-* Python 3.7+
+* Python 3.9+
 * See requirements.txt
 
 ## Functionality
