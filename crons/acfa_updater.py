@@ -170,7 +170,7 @@ class UpdateRepository(object):
         for resource in self.updated_resources(timestamp):
             bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
             try:
-                if bibid.isnumeric():
+                if bibid.isnumeric() or bibid.startswith("in"):
                     bibid = f"cul-{bibid}"
                 bibids.append(bibid)
             except Exception as e:
