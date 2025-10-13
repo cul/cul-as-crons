@@ -197,9 +197,15 @@ class UpdateRepository(object):
             "Content-Type": "application/json",
         }
         response = requests.post(url, json=json_data, headers=headers)
-        if response.json()["failure"] > 0:
-            errors_msgs = "; ".join(response.json()["errorMessages"])
-            self.errors.append(
-                f"Failed to index {response.json()['failure']} collections: {errors_msgs}"
-            )
+        try:
+            response.raise_for_status()
+            if response.json()["failure"] > 0:
+                errors_msgs = "; ".join(response.json()["errorMessages"])
+                self.errors.append(
+                    f"Failed to index {response.json()['failure']} collections: {errors_msgs}"
+                )
+        except requests.exceptions.HTTPError as e:
+            error_msg = f"Error indexing {', '.join(bibids)}: {e}"
+            self.errors.append(error_msg)
+            logging.error(error_msg)
         return response
