@@ -85,12 +85,12 @@ class UpdateRepository(object):
         self.repo = repo
         self.ead_cache = Path(parent_cache, "ead_cache")
         self.pdf_cache = Path(parent_cache, "pdf_cache")
+        self.errors = []
 
     def daily_update(self, timestamp=None):
         """Updates EAD and HTML caches, updates index."""
         bibids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
-        errors = []
         for resource in self.updated_resources(timestamp):
             ead_response = self.as_client.aspace.client.get(
                 f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
@@ -105,7 +105,7 @@ class UpdateRepository(object):
             try:
                 if not validate_against_schema(ead_response.content, "ead"):
                     logging.info(f"{bibid}: Invalid EAD")
-                    errors.append(f"Invalid EAD: {bibid}")
+                    self.errors.append(f"Invalid EAD: {bibid}")
                 if bibid.isnumeric() or bibid.startswith("in"):
                     bibid = f"cul-{bibid}"
                 ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
@@ -120,11 +120,11 @@ class UpdateRepository(object):
                 bibids.append(bibid)
             except Exception as e:
                 logging.error(f"{bibid}: {e}")
-                errors.append(
+                self.errors.append(
                     f"Error when processing {bibid} ({self.repo.repo_code}): {e}"
                 )
         self.update_index(bibids)
-        return errors
+        return self.errors
 
     def create_pdf_job(self, resource_id):
         data = {
@@ -197,4 +197,15 @@ class UpdateRepository(object):
             "Content-Type": "application/json",
         }
         response = requests.post(url, json=json_data, headers=headers)
+        try:
+            response.raise_for_status()
+            if response.json()["failure"] > 0:
+                errors_msgs = "; ".join(response.json()["errorMessages"])
+                self.errors.append(
+                    f"Failed to index {response.json()['failure']} collections: {errors_msgs}"
+                )
+        except requests.exceptions.HTTPError as e:
+            error_msg = f"Error indexing {', '.join(bibids)}: {e}"
+            self.errors.append(error_msg)
+            logging.error(error_msg)
         return response
