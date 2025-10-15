@@ -1,13 +1,11 @@
 import json
 import types
-import unittest
 from pathlib import Path
-from shutil import rmtree
 from unittest.mock import patch
 
-from crons.resource_reporter import ResourceReporter
+import pytest
 
-TEST_DIRECTORY = "test_reports"
+from crons.resource_reporter import ResourceReporter
 
 
 def mock_resources_generator():
@@ -24,20 +22,15 @@ BIO = 'The purpose of the Henry Ford Peace Expedition was to call a conference o
 EXTENT = "0.42 linear feet"
 
 
-class TestResourceReporter(unittest.TestCase):
-    def setUp(self):
-        test_path = Path(TEST_DIRECTORY)
-        test_path.mkdir(exist_ok=True)
-
-    def tearDown(self):
-        rmtree(TEST_DIRECTORY)
+@pytest.mark.usefixtures("setup_teardown_dir")
+class TestResourceReporter:
 
     @patch("crons.aspace_client.ArchivesSpaceClient.all_resources")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_create_report(self, mock_as_init, mock_resources):
         resource_reporter = ResourceReporter()
         as_data = resource_reporter.create_report()
-        self.assertTrue(as_data)
+        assert as_data
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_construct_row(self, mock_as_init):
@@ -68,7 +61,7 @@ class TestResourceReporter(unittest.TestCase):
             "extents": EXTENT,
         }
         resource_row = resource_reporter.construct_row(resource_data)
-        self.assertEqual(len(resource_row), len(resource_reporter.fields))
+        assert len(resource_row) == len(resource_reporter.fields)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.get_extents", return_value=EXTENT)
     @patch(
@@ -81,6 +74,6 @@ class TestResourceReporter(unittest.TestCase):
         mock_resources.return_value = mock_resources_generator()
         resource_reporter = ResourceReporter()
         resource_rows = resource_reporter.get_row_data()
-        self.assertIsInstance(resource_rows, types.GeneratorType)
+        assert isinstance(resource_rows, types.GeneratorType)
         # print([a for a in resource_rows][0])
-        self.assertEqual(len([a for a in resource_rows]), 2)
+        assert len([a for a in resource_rows]) == 2

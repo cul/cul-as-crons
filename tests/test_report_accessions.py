@@ -1,15 +1,12 @@
 import json
 import types
-import unittest
 from pathlib import Path
-from shutil import rmtree
 from unittest.mock import patch
 
+import pytest
 from freezegun import freeze_time
 
 from crons.report_accessions import AccessionsReporter
-
-TEST_DIRECTORY = "test_reports"
 
 
 def mock_accessions_generator(repo):
@@ -21,13 +18,8 @@ def mock_accessions_generator(repo):
         yield accession
 
 
-class TestAccessionsReporter(unittest.TestCase):
-    def setUp(self):
-        test_path = Path(TEST_DIRECTORY)
-        test_path.mkdir(exist_ok=True)
-
-    def tearDown(self):
-        rmtree(TEST_DIRECTORY)
+@pytest.mark.usefixtures("setup_teardown_dir")
+class TestAccessionsReporter:
 
     @patch("crons.aspace_client.ArchivesSpaceClient.get_json_response")
     @patch("crons.aspace_client.ArchivesSpaceClient.accessions_from_repository")
@@ -41,7 +33,7 @@ class TestAccessionsReporter(unittest.TestCase):
         mock_get_json_response.return_value = resource
         accession_reporter = AccessionsReporter()
         constructed_sheet = accession_reporter.construct_sheet("rbml", 2)
-        self.assertTrue(constructed_sheet)
+        assert constructed_sheet
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__", return_value=None)
     def test_construct_row(self, mock_as_init):
@@ -70,7 +62,7 @@ class TestAccessionsReporter(unittest.TestCase):
             "extents": "",
         }
         accession_row = accession_reporter.construct_row(accession_data)
-        self.assertEqual(len(accession_row), len(accession_reporter.fields))
+        assert len(accession_row) == len(accession_reporter.fields)
 
     @freeze_time("2021-11-02 00:00:00")
     @patch("crons.aspace_client.ArchivesSpaceClient.get_json_response")
@@ -85,6 +77,6 @@ class TestAccessionsReporter(unittest.TestCase):
             mock_get_json_response.return_value = resource
             accession_reporter = AccessionsReporter()
             accession_rows = accession_reporter.get_row_data(repo_id)
-            self.assertTrue(accession_rows)
-            self.assertIsInstance(accession_rows, types.GeneratorType)
-            self.assertEqual(len([a for a in accession_rows]), 2)
+            assert accession_rows
+            assert isinstance(accession_rows, types.GeneratorType)
+            assert len([a for a in accession_rows]) == 2

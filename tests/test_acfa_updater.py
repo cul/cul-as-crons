@@ -1,23 +1,38 @@
-from unittest import TestCase
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
+import pytest
 
 from crons.acfa_updater import UpdateAllInstances, UpdateRepository
 
 
-class TestUpdateAllInstances(TestCase):
-    @patch("crons.acfa_updater.ConfigParser")
-    def setUp(self, mock_config):
-        self.instance_updater = UpdateAllInstances("tmp/parent_cache")
+@pytest.fixture
+def instance_updater():
+    """Returns an initialized UpdateAllInstances object with ConfigParser mocked."""
+    with patch("crons.acfa_updater.ConfigParser", autospec=True) as MockConfig:
+        instance_updater = UpdateAllInstances("tmp/parent_cache")
+        instance_updater.config = MockConfig.return_value
+        return instance_updater
+
+
+class TestUpdateAllInstances:
 
     def test_init(self):
-        self.assertTrue(self.instance_updater)
+        assert instance_updater
 
     @patch("crons.acfa_updater.UpdateAllInstances.send_error_email")
     @patch("crons.acfa_updater.UpdateRepository")
     @patch("crons.acfa_updater.ArchivesSpaceClient")
-    def test_all_repos(self, MockASClient, MockUpdateRepository, mock_send_email):
-        self.instance_updater.config.sections.return_value = ["CUL"]
-        self.instance_updater.config.__getitem__.return_value = {
+    @patch("crons.acfa_updater.ConfigParser")
+    def test_all_repos(
+        self,
+        MockConfig,
+        MockASClient,
+        MockUpdateRepository,
+        mock_send_email,
+        instance_updater,
+    ):
+        instance_updater.config.sections.return_value = ["CUL"]
+        instance_updater.config.__getitem__.return_value = {
             "baseurl": "https://example.com/api/",
             "username": "user",
             "password": "pass",
@@ -30,7 +45,7 @@ class TestUpdateAllInstances(TestCase):
         mock_as_client.aspace.repositories = [mock_repo]
         mock_updater_instance_1 = MockUpdateRepository.return_value
         mock_updater_instance_1.daily_update.return_value = ["Error message"]
-        self.instance_updater.all_repos("test")
+        instance_updater.all_repos("test")
         MockASClient.assert_called_once_with("https://example.com/api/", "user", "pass")
         MockUpdateRepository.assert_called_once_with(
             "test", mock_as_client, mock_repo, "tmp/parent_cache"
@@ -39,10 +54,10 @@ class TestUpdateAllInstances(TestCase):
 
     @patch("crons.acfa_updater.smtplib.SMTP")
     @patch("email.message.EmailMessage")
-    def test_send_error_email(self, MockEmailMessage, MockSMTP):
+    def test_send_error_email(self, MockEmailMessage, MockSMTP, instance_updater):
         mock_message = MockEmailMessage.return_value
         mock_server = MockSMTP.return_value
-        self.instance_updater.send_error_email(
+        instance_updater.send_error_email(
             "from@example.com",
             "to@example.com",
             "smtp.example.com",
@@ -56,23 +71,28 @@ class TestUpdateAllInstances(TestCase):
         mock_message.set_content.assert_called_once_with(expected_body)
 
 
-class TestUpdateRepository(TestCase):
-    def setUp(self):
-        self.mock_as_client = MagicMock()
-        self.mock_repo = MagicMock(id=2, repo_code="TestRepo")
-        self.repo_updater = UpdateRepository(
-            "test", self.mock_as_client, self.mock_repo, "tmp/parent_cache"
-        )
+@pytest.fixture
+def repo_updater():
+    """Returns an initialized UpdateRepository object and its required mocks."""
+    mock_as_client = MagicMock()
+    mock_repo = MagicMock(id=2, repo_code="TestRepo")
+    repo_updater = UpdateRepository(
+        "test", mock_as_client, mock_repo, "tmp/parent_cache"
+    )
+    return repo_updater
 
-    def test_init(self):
-        self.assertTrue(self.repo_updater)
-        self.assertEqual(self.repo_updater.acfa_api_token, "test")
-        self.assertEqual(self.repo_updater.repo.id, 2)
-        self.assertEqual(str(self.repo_updater.ead_cache), "tmp/parent_cache/ead_cache")
-        self.assertEqual(self.repo_updater.errors, [])
+
+class TestUpdateRepository:
+
+    def test_init(self, repo_updater):
+        assert repo_updater
+        assert repo_updater.acfa_api_token == "test"
+        assert repo_updater.repo.id == 2
+        assert str(repo_updater.ead_cache) == "tmp/parent_cache/ead_cache"
+        assert repo_updater.errors == []
 
     @patch("crons.acfa_updater.requests.post")
-    def test_update_index_success(self, mock_requests_post):
+    def test_update_index_success(self, mock_requests_post, repo_updater):
         mock_response = MagicMock()
         mock_response.json.return_value = {
             "success": 2,
@@ -81,7 +101,7 @@ class TestUpdateRepository(TestCase):
         }
         mock_requests_post.return_value = mock_response
         bibids = ["cul-1234", "BC-12-34"]
-        response = self.repo_updater.update_index(bibids)
+        response = repo_updater.update_index(bibids)
         mock_requests_post.assert_called_once_with(
             "https://findingaids.library.columbia.edu/api/v1/index/index_ead",
             json={"bibids": bibids},
@@ -90,11 +110,11 @@ class TestUpdateRepository(TestCase):
                 "Content-Type": "application/json",
             },
         )
-        self.assertEqual(self.repo_updater.errors, [])
-        self.assertEqual(response, mock_response)
+        assert repo_updater.errors == []
+        assert response == mock_response
 
     @patch("crons.acfa_updater.requests.post")
-    def test_update_index_failure(self, mock_requests_post):
+    def test_update_index_failure(self, mock_requests_post, repo_updater):
         mock_response = MagicMock()
         mock_response.json.return_value = {
             "success": 1,
@@ -103,7 +123,7 @@ class TestUpdateRepository(TestCase):
         }
         mock_requests_post.return_value = mock_response
         bibids = ["cul-1234", "BC-12-34"]
-        self.repo_updater.update_index(bibids)
+        repo_updater.update_index(bibids)
         mock_requests_post.assert_called_once_with(
             "https://findingaids.library.columbia.edu/api/v1/index/index_ead",
             json={"bibids": bibids},
@@ -115,4 +135,4 @@ class TestUpdateRepository(TestCase):
         expected_error = (
             "Failed to index 1 collections: Detected nested collection components"
         )
-        self.assertEqual(self.repo_updater.errors, [expected_error])
+        assert repo_updater.errors == [expected_error]

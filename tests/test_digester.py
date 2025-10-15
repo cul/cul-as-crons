@@ -1,4 +1,3 @@
-import unittest
 from unittest.mock import patch
 
 from freezegun import freeze_time
@@ -6,12 +5,12 @@ from freezegun import freeze_time
 from crons.digester import Digester
 
 
-class TestDigester(unittest.TestCase):
+class TestDigester:
     @patch("crons.google_sheets_client.DataSheet.__init__")
     def test_init(self, mock_sheets):
         mock_sheets.return_value = None
         digest = Digester("local_settings.cfg.example")
-        self.assertTrue(digest)
+        assert digest
 
     @freeze_time("2012-11-02 00:00:00")
     @patch("crons.digester.Digester.get_digest")
@@ -69,7 +68,7 @@ class TestDigester(unittest.TestCase):
             ],
         ]
         cleaned_digest = Digester("local_settings.cfg.example").cleanup_datasheet()
-        self.assertTrue(cleaned_digest)
+        assert cleaned_digest
 
     @freeze_time("2012-11-02 00:00:00")
     @patch("crons.google_sheets_client.DataSheet.get_sheet_data")
@@ -94,7 +93,7 @@ class TestDigester(unittest.TestCase):
             ],
         ]
         digest = Digester("local_settings.cfg.example").get_digest()
-        self.assertTrue(digest)
+        assert digest
 
     @patch("crons.google_sheets_client.DataSheet.append_sheet")
     @patch("crons.google_sheets_client.DataSheet.__init__")
@@ -105,4 +104,4 @@ class TestDigester(unittest.TestCase):
         posted_digest = Digester("local_settings.cfg.example").post_digest(
             "scrpt name", log_message
         )
-        self.assertTrue(posted_digest)
+        assert posted_digest

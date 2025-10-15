@@ -1,13 +1,11 @@
 import json
 import types
-import unittest
 from pathlib import Path
-from shutil import rmtree
 from unittest.mock import patch
 
-from crons.report_agents import AgentsReporter
+import pytest
 
-TEST_DIRECTORY = "test_reports"
+from crons.report_agents import AgentsReporter
 
 
 def mock_agents_generator():
@@ -19,13 +17,8 @@ def mock_agents_generator():
         yield agent
 
 
-class TestAgentsReporter(unittest.TestCase):
-    def setUp(self):
-        test_path = Path(TEST_DIRECTORY)
-        test_path.mkdir(exist_ok=True)
-
-    def tearDown(self):
-        rmtree(TEST_DIRECTORY)
+@pytest.mark.usefixtures("setup_teardown_dir")
+class TestAgentsReporter:
 
     @patch("crons.aspace_client.ArchivesSpaceClient.all_agents")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
@@ -33,7 +26,7 @@ class TestAgentsReporter(unittest.TestCase):
         mock_as_init.return_value = None
         agent_reporter = AgentsReporter()
         as_data = agent_reporter.create_report()
-        self.assertTrue(as_data)
+        assert as_data
 
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
     def test_construct_row(self, mock_as_init):
@@ -50,8 +43,8 @@ class TestAgentsReporter(unittest.TestCase):
             "last_modified": "2021-11-12T12:33:21Z",
         }
         agent_row = agent_reporter.construct_row(agent_data)
-        self.assertEqual(len(agent_row), len(agent_reporter.fields))
-        self.assertIsInstance(agent_row[5], bool)
+        assert len(agent_row) == len(agent_reporter.fields)
+        assert isinstance(agent_row[5], bool)
 
     @patch("crons.aspace_client.ArchivesSpaceClient.all_agents")
     @patch("crons.aspace_client.ArchivesSpaceClient.__init__")
@@ -60,5 +53,5 @@ class TestAgentsReporter(unittest.TestCase):
         mock_agents.return_value = mock_agents_generator()
         agent_reporter = AgentsReporter()
         agents_rows = agent_reporter.get_row_data()
-        self.assertIsInstance(agents_rows, types.GeneratorType)
-        self.assertEqual(len([a for a in agents_rows]), 5)
+        assert isinstance(agents_rows, types.GeneratorType)
+        assert len([a for a in agents_rows]) == 5

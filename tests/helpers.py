@@ -17,15 +17,6 @@ def make_dir(directory_path, remove_first=False, parents=True):
 FIXTURES_PATH = "fixtures"
 
 
-def make_dir(directory_path, remove_first=False, parents=True):
-    """Makes a directory. If remove_first is set to true, removes directory if it exists; if set to false, does not make directory if it exists"""
-    path = Path(directory_path)
-    if path.exists() and remove_first:
-        shutil.rmtree(directory_path)
-    if not path.exists():
-        path.mkdir(parents=parents)
-
-
 def mock_build_service():
     http = HttpMock(Path(FIXTURES_PATH, "discovery.json"), {"status": "200"})
     service = build("sheets", "v4", http=http)

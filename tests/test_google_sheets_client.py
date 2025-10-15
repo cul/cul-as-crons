@@ -1,4 +1,3 @@
-import unittest
 from unittest.mock import patch
 
 from crons.google_sheets_client import GoogleSheetsClient
@@ -6,7 +5,7 @@ from crons.google_sheets_client import GoogleSheetsClient
 from .helpers import mock_build_service, mock_get_sheet_info
 
 
-class TestGoogleSheetsClient(unittest.TestCase):
+class TestGoogleSheetsClient:
     @patch("crons.google_sheets_client.build")
     def test_init(self, mock_build):
         mock_build.return_value = mock_build_service()
@@ -17,7 +16,7 @@ class TestGoogleSheetsClient(unittest.TestCase):
             "client_secret",
             "spreadsheet_id",
         )
-        self.assertTrue(google_sheets_client)
+        assert google_sheets_client
 
     @patch("crons.google_sheets_client.GoogleSheetsClient.get_sheet_info")
     def test_get_sheet_tabs(self, mock_sheet_info):
@@ -29,5 +28,5 @@ class TestGoogleSheetsClient(unittest.TestCase):
             "client_secret",
             "spreadsheet_id",
         ).get_sheet_tabs()
-        self.assertEqual(len(sheet_tabs), 5)
-        self.assertTrue("Collection Management" in sheet_tabs)
+        assert len(sheet_tabs) == 5
+        assert "Collection Management" in sheet_tabs
