@@ -1,7 +1,6 @@
 import email
 import logging
 import smtplib
-import time
 from configparser import ConfigParser
 from pathlib import Path
 
@@ -88,110 +87,70 @@ class UpdateRepository(object):
         self.errors = []
 
     def daily_update(self, timestamp=None):
-        """Updates EAD and HTML caches, updates index."""
-        bibids = []
+        """Updates EAD and PDF caches, updates index."""
+        fa_ids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
-        for resource in self.updated_resources(timestamp):
-            ead_response = self.as_client.aspace.client.get(
-                f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
-                params=self.export_params,
-            )
-            if getattr(resource, "id_2", False):
-                bibid = f"{resource.id_0}-{getattr(resource, 'id_1', '')-{getattr(resource, 'id_2')}}"
-            elif getattr(resource, "id_1", False):
-                bibid = f"{resource.id_0}-{getattr(resource, 'id_1')}"
-            else:
-                bibid = f"{resource.id_0}"
+        for resource in self.as_client.updated_resources(timestamp):
+            fa_id = self.get_fa_id(resource)
             try:
-                if not validate_against_schema(ead_response.content, "ead"):
-                    logging.info(f"{bibid}: Invalid EAD")
-                    self.errors.append(f"Invalid EAD: {bibid}")
-                if bibid.isnumeric() or bibid.startswith("in"):
-                    bibid = f"cul-{bibid}"
-                ead_filepath = Path(self.ead_cache, f"as_ead_{bibid}.xml")
-                with open(ead_filepath, "w") as ead_file:
-                    ead_file.write(ead_response.content.decode("utf-8"))
+                self.save_ead(resource, fa_id)
                 # skip Prokofiev
-                if bibid != "10815449" or bibid != "cul-10815449":
-                    pdf_filepath = Path(self.pdf_cache, f"as_ead_{bibid}.pdf")
-                    pdf_response = self.create_pdf_job(resource.id)
-                    with open(pdf_filepath, "wb") as pdf_file:
-                        pdf_file.write(pdf_response.content)
-                bibids.append(bibid)
+                if fa_id == "cul-10815449":
+                    self.save_pdf(resource, fa_id)
+                fa_ids.append(fa_id)
             except Exception as e:
-                logging.error(f"{bibid}: {e}")
+                logging.error(f"{fa_id}: {e}")
                 self.errors.append(
-                    f"Error when processing {bibid} ({self.repo.repo_code}): {e}"
+                    f"Error when processing {fa_id} ({self.repo.repo_code}): {e}"
                 )
-        self.update_index(bibids)
+        self.update_index(fa_ids)
         return self.errors
 
-    def create_pdf_job(self, resource_id):
-        data = {
-            "jsonmodel_type": "job",
-            "status": "queued",
-            "has_modified_records": False,
-            "inactive_record": False,
-            "job": {
-                "jsonmodel_type": "print_to_pdf_job",
-                "source": f"/repositories/{self.repo.id}/resources/{resource_id}",
-                "include_unpublished": False,
-            },
-        }
-        response = self.as_client.aspace.client.post(
-            f"repositories/{self.repo.id}/jobs", json=data
+    def save_pdf(self, resource, fa_id):
+        pdf_filepath = Path(self.pdf_cache, f"as_ead_{fa_id}.pdf")
+        pdf_response = self.as_client.create_pdf_job(resource.id)
+        with open(pdf_filepath, "wb") as pdf_file:
+            pdf_file.write(pdf_response.content)
+
+    def save_ead(self, resource, fa_id):
+        ead_response = self.as_client.aspace.client.get(
+            f"/repositories/{self.repo.id}/resource_descriptions/{resource.id}.xml",
+            params=self.export_params,
         )
-        response.raise_for_status()
-        job_uri = response.json().get("uri")
-        job_json = self.as_client.aspace.client.get(job_uri).json()
-        start_time = time.time()
-        max_minutes = 15
-        while True:
-            job_json = self.as_client.aspace.client.get(job_uri).json()
-            if time.time() - start_time >= max_minutes * 60:
-                raise Exception(f"Job timed out after {max_minutes} minutes")
-            elif job_json["status"] == "completed":
-                output_file_id = self.as_client.aspace.client.get(
-                    f"{job_uri}/output_files"
-                ).json()[0]
-                pdf_response = self.as_client.aspace.client.get(
-                    f"{job_uri}/output_files/{output_file_id}"
-                )
-                return pdf_response
-            elif job_json["status"] == "failed":
-                raise Exception("PDF export failed!")
+        if not validate_against_schema(ead_response.content, "ead"):
+            logging.info(f"{fa_id}: Invalid EAD")
+            self.errors.append(f"Invalid EAD: {fa_id}")
+        ead_filepath = Path(self.ead_cache, f"as_ead_{fa_id}.xml")
+        with open(ead_filepath, "w") as ead_file:
+            ead_file.write(ead_response.content.decode("utf-8"))
+
+    def get_fa_id(self, resource):
+        if getattr(resource, "id_2", False):
+            fa_id = f"{resource.id_0}-{getattr(resource, 'id_1', '')}-{getattr(resource, 'id_2')}"
+        elif getattr(resource, "id_1", False):
+            fa_id = f"{resource.id_0}-{getattr(resource, 'id_1')}"
+        else:
+            id_0 = str(resource.id_0).strip()
+            if id_0.isnumeric() or id_0.startswith("in"):
+                fa_id = f"cul-{id_0}"
             else:
-                time.sleep(1)
+                fa_id = id_0
+        return fa_id
 
     def index_only(self, timestamp=None):
         """Only update index for recently updated resources."""
-        bibids = []
+        fa_ids = []
         timestamp = yesterday_utc() if timestamp is None else timestamp
-        for resource in self.updated_resources(timestamp):
-            bibid = f"{resource.id_0}{getattr(resource, 'id_1', '')}"
-            try:
-                if bibid.isnumeric() or bibid.startswith("in"):
-                    bibid = f"cul-{bibid}"
-                bibids.append(bibid)
-            except Exception as e:
-                print(bibid, e)
-        print(bibids)
-        response = self.update_index(bibids)
+        for resource in self.as_client.updated_resources(timestamp):
+            fa_id = self.get_fa_id(resource)
+            fa_ids.append(fa_id)
+        print(fa_ids)
+        response = self.update_index(fa_ids)
         print(response.content)
 
-    def updated_resources(self, timestamp):
-        resource_ids = self.as_client.aspace.client.get(
-            f"/repositories/{self.repo.id}/resources",
-            params={"all_ids": True, "modified_since": timestamp},
-        ).json()
-        for resource_id in resource_ids:
-            resource = self.repo.resources(resource_id)
-            if resource.publish and not resource.suppressed:
-                yield resource
-
-    def update_index(self, bibids):
+    def update_index(self, fa_ids):
         url = f"{self.acfa_base_url}api/v1/index/index_ead"
-        json_data = {"bibids": bibids}
+        json_data = {"bibids": fa_ids}
         headers = {
             "Authorization": f"Token {self.acfa_api_token}",
             "Content-Type": "application/json",
@@ -205,7 +164,7 @@ class UpdateRepository(object):
                     f"Failed to index {response.json()['failure']} collections: {errors_msgs}"
                 )
         except requests.exceptions.HTTPError as e:
-            error_msg = f"Error indexing {', '.join(bibids)}: {e}"
+            error_msg = f"Error indexing {', '.join(fa_ids)}: {e}"
             self.errors.append(error_msg)
             logging.error(error_msg)
         return response

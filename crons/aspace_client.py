@@ -1,12 +1,61 @@
 from asnake.aspace import ASpace
 from asnake.utils import get_note_text
 
+import time
+
 
 class ArchivesSpaceClient:
     """Handles communication with ArchivesSpace."""
 
     def __init__(self, baseurl, username, password):
         self.aspace = ASpace(baseurl=baseurl, username=username, password=password)
+
+    def updated_resources(self, timestamp):
+        resource_ids = self.as_client.aspace.client.get(
+            f"/repositories/{self.repo.id}/resources",
+            params={"all_ids": True, "modified_since": timestamp},
+        ).json()
+        for resource_id in resource_ids:
+            resource = self.repo.resources(resource_id)
+            if resource.publish and not resource.suppressed:
+                yield resource
+
+    def create_pdf_job(self, resource_id):
+        data = {
+            "jsonmodel_type": "job",
+            "status": "queued",
+            "has_modified_records": False,
+            "inactive_record": False,
+            "job": {
+                "jsonmodel_type": "print_to_pdf_job",
+                "source": f"/repositories/{self.repo.id}/resources/{resource_id}",
+                "include_unpublished": False,
+            },
+        }
+        response = self.as_client.aspace.client.post(
+            f"repositories/{self.repo.id}/jobs", json=data
+        )
+        response.raise_for_status()
+        job_uri = response.json().get("uri")
+        job_json = self.as_client.aspace.client.get(job_uri).json()
+        start_time = time.time()
+        max_minutes = 15
+        while True:
+            job_json = self.as_client.aspace.client.get(job_uri).json()
+            if time.time() - start_time >= max_minutes * 60:
+                raise Exception(f"Job timed out after {max_minutes} minutes")
+            elif job_json["status"] == "completed":
+                output_file_id = self.as_client.aspace.client.get(
+                    f"{job_uri}/output_files"
+                ).json()[0]
+                pdf_response = self.as_client.aspace.client.get(
+                    f"{job_uri}/output_files/{output_file_id}"
+                )
+                return pdf_response
+            elif job_json["status"] == "failed":
+                raise Exception("PDF export failed!")
+            else:
+                time.sleep(1)
 
     def all_resources(self):
         """Get data about resources from all repos in AS.
